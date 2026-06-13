@@ -1,0 +1,96 @@
+name: Clari
+description: >-
+  Clari is a revenue operations platform that provides a REST API for accessing
+  pipeline data, forecasts, opportunity signals, activity intelligence, and
+  CRM-enriched deal insights. The API enables revenue teams to programmatically
+  export forecast submissions, query activity data (meetings, emails,
+  attachments), and ingest custom entity data into the Clari platform. Clari
+  also offers a Copilot API for accessing conversation intelligence data
+  including call recordings, AI summaries, and coaching insights. The platform
+  serves enterprise B2B organizations with tools to improve forecast accuracy,
+  accelerate pipeline execution, and unify revenue operations across sales,
+  marketing, and customer success teams.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/clari/refs/heads/main/apis.yml
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
+type: Index
+tags:
+  - Revenue Operations
+  - Forecasting
+  - Pipeline Management
+  - Sales Intelligence
+  - Activity Intelligence
+  - Deal Insights
+  - CRM
+  - Conversation Intelligence
+  - B2B
+  - Enterprise
+apis:
+  - name: Clari Revenue API
+    description: >-
+      The Clari Revenue API provides programmatic access to forecast data,
+      pipeline activity, audit events, and data ingestion capabilities. Built on
+      REST principles with async job-based exports, the API supports exporting
+      manual forecast submissions, activity records (meetings, emails,
+      attachments), and audit event logs to data warehouses or BI tools.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developer.clari.com/
+    baseURL: https://api.clari.com/v4
+    tags:
+      - Revenue Operations
+      - Forecasting
+      - Pipeline Management
+      - Activity Intelligence
+      - Data Export
+      - Data Ingestion
+    properties:
+      - type: Documentation
+        url: https://developer.clari.com/documentation/external_spec
+      - type: OpenAPI
+        url: https://developer.clari.com/documentation/external_spec
+  - name: Clari Copilot API
+    description: >-
+      The Clari Copilot API provides access to conversation intelligence
+      features including call recordings, AI-generated summaries, coaching
+      insights, deal intelligence, and competitor tracking signals captured
+      during sales meetings and calls.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://api-doc.copilot.clari.com/
+    baseURL: https://api.copilot.clari.com
+    tags:
+      - Conversation Intelligence
+      - Call Recording
+      - AI Summaries
+      - Coaching
+      - Deal Intelligence
+    properties:
+      - type: Documentation
+        url: https://api-doc.copilot.clari.com/
+common:
+  - type: Website
+    url: https://www.clari.com/
+  - type: Documentation
+    url: https://developer.clari.com/
+  - type: GitHubOrg
+    url: https://github.com/clari
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/clari
+  - type: Blog
+    url: https://www.clari.com/blog/
+  - type: Pricing
+    url: https://www.clari.com/pricing/
+  - type: StatusPage
+    url: https://clari.statuspage.io/
+  - type: X
+    url: https://x.com/clarihq
+  - type: Plans
+    url: plans/clari-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/clari-rate-limits.yml
+  - type: FinOps
+    url: finops/clari-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,77 @@
+name: Clari Plans and Pricing
+description: >-
+  Clari offers a modular enterprise pricing model with no public pricing page.
+  Costs are quote-based depending on team size, selected modules, and
+  negotiation. The platform is sold as add-on modules built around a Core
+  forecasting foundation, with Copilot (conversation intelligence) and Groove
+  (sales engagement) available as supplements.
+specificationVersion: '0.1'
+created: '2026-06-13'
+modified: '2026-06-13'
+plans:
+  - name: Clari Core
+    description: >-
+      Core revenue forecasting and pipeline management module. Includes pipeline
+      dashboards, forecast rollups, deal categorization, Salesforce integration,
+      and basic AI scoring.
+    type: Paid
+    pricingModel: Per User Per Month
+    price:
+      amount: 100
+      currency: USD
+      period: monthly
+      notes: Estimated $100–$120/user/month; $1,200–$1,500/user/year. Custom
+        quote required.
+    features:
+      - Pipeline dashboards
+      - Forecast rollups
+      - Deal categorization
+      - Salesforce integration
+      - Basic AI scoring
+      - Revenue API access
+      - Data export (async job-based)
+      - Activity intelligence
+  - name: Clari Copilot
+    description: >-
+      Conversation intelligence add-on module. Includes call recording, AI
+      summaries, coaching tools, deal intelligence, and competitor tracking.
+      Provides access to the Clari Copilot API.
+    type: Paid
+    pricingModel: Per User Per Month
+    price:
+      amount: 60
+      currency: USD
+      period: monthly
+      notes: Estimated $60–$100/user/month; $720–$1,200/user/year. Custom
+        quote required.
+    features:
+      - Call recording and transcription
+      - AI-generated summaries
+      - Coaching tools
+      - Deal intelligence
+      - Competitor tracking
+      - Copilot API access
+  - name: Groove (Sales Engagement)
+    description: >-
+      Sales engagement module typically bundled with Copilot. Includes email
+      cadences, activity tracking, templates, and click-to-call dialer.
+    type: Paid
+    pricingModel: Per User Per Month
+    price:
+      amount: 0
+      currency: USD
+      period: monthly
+      notes: Often bundled with Copilot; standalone pricing not publicly disclosed.
+        Custom quote required.
+    features:
+      - Email cadences
+      - Activity tracking
+      - Email templates
+      - Click-to-call dialer
+      - CRM sync
+notes:
+  - Clari has no public pricing page; all plans require a custom quote.
+  - API access is included with platform subscriptions; no separate API-only tier.
+  - Professional services implementation costs range from $10,000–$25,000.
+  - Annual renewal increases of 10–20% are common.
+  - Contact sales at clari.com for current pricing.

@@ -1,0 +1,90 @@
+name: Clari FinOps
+description: >-
+  FinOps Framework FOCUS-aligned cost and usage tracking for Clari platform and
+  API consumption. Clari is sold as a modular per-user SaaS platform with no
+  consumption-based API pricing; API access is bundled within platform
+  subscriptions. Cost tracking focuses on seat licenses, module adoption, and
+  implementation services.
+specificationVersion: '1.0'
+created: '2026-06-13'
+modified: '2026-06-13'
+provider: Clari
+website: https://www.clari.com/
+billingModel: Per User Per Month (Subscription)
+pricingPageURL: https://www.clari.com/pricing/
+contractType: Annual Enterprise Contract (custom quote)
+columns:
+  - columnName: BilledCost
+    dataType: Decimal
+    description: Actual invoiced cost for Clari licenses and services in the billing
+      period.
+  - columnName: EffectiveCost
+    dataType: Decimal
+    description: Amortized cost of Clari subscription across the contract period,
+      useful for monthly budget allocation.
+  - columnName: ListUnitPrice
+    dataType: Decimal
+    description: Per-user per-month list price before negotiated discounts.
+    notes:
+      core: 100–120 USD/user/month
+      copilot: 60–100 USD/user/month
+      groove: Bundled or custom
+  - columnName: ContractedUnitPrice
+    dataType: Decimal
+    description: Negotiated per-user price after discount. Clari pricing is
+      highly negotiable; discounts of 20–40% are achievable.
+  - columnName: ProviderName
+    dataType: String
+    value: Clari
+  - columnName: ServiceName
+    dataType: String
+    description: Clari product module being consumed.
+    allowedValues:
+      - Clari Core
+      - Clari Copilot
+      - Groove
+      - Professional Services
+  - columnName: ResourceId
+    dataType: String
+    description: Seat or license identifier for cost allocation per user or team.
+  - columnName: Tags
+    dataType: Map
+    description: Cost allocation tags for chargeback and showback reporting.
+    recommendedTags:
+      - team
+      - department
+      - cost_center
+      - region
+      - module
+costOptimizationGuidance:
+  - category: License Right-Sizing
+    description: Audit active vs. inactive users quarterly. Remove or reassign
+      seats for users not accessing Clari within 30 days to avoid paying for
+      unused licenses.
+  - category: Module Consolidation
+    description: Evaluate whether all licensed modules (Core, Copilot, Groove) are
+      actively used. Consolidate to only necessary modules at renewal.
+  - category: Negotiation Leverage
+    description: Clari pricing is heavily negotiable. Use competitive alternatives
+      (Gong, Salesforce, Outreach) as leverage. Discounts of 20–40% on list
+      price are common for multi-year commitments.
+  - category: Renewal Management
+    description: Anticipate 10–20% annual renewal increases. Begin renegotiation
+      90 days before contract expiration to avoid auto-renewal at higher rates.
+  - category: API Quota Monitoring
+    description: Use GET /admin/limits to monitor export quota consumption. Avoid
+      excessive automated export jobs that could exhaust the 1000/month
+      organization quota and require support engagement to increase.
+  - category: Implementation Cost Control
+    description: Budget $10,000–$25,000 for professional services implementation.
+      Leverage Clari community resources and self-serve documentation to reduce
+      reliance on paid professional services.
+budgetAllocationRecommendations:
+  - item: Annual Core licenses (per user)
+    estimatedRange: $1,200–$1,500/user/year
+  - item: Annual Copilot licenses (per user)
+    estimatedRange: $720–$1,200/user/year
+  - item: Implementation (one-time)
+    estimatedRange: $10,000–$25,000
+  - item: Annual renewal increase
+    estimatedRange: 10–20% of prior year contract value
