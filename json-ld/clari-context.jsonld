@@ -1,0 +1,62 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "clari": "https://developer.clari.com/vocabulary#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "forecastId": "clari:forecastId",
+    "jobId": "clari:jobId",
+    "exportFormat": "clari:exportFormat",
+    "timePeriod": "clari:timePeriod",
+    "scopeId": "clari:scopeId",
+    "typesToExport": "clari:typesToExport",
+    "includeHistorical": {
+      "@id": "clari:includeHistorical",
+      "@type": "xsd:boolean"
+    },
+    "currency": {
+      "@id": "clari:currency",
+      "@type": "xsd:string"
+    },
+    "entity": "clari:entity",
+    "activityTypes": "clari:activityTypes",
+    "startDate": {
+      "@id": "clari:startDate",
+      "@type": "xsd:date"
+    },
+    "endDate": {
+      "@id": "clari:endDate",
+      "@type": "xsd:date"
+    },
+    "auditEvent": "clari:AuditEvent",
+    "paginationToken": "clari:paginationToken",
+    "quota": "clari:quota",
+    "concurrentJobLimit": "clari:concurrentJobLimit",
+    "picklist": "clari:Picklist",
+    "apikey": "clari:apikey",
+    "status": "clari:jobStatus",
+
+    "ForecastExport": "clari:ForecastExport",
+    "ExportJob": "clari:ExportJob",
+    "ActivityExport": "clari:ActivityExport",
+    "AuditExport": "clari:AuditExport",
+    "IngestionJob": "clari:IngestionJob",
+    "Opportunity": "schema:Opportunity",
+    "Organization": "schema:Organization",
+
+    "name": "schema:name",
+    "description": "schema:description",
+    "url": "schema:url",
+    "provider": "schema:provider",
+    "dateCreated": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "dateModified": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+    "identifier": "schema:identifier",
+    "result": "schema:result"
+  }
+}

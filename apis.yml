@@ -50,6 +50,20 @@ apis:
         url: https://developer.clari.com/documentation/external_spec
       - type: OpenAPI
         url: https://developer.clari.com/documentation/external_spec
+      - type: OpenAPI
+        url: openapi/clari-revenue-api-openapi.yml
+      - type: JSONSchema
+        url: json-schema/clari-export-job-schema.json
+      - type: JSONSchema
+        url: json-schema/clari-forecast-export-request-schema.json
+      - type: JSONSchema
+        url: json-schema/clari-ingestion-request-schema.json
+      - type: Examples
+        url: examples/clari-forecast-export-example.json
+      - type: Examples
+        url: examples/clari-job-status-example.json
+      - type: Examples
+        url: examples/clari-activity-export-example.json
   - name: Clari Copilot API
     description: >-
       The Clari Copilot API provides access to conversation intelligence
@@ -91,6 +105,12 @@ common:
     url: rate-limits/clari-rate-limits.yml
   - type: FinOps
     url: finops/clari-finops.yml
+  - type: Vocabulary
+    url: vocabulary/clari-vocabulary.yml
+  - type: JSONLDContext
+    url: json-ld/clari-context.jsonld
+  - type: BlogPosts
+    url: blogs/blogs.json
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

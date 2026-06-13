@@ -1,0 +1,37 @@
+{
+  "description": "Example: Poll the status of an async export job and retrieve results",
+  "step1_check_status": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.clari.com/v4/export/jobs/6073683781a6da229df71e00",
+      "headers": {
+        "apikey": "YOUR_API_TOKEN"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "jobId": "6073683781a6da229df71e00",
+        "userId": 42,
+        "orgId": 100,
+        "status": "DONE",
+        "type": "forecast",
+        "createdAt": "2024-09-01T10:00:00Z",
+        "updatedAt": "2024-09-01T10:05:32Z"
+      }
+    }
+  },
+  "step2_retrieve_results": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.clari.com/v4/export/jobs/6073683781a6da229df71e00/results",
+      "headers": {
+        "apikey": "YOUR_API_TOKEN"
+      }
+    },
+    "response": {
+      "status": 200,
+      "description": "Returns the export file content (JSON or CSV) for the completed job."
+    }
+  }
+}

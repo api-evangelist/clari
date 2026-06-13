@@ -1,0 +1,24 @@
+{
+  "description": "Example: Create a Clari forecast export job for Q3 2024",
+  "request": {
+    "method": "POST",
+    "url": "https://api.clari.com/v4/export/forecast/{forecastId}",
+    "headers": {
+      "apikey": "YOUR_API_TOKEN",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "timePeriod": "2024_Q3",
+      "typesToExport": ["forecast", "best_case", "pipeline"],
+      "currency": "USD",
+      "exportFormat": "JSON",
+      "includeHistorical": false
+    }
+  },
+  "response": {
+    "status": 202,
+    "body": {
+      "jobId": "6073683781a6da229df71e00"
+    }
+  }
+}

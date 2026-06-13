@@ -1,0 +1,23 @@
+{
+  "description": "Example: Create a Clari activity export job for a date range",
+  "request": {
+    "method": "POST",
+    "url": "https://api.clari.com/v4/export/activity",
+    "headers": {
+      "apikey": "YOUR_API_TOKEN",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "activityTypes": ["meetings", "emails", "attachments"],
+      "startDate": "2024-07-01",
+      "endDate": "2024-09-30",
+      "exportFormat": "JSON"
+    }
+  },
+  "response": {
+    "status": 202,
+    "body": {
+      "jobId": "7184794892b7eb330eg82f11"
+    }
+  }
+}

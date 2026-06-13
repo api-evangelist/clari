@@ -1,0 +1,41 @@
+vocabulary:
+  - term: forecastId
+    definition: The unique identifier of a Clari forecast configuration used to scope export jobs.
+  - term: jobId
+    definition: The unique identifier returned when an asynchronous export or ingest job is created.
+  - term: exportFormat
+    definition: The output format for bulk exports; supported values are JSON and CSV.
+  - term: timePeriod
+    definition: The fiscal period (e.g., quarter or month) for which forecast data is exported.
+  - term: scopeId
+    definition: Identifier used to restrict a forecast export to a particular organizational scope (e.g., team or region).
+  - term: typesToExport
+    definition: Array specifying which data types to include in a forecast export (e.g., forecast submissions, roll-ups).
+  - term: includeHistorical
+    definition: Boolean flag indicating whether historical forecast data should be included in an export job.
+  - term: currency
+    definition: ISO 4217 currency code used to normalize monetary values in forecast exports.
+  - term: entity
+    definition: A named object type (e.g., account, opportunity) used as a target for data ingestion operations.
+  - term: activityTypes
+    definition: Filter specifying which sales activity categories (meetings, emails, attachments) to include in an activity export.
+  - term: startDate
+    definition: ISO 8601 date denoting the beginning of the time window for activity or audit event queries.
+  - term: endDate
+    definition: ISO 8601 date denoting the end of the time window for activity or audit event queries.
+  - term: auditEvent
+    definition: A recorded change or action within the Clari platform captured for compliance and traceability.
+  - term: paginationToken
+    definition: Opaque cursor returned by paginated endpoints to fetch the next page of results.
+  - term: quota
+    definition: The organization-level monthly allocation of API calls or bulk export/import jobs.
+  - term: concurrentJobLimit
+    definition: The maximum number of asynchronous export or ingest jobs that may run simultaneously for an organization.
+  - term: picklist
+    definition: A predefined set of allowable string values for a custom field on accounts or opportunities.
+  - term: apikey
+    definition: The API token passed via the `apikey` request header to authenticate calls to the Clari API.
+  - term: DONE
+    definition: Terminal job status indicating that an asynchronous export or ingest job completed successfully.
+  - term: revenue operations
+    definition: The organizational function that aligns sales, marketing, and customer success around shared pipeline and forecast data.

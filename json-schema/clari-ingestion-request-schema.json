@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.clari.com/schemas/ingestion-request",
+  "title": "ClariIngestionRequest",
+  "description": "Request body for uploading account or opportunity entity data to Clari via the Ingestion API.",
+  "type": "object",
+  "properties": {
+    "records": {
+      "type": "array",
+      "description": "Array of entity records to ingest.",
+      "items": {
+        "type": "object",
+        "description": "A single entity record (account or opportunity) with its field values.",
+        "additionalProperties": true
+      }
+    }
+  },
+  "required": ["records"]
+}
