@@ -1,0 +1,943 @@
+"""
+Clari Revenue Operations Platform - Conceptual GraphQL Schema
+Derived from the Clari REST API and platform domain model.
+Developer documentation: https://developer.clari.com/
+"""
+
+# ─── Scalars ────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar Date
+scalar JSON
+scalar Currency
+
+# ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum ForecastCategoryEnum {
+  COMMIT
+  BEST_CASE
+  PIPELINE
+  OMITTED
+}
+
+enum ActivityTypeEnum {
+  EMAIL
+  CALL
+  MEETING
+  ATTACHMENT
+}
+
+enum PredictionCategoryEnum {
+  WON
+  LOST
+  PUSH
+  AT_RISK
+}
+
+enum DealRiskSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum PeriodTypeEnum {
+  QUARTER
+  MONTH
+  WEEK
+  CUSTOM
+}
+
+enum UserRoleEnum {
+  REP
+  MANAGER
+  ADMIN
+  VIEWER
+}
+
+enum GoalTypeEnum {
+  REVENUE
+  PIPELINE
+  ACTIVITY
+  WIN_RATE
+}
+
+enum WebhookEventEnum {
+  FORECAST_SUBMITTED
+  OPPORTUNITY_UPDATED
+  ACTIVITY_CREATED
+  DEAL_RISK_CHANGED
+  PREDICTION_UPDATED
+}
+
+# ─── Opportunity Types ───────────────────────────────────────────────────────
+
+"""Core opportunity record linking to CRM data."""
+type Opportunity {
+  id: ID!
+  crmId: String
+  name: String!
+  owner: User
+  account: Account
+  stage: OpportunityStage
+  amount: OpportunityAmount
+  closeDate: OpportunityCloseDate
+  forecastCategory: ForecastCategory
+  dealScore: DealScore
+  prediction: Prediction
+  activities: [Activity]
+  contacts: [Contact]
+  details: OpportunityDetails
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""Extended metadata for an opportunity."""
+type OpportunityDetails {
+  opportunityId: ID!
+  type: String
+  leadSource: String
+  nextSteps: String
+  competitors: [String]
+  description: String
+  numberOfEmployees: Int
+  territory: String
+  segment: String
+  customFields: JSON
+}
+
+"""Stage definition for an opportunity."""
+type OpportunityStage {
+  id: ID!
+  name: String!
+  order: Int
+  probability: Float
+  isClosedWon: Boolean
+  isClosedLost: Boolean
+}
+
+"""Amount fields for an opportunity."""
+type OpportunityAmount {
+  value: Float
+  currency: String
+  exchangeRate: Float
+  adjustedValue: Float
+}
+
+"""Close date tracking for an opportunity."""
+type OpportunityCloseDate {
+  originalCloseDate: Date
+  currentCloseDate: Date
+  slipCount: Int
+  lastSlippedAt: DateTime
+}
+
+# ─── Forecast Types ──────────────────────────────────────────────────────────
+
+"""Top-level forecast submission for a user or team."""
+type Forecast {
+  id: ID!
+  user: User
+  team: Team
+  period: ForecastPeriod
+  category: ForecastCategory
+  submittedAmount: Float
+  currency: String
+  overrideAmount: Float
+  forecastedAmount: Float
+  details: ForecastDetails
+  risks: [ForecastRisk]
+  submittedAt: DateTime
+  updatedAt: DateTime
+}
+
+"""Granular fields on a forecast submission."""
+type ForecastDetails {
+  forecastId: ID!
+  commitAmount: Float
+  bestCaseAmount: Float
+  pipelineAmount: Float
+  omittedAmount: Float
+  closedAmount: Float
+  notes: String
+  isSubmitted: Boolean
+  submissionCount: Int
+}
+
+"""A named forecast category with display metadata."""
+type ForecastCategory {
+  id: ID!
+  name: String!
+  enum: ForecastCategoryEnum!
+  color: String
+  description: String
+  isDefault: Boolean
+}
+
+"""A time period a forecast covers."""
+type ForecastPeriod {
+  id: ID!
+  label: String!
+  type: PeriodTypeEnum!
+  startDate: Date!
+  endDate: Date!
+  isCurrent: Boolean
+  quarter: Quarter
+}
+
+"""Aggregated roll-up forecast across a management hierarchy."""
+type ForecastRoll {
+  id: ID!
+  team: Team
+  period: ForecastPeriod
+  model: ForecastModel
+  commitAmount: Float
+  bestCaseAmount: Float
+  pipelineAmount: Float
+  closedAmount: Float
+  quotaAmount: Float
+  coverageRatio: Float
+  memberForecasts: [Forecast]
+  calculatedAt: DateTime
+}
+
+"""Forecast model configuration."""
+type ForecastModel {
+  id: ID!
+  name: String!
+  categories: [ForecastCategory]
+  rollUpLogic: String
+  weightings: JSON
+  isActive: Boolean
+  createdAt: DateTime
+}
+
+# ─── Prediction Types ────────────────────────────────────────────────────────
+
+"""AI-generated prediction for an opportunity outcome."""
+type Prediction {
+  id: ID!
+  opportunity: Opportunity
+  score: PredictionScore
+  category: PredictionCategory
+  details: PredictionDetails
+  calculatedAt: DateTime
+}
+
+"""Detailed prediction output with confidence and attribution."""
+type PredictionDetails {
+  predictionId: ID!
+  confidenceLow: Float
+  confidenceHigh: Float
+  featureAttributions: JSON
+  modelVersion: String
+  explanation: String
+}
+
+"""Numeric score for a prediction outcome."""
+type PredictionScore {
+  value: Float!
+  min: Float
+  max: Float
+  trend: Float
+  previousValue: Float
+}
+
+"""Classification result for a prediction."""
+type PredictionCategory {
+  name: PredictionCategoryEnum!
+  label: String!
+  description: String
+}
+
+# ─── Outcome Types ───────────────────────────────────────────────────────────
+
+"""Closed-won opportunity record."""
+type Won {
+  id: ID!
+  opportunity: Opportunity
+  finalAmount: Float
+  currency: String
+  closedDate: Date
+  daysToClose: Int
+  competitorsDefeated: [String]
+}
+
+"""Closed-lost opportunity record."""
+type Lost {
+  id: ID!
+  opportunity: Opportunity
+  lossReason: String
+  lostToCompetitor: String
+  closedDate: Date
+  finalStage: String
+}
+
+"""Opportunity or roll-up categorized as Commit."""
+type Committed {
+  id: ID!
+  opportunity: Opportunity
+  committedAmount: Float
+  currency: String
+  submittedBy: User
+  submittedAt: DateTime
+  period: ForecastPeriod
+}
+
+"""Opportunity or roll-up categorized as Best Case."""
+type BestCase {
+  id: ID!
+  opportunity: Opportunity
+  bestCaseAmount: Float
+  currency: String
+  submittedBy: User
+  submittedAt: DateTime
+  period: ForecastPeriod
+}
+
+# ─── Pipeline Types ──────────────────────────────────────────────────────────
+
+"""Aggregate pipeline view for a user, team, or territory."""
+type Pipeline {
+  id: ID!
+  owner: User
+  team: Team
+  period: ForecastPeriod
+  totalAmount: Float
+  currency: String
+  opportunityCount: Int
+  details: PipelineDetails
+  metrics: PipelineMetrics
+  opportunities: [Opportunity]
+  calculatedAt: DateTime
+}
+
+"""Breakdown of pipeline by stage and category."""
+type PipelineDetails {
+  pipelineId: ID!
+  byStage: JSON
+  byCategory: JSON
+  byOwner: JSON
+  newPipeline: Float
+  lostPipeline: Float
+  closedPipeline: Float
+  pushPipeline: Float
+}
+
+"""Pipeline performance metrics."""
+type PipelineMetrics {
+  coverageRatio: Float
+  averageDealSize: Float
+  averageSalesCycle: Float
+  winRate: Float
+  velocity: Float
+  creationRate: Float
+  slippageRate: Float
+}
+
+# ─── Deal Types ──────────────────────────────────────────────────────────────
+
+"""A deal tracked in Clari with enriched signals and scores."""
+type Deal {
+  id: ID!
+  opportunity: Opportunity
+  account: Account
+  contacts: [Contact]
+  score: DealScore
+  activity: DealActivity
+  risk: DealRisk
+  details: DealDetails
+  prediction: Prediction
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""Full deal context including history and enriched data."""
+type DealDetails {
+  dealId: ID!
+  ageInDays: Int
+  lastActivityDate: DateTime
+  daysSinceLastActivity: Int
+  nextScheduledActivity: DateTime
+  buyerEngagementScore: Float
+  momentumScore: Float
+  multiThreaded: Boolean
+  executiveSponsor: Contact
+}
+
+"""Composite deal health score."""
+type DealScore {
+  overall: Float
+  engagement: Float
+  momentum: Float
+  relationship: Float
+  risk: Float
+  trend: Float
+  scoredAt: DateTime
+}
+
+"""Summary of activity associated with a deal."""
+type DealActivity {
+  dealId: ID!
+  totalEmails: Int
+  totalCalls: Int
+  totalMeetings: Int
+  inboundEmails: Int
+  outboundEmails: Int
+  lastEmailDate: DateTime
+  lastCallDate: DateTime
+  lastMeetingDate: DateTime
+  talkToListenRatio: Float
+}
+
+"""Risk assessment for a deal."""
+type DealRisk {
+  dealId: ID!
+  severity: DealRiskSeverity
+  overallRiskScore: Float
+  factors: [RiskFactor]
+  assessedAt: DateTime
+}
+
+"""An individual risk signal for a deal."""
+type RiskFactor {
+  id: ID!
+  name: String!
+  description: String
+  severity: DealRiskSeverity
+  category: String
+  value: String
+  detectedAt: DateTime
+}
+
+"""Risk signals specific to forecast accuracy."""
+type ForecastRisk {
+  id: ID!
+  forecast: Forecast
+  description: String
+  riskType: String
+  severity: DealRiskSeverity
+  affectedAmount: Float
+  detectedAt: DateTime
+}
+
+# ─── Account Types ───────────────────────────────────────────────────────────
+
+"""CRM account record with Clari-enriched signals."""
+type Account {
+  id: ID!
+  crmId: String
+  name: String!
+  owner: User
+  health: AccountHealth
+  score: AccountScore
+  details: AccountDetails
+  contacts: [Contact]
+  opportunities: [Opportunity]
+  activities: [Activity]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""Extended account metadata."""
+type AccountDetails {
+  accountId: ID!
+  industry: String
+  employeeCount: Int
+  annualRevenue: Float
+  website: String
+  arr: Float
+  renewalDate: Date
+  contractStartDate: Date
+  tier: String
+  region: String
+  customFields: JSON
+}
+
+"""Composite health assessment for an account."""
+type AccountHealth {
+  accountId: ID!
+  overall: Float
+  engagement: Float
+  productUsage: Float
+  relationship: Float
+  riskLevel: DealRiskSeverity
+  assessedAt: DateTime
+}
+
+"""Numeric health score with dimension breakdown."""
+type AccountScore {
+  accountId: ID!
+  score: Float
+  trend: Float
+  engagementScore: Float
+  usageScore: Float
+  riskScore: Float
+  scoredAt: DateTime
+}
+
+# ─── Contact Types ───────────────────────────────────────────────────────────
+
+"""Contact associated with an account or opportunity."""
+type Contact {
+  id: ID!
+  crmId: String
+  firstName: String
+  lastName: String
+  email: String
+  phone: String
+  account: Account
+  details: ContactDetails
+  activity: ContactActivity
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""Full contact profile."""
+type ContactDetails {
+  contactId: ID!
+  title: String
+  department: String
+  seniority: String
+  influenceLevel: String
+  isBuyer: Boolean
+  isDecisionMaker: Boolean
+  linkedInUrl: String
+  customFields: JSON
+}
+
+"""Summary of activity with a contact."""
+type ContactActivity {
+  contactId: ID!
+  totalInteractions: Int
+  lastInteractionDate: DateTime
+  daysSinceLastInteraction: Int
+  emailsSent: Int
+  emailsReceived: Int
+  callsCompleted: Int
+  meetingsAttended: Int
+  responseRate: Float
+}
+
+# ─── Activity Types ──────────────────────────────────────────────────────────
+
+"""An individual activity event."""
+type Activity {
+  id: ID!
+  type: ActivityTypeEnum!
+  owner: User
+  account: Account
+  opportunity: Opportunity
+  contacts: [Contact]
+  details: ActivityDetails
+  occurredAt: DateTime
+  createdAt: DateTime
+}
+
+"""Full activity record with enriched metadata."""
+type ActivityDetails {
+  activityId: ID!
+  subject: String
+  direction: String
+  duration: Int
+  sentiment: String
+  aiSummary: String
+  participants: [String]
+  externalId: String
+  source: String
+}
+
+"""Activity type classification."""
+type ActivityType {
+  enum: ActivityTypeEnum!
+  label: String!
+  description: String
+}
+
+"""Email activity record."""
+type Email {
+  id: ID!
+  activity: Activity
+  subject: String
+  direction: String
+  threadId: String
+  sentiment: String
+  wordCount: Int
+  responseTime: Int
+  from: String
+  to: [String]
+  sentAt: DateTime
+}
+
+"""Call activity record."""
+type Call {
+  id: ID!
+  activity: Activity
+  duration: Int
+  direction: String
+  outcome: String
+  recordingUrl: String
+  transcriptSummary: String
+  talkRatio: Float
+  sentimentScore: Float
+  calledAt: DateTime
+}
+
+"""Meeting activity record with Copilot insights."""
+type Meeting {
+  id: ID!
+  activity: Activity
+  title: String
+  duration: Int
+  attendees: [Contact]
+  agenda: String
+  aiSummary: String
+  actionItems: [String]
+  nextSteps: String
+  sentimentScore: Float
+  engagementScore: Float
+  heldAt: DateTime
+}
+
+# ─── User Types ──────────────────────────────────────────────────────────────
+
+"""A Clari user with role and team membership."""
+type User {
+  id: ID!
+  crmId: String
+  email: String!
+  firstName: String
+  lastName: String
+  role: UserRoleEnum
+  team: Team
+  manager: User
+  details: UserDetails
+  quota: [UserQuota]
+  performance: UserPerformance
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""Full user profile."""
+type UserDetails {
+  userId: ID!
+  territory: String
+  segment: String
+  productLines: [String]
+  hireDate: Date
+  customFields: JSON
+}
+
+"""Quota assignment for a user."""
+type UserQuota {
+  id: ID!
+  user: User
+  period: ForecastPeriod
+  amount: Float
+  currency: String
+  productLine: String
+  assignedAt: DateTime
+}
+
+"""Performance metrics for a user in a period."""
+type UserPerformance {
+  userId: ID!
+  period: ForecastPeriod
+  quota: Float
+  closed: Float
+  attainment: Float
+  pipeline: Float
+  coverage: Float
+  winRate: Float
+  averageDealSize: Float
+  activitiesCompleted: Int
+}
+
+# ─── Team Types ──────────────────────────────────────────────────────────────
+
+"""A team hierarchy node."""
+type Team {
+  id: ID!
+  name: String!
+  manager: User
+  members: [User]
+  parentTeam: Team
+  childTeams: [Team]
+  details: TeamDetails
+  performance: TeamPerformance
+  createdAt: DateTime
+}
+
+"""Team metadata."""
+type TeamDetails {
+  teamId: ID!
+  territory: String
+  segment: String
+  region: String
+  productLines: [String]
+  headcount: Int
+}
+
+"""Aggregate performance metrics for a team."""
+type TeamPerformance {
+  teamId: ID!
+  period: ForecastPeriod
+  quota: Float
+  closed: Float
+  attainment: Float
+  pipeline: Float
+  coverage: Float
+  winRate: Float
+  averageDealSize: Float
+  teamActivities: Int
+}
+
+# ─── Goal Types ──────────────────────────────────────────────────────────────
+
+"""A performance goal for a user or team."""
+type Goal {
+  id: ID!
+  owner: User
+  team: Team
+  type: GoalTypeEnum!
+  period: ForecastPeriod
+  details: GoalDetails
+  progress: GoalProgress
+  createdAt: DateTime
+}
+
+"""Goal configuration."""
+type GoalDetails {
+  goalId: ID!
+  name: String!
+  description: String
+  targetValue: Float
+  currency: String
+  measurementMethod: String
+  isActive: Boolean
+}
+
+"""Current progress toward a goal."""
+type GoalProgress {
+  goalId: ID!
+  currentValue: Float
+  targetValue: Float
+  percentAttainment: Float
+  trend: Float
+  onTrack: Boolean
+  projectedFinalValue: Float
+  updatedAt: DateTime
+}
+
+# ─── Time Period Types ───────────────────────────────────────────────────────
+
+"""A fiscal quarter."""
+type Quarter {
+  id: ID!
+  label: String!
+  fiscalYear: FiscalYear
+  startDate: Date!
+  endDate: Date!
+  isCurrent: Boolean
+  details: QuarterDetails
+}
+
+"""Quarter metadata."""
+type QuarterDetails {
+  quarterId: ID!
+  yearLabel: String
+  quarterNumber: Int
+  numberOfWorkingDays: Int
+  daysRemaining: Int
+}
+
+"""A generic time period."""
+type Period {
+  id: ID!
+  label: String!
+  type: PeriodTypeEnum!
+  startDate: Date!
+  endDate: Date!
+  isCurrent: Boolean
+  fiscalYear: FiscalYear
+}
+
+"""A fiscal year definition."""
+type FiscalYear {
+  id: ID!
+  year: Int!
+  label: String!
+  startMonth: Int
+  endMonth: Int
+  startDate: Date!
+  endDate: Date!
+  quarters: [Quarter]
+  isCurrent: Boolean
+}
+
+# ─── Auth and Integration Types ─────────────────────────────────────────────
+
+"""An API key credential for the Clari API."""
+type APIKey {
+  id: ID!
+  name: String!
+  keyPrefix: String
+  scopes: [String]
+  createdBy: User
+  expiresAt: DateTime
+  lastUsedAt: DateTime
+  createdAt: DateTime
+}
+
+"""An authentication token."""
+type Token {
+  accessToken: String!
+  tokenType: String
+  expiresIn: Int
+  expiresAt: DateTime
+  scopes: [String]
+}
+
+"""A webhook subscription for Clari events."""
+type Webhook {
+  id: ID!
+  url: String!
+  events: [WebhookEventEnum]
+  isActive: Boolean
+  secret: String
+  description: String
+  createdBy: User
+  lastTriggeredAt: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+# ─── Input Types ─────────────────────────────────────────────────────────────
+
+input OpportunityFilter {
+  ownerId: ID
+  teamId: ID
+  stageId: ID
+  forecastCategory: ForecastCategoryEnum
+  periodId: ID
+  minAmount: Float
+  maxAmount: Float
+  closeAfter: Date
+  closeBefore: Date
+}
+
+input DealFilter {
+  ownerId: ID
+  teamId: ID
+  minScore: Float
+  maxScore: Float
+  riskSeverity: DealRiskSeverity
+  periodId: ID
+}
+
+input AccountFilter {
+  ownerId: ID
+  industry: String
+  minArr: Float
+  maxArr: Float
+  minHealthScore: Float
+}
+
+input ActivityFilter {
+  ownerId: ID
+  type: ActivityTypeEnum
+  accountId: ID
+  opportunityId: ID
+  after: DateTime
+  before: DateTime
+}
+
+input UserFilter {
+  teamId: ID
+  role: UserRoleEnum
+  managerId: ID
+}
+
+input ForecastInput {
+  userId: ID!
+  periodId: ID!
+  commitAmount: Float
+  bestCaseAmount: Float
+  pipelineAmount: Float
+  notes: String
+}
+
+input WebhookInput {
+  url: String!
+  events: [WebhookEventEnum]!
+  secret: String
+  description: String
+}
+
+input DataIngestionInput {
+  entityType: String!
+  records: JSON!
+  idField: String
+}
+
+# ─── Queries ─────────────────────────────────────────────────────────────────
+
+type Query {
+  opportunity(id: ID!): Opportunity
+  opportunities(filter: OpportunityFilter, page: Int, pageSize: Int): [Opportunity]
+
+  forecast(userId: ID!, periodId: ID!): Forecast
+  forecastRoll(teamId: ID!, periodId: ID!): ForecastRoll
+  forecastModel(id: ID!): ForecastModel
+  forecastModels: [ForecastModel]
+
+  prediction(opportunityId: ID!): Prediction
+
+  pipeline(userId: ID, teamId: ID, periodId: ID!): Pipeline
+
+  deal(id: ID!): Deal
+  deals(filter: DealFilter, page: Int, pageSize: Int): [Deal]
+
+  account(id: ID!): Account
+  accounts(filter: AccountFilter, page: Int, pageSize: Int): [Account]
+
+  contact(id: ID!): Contact
+  contacts(accountId: ID, opportunityId: ID): [Contact]
+
+  activity(id: ID!): Activity
+  activities(filter: ActivityFilter, page: Int, pageSize: Int): [Activity]
+
+  user(id: ID!): User
+  users(filter: UserFilter): [User]
+
+  team(id: ID!): Team
+  teams: [Team]
+
+  goal(id: ID!): Goal
+  goals(userId: ID, teamId: ID, periodId: ID): [Goal]
+
+  quarter(id: ID!): Quarter
+  quarters(fiscalYear: Int): [Quarter]
+
+  period(id: ID!): Period
+  fiscalYear(year: Int!): FiscalYear
+  fiscalYears: [FiscalYear]
+
+  webhooks: [Webhook]
+  webhook(id: ID!): Webhook
+
+  apiKeys: [APIKey]
+}
+
+# ─── Mutations ───────────────────────────────────────────────────────────────
+
+type Mutation {
+  submitForecast(input: ForecastInput!): Forecast
+  updateOpportunityCategory(opportunityId: ID!, category: ForecastCategoryEnum!): Opportunity
+
+  createWebhook(input: WebhookInput!): Webhook
+  updateWebhook(id: ID!, input: WebhookInput!): Webhook
+  deleteWebhook(id: ID!): Boolean
+
+  ingestData(input: DataIngestionInput!): JSON
+}
