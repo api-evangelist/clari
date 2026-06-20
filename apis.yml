@@ -8,7 +8,7 @@ description: Clari is a revenue operations platform that provides a REST API for
   insights. The platform serves enterprise B2B organizations with tools to improve
   forecast accuracy, accelerate pipeline execution, and unify revenue operations across
   sales, marketing, and customer success teams.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/clari/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -32,7 +32,7 @@ apis:
     principles with async job-based exports, the API supports exporting manual forecast
     submissions, activity records (meetings, emails, attachments), and audit event
     logs to data warehouses or BI tools.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://developer.clari.com/
   baseURL: https://api.clari.com/v4
   tags:
@@ -68,7 +68,7 @@ apis:
     features including call recordings, AI-generated summaries, coaching insights,
     deal intelligence, and competitor tracking signals captured during sales meetings
     and calls.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://api-doc.copilot.clari.com/
   baseURL: https://api.copilot.clari.com
   tags:
