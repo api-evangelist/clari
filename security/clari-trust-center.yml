@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: searched
+probe: true
+source: https://www.clari.com/security/
+url: https://www.clari.com/security/
+certifications:
+- SOC 2
+- ISO 27001
+- GDPR
+evidence:
+- source: https://www.clari.com/security/
+  keywords:
+  - soc 2
+  - iso/iec 27001
+  - gdpr

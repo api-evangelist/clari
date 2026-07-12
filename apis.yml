@@ -81,6 +81,12 @@ apis:
   - type: Documentation
     url: https://api-doc.copilot.clari.com/
 common:
+- type: TrustCenter
+  url: security/clari-trust-center.yml
+- type: DomainSecurity
+  url: security/clari-domain-security.yml
+- type: Authentication
+  url: authentication/clari-authentication.yml
 - type: Website
   url: https://www.clari.com/
 - type: Documentation
