@@ -2,13 +2,14 @@
   "repo": "clari",
   "feeds": [
     {
-      "source": "https://www.clari.com/blog/",
-      "feed_url": "",
+      "source": "https://www.linkedin.com/company/clari",
+      "feed_url": "https://www.linkedin.com/company/clari",
+      "title": "",
       "saved": 0,
-      "method": "agent-scrape"
+      "method": "none"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-06-27T12:32:14Z",
+  "fetched": "2026-07-11T11:50:51Z",
   "agent_pulled": "2026-06-27"
 }
