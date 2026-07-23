@@ -1,0 +1,359 @@
+openapi: 3.0.0
+info:
+  title: Clari API Reference Activity API API
+  version: 5.0.0
+  description: "# Clari API Reference\nClari is the heartbeat of your revenue organization and holds your most important revenue data. Clari APIs enable customers to retrieve revenue data out of the Clari platform and push missing revenue-critical data into the platform.\n\n## Authentication\n\nClari APIs use tokens to authenticate requests. You can create and manage your tokens in Account Settings under \"API Token\". Please reach out to your CSM if you don't see a token generation tool as you may not have been given access.\n### Creating an authentication token\nFollow the steps below to generate a token:\n- Go to user avatar\n- Navigate to Settings\n- Navigate to the API Token tab and click \"Generate New API Token\"\n- Enter a Token Name and click \"Generate New Token\". Few things to note about tokens:\n  - After generating a token, make sure to keep it in a secure location as you won't be able to access it again. This is your key to accessing Clari data for your organization.\n  - If you revoke a token, any active integration that is using that token will break.\n  - When deactivating a user, any tokens created by the user will be revoked (and thus break any active integration).\n\n## Bulk data exports\n\nClari supports bulk data exports. Bulk exports run asynchronously in a\nthree step process. First, the bulk export is requested using a `POST` API call.\nMultiple products support bulk exports. In the documentation below, the `POST` API\nis described in respective product sections. The `POST` API call queues the bulk export job to run it asynchronously, and returns\na job ID. To monitor the export's status and be notified of its completion, you\nshould poll status via the API periodically. When the export completes, the status\nwill be set to `DONE` and you can then retrieve the output of the export.\n\n## Bulk data imports\n\nClari also supports bulk data imports. Customers or partners can import their Account\nor Opportunity fields in bulk to create a complete picture of revenue in Clari. Bulk imports also run\nasynchronously in a three step process. In the documentation below, the `/bulk` API is described\nin respective product sections. The `/bulk` API call queues the bulk import job to run it asynchronously, and returns\na job ID. To monitor the import's status and be notified of its completion, you\nshould poll status via the API periodically. When the import completes, the status\nwill be set to `DONE`. If records fail validation, the entire batch is rejected and has to be retried\nafter fixing the errors. The errors can be retrieved from the results API.\n\n\n## Forecasting APIs\n\nRevenue teams use Clari Forecasting to track their attainment to date\nagainst goals and forecast their revenue numbers for the month, quarter and\nyear. This data is captured by revenue leaders, managers, and sales reps --\nit provides a clear view of the entire team's forecast and their submission\nstatus.\n\nClari's Forecasting APIs enable you to pull your forecasting data out of Clari, merge\nit with data sitting in your own data warehouse, and build custom reports. Forecasting\nsupports both a REST API as well as a bulk export API.\n\n### Creating and accessing Forecast exports\n\n\n  You can export any Forecast Tab with our Forecasting APIs. To do so, retrieve the `forecastId` from the URL when viewing a Forecast Tab and provide the ID when using the Export API. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.\n\n  <img src=\"https://developer.clari.com/assets/images/forecastid.png\" alt=\"forecast id\" width=\"400\"/>\n\n\nFor details on Forecast Tabs and what data is available with Forecast Exports see guides below:\n\n- [Forecasting Building Blocks](https://clari.my.site.com/customer/s/article/Forecast-Building-Blocks)\n- [How to Read the Forecast Export](https://clari.my.site.com/customer/s/article/How-to-Read-the-Forecast-Export)\n- [How to Read the Export API Output](https://clari.my.site.com/customer/s/article/How-to-Read-Claris-Export-API-Output)\n\n\n## Audit APIs\n\nThe Audit API allows its users to audit events happening in their Clari instances. Call the Audit API to understand who is making changes in your Clari instance and when these changes happened.\n\n## Data Ingestion API\n\nThis API is for Clari's integration partners - such as technology platforms or revenue tools, looking to build a direct data integration with Clari. It enables partners to send data that can be surfaced in Clari's Accounts and Opportunities views for mutual customers who have turned on the integration.\n\n## Activity API\n\nActivity Export API allows its users to pull sales activity data like emails, meetings and files.\nWith this powerful sales activity data available on demand through an API call, customers can create powerful custom reports in the reporting tool of their choice and analyze Accounts and Opportunity engagement across different activity types.\n\n## Questions?\n"
+  contact:
+    name: us here! We're always happy to help with any questions.
+    email: support@clari.com
+servers:
+- url: https://api.clari.com/{basePath}
+  description: Clari gateway
+  variables:
+    basePath:
+      default: v4
+      description: version identifier
+security:
+- api_key: []
+tags:
+- name: Activity API
+paths:
+  /export/activity:
+    post:
+      summary: Create a new activity export job
+      description: 'This is a bulk export API.
+
+
+        Configure and start processing an export job by providing activityTypes, startDate, and endDate in the JSON as request body.
+
+
+        To create your request, you will need to pass your `apikey` in as a header, all other parameters as a JSON in the body.'
+      tags:
+      - Activity API
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Request parameters for the activity export.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                activityTypes:
+                  type: array
+                  items:
+                    enum:
+                    - MEETING
+                    - EMAIL_SENT
+                    - EMAIL_RECEIVED
+                    - ATTACHMENT_SENT
+                    - ATTACHMENT_RECEIVED
+                    type: string
+                  description: 'Specifies the list of supported activity types to consider to filter the activities
+
+
+                    Supported activityTypes
+
+                    * MEETING
+
+                    * EMAIL_SENT
+
+                    * EMAIL_RECEIVED
+
+                    * ATTACHMENT_SENT
+
+                    * ATTACHMENT_RECEIVED
+
+                    '
+                  default: null
+                  example:
+                  - MEETING
+                  - EMAIL_SENT
+                  - ATTACHMENT_RECEIVED
+                startDate:
+                  type: string
+                  format: date-time
+                  description: 'Specifies the start date to filter the activities, following ISO-8601 date-time format. Ensure to provide UTC offset for accuracy.
+
+                    example: __10th March, 2023__ can be represented as below based on the timezone
+
+                    * UTC : 2023-03-10T00:00:00Z
+
+                    * PST : 2023-03-10T00:00:00-08:00
+
+                    * IST : 2023-03-10T00:00:00+05:30
+
+
+                    Note: Date and timezone provided will only be considered and not the time
+
+                    '
+                  default: null
+                  example: '2023-03-10T00:00:00Z'
+                endDate:
+                  type: string
+                  format: date-time
+                  description: 'Specifies the end date to filter the activities, following ISO-8601 date-time format. Ensure to provide UTC offset for accuracy.
+
+                    examples: __21st March, 2023__ can be represented as below based on the timezone
+
+                    * UTC : 2023-03-21T00:00:00Z
+
+                    * PST : 2023-03-21T00:00:00-08:00
+
+                    * IST : 2023-03-21T00:00:00+05:30
+
+
+                    Note: Date and timezone provided will only be considered and not the time
+
+                    '
+                  default: null
+                  example: '2023-03-21T00:00:00Z'
+                exportFormat:
+                  type: string
+                  enum:
+                  - JSON
+                  description: Specifies format of the activity export
+                  example: JSON
+                  default: JSON
+      responses:
+        '202':
+          description: Your export job was successfully queued. Use the `jobId`, provided in your response, to check its status and retrieve the requested data.
+          content:
+            application/json:
+              schema:
+                title: Response Object With JobId
+                description: jobId is the identifier of the queued job.
+                type: object
+                required:
+                - jobId
+                properties:
+                  jobId:
+                    description: The Job ID of the successfully queued export job.
+                    type: string
+                    example: 6073683781a6da229df71e00
+        '400':
+          description: Client Error. Your job could not be queued.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - title: Error Object
+                  type: object
+                  description: A Clari API-compliant error object. An array of details about specific errors that led to this reported error.
+                  required:
+                  - message
+                  properties:
+                    code:
+                      type: string
+                      example: Bad request
+                    namespace:
+                      type: string
+                      example: activity
+                    errorId:
+                      type: string
+                      example: 87c7f26038f40e3dbb4e001ac07150c1
+                    message:
+                      description: a short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization
+                      type: string
+                    userId:
+                      description: The user's Clari account ID
+                      type: string
+                    orgId:
+                      description: The organization's Clari account ID
+                      type: string
+                - description: The job could not be queued.
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      example: export_monthly_quota_reached
+                    namespace:
+                      type: string
+                      example: exports
+                    errorId:
+                      type: string
+                      example: cd871759-9b0b-11eb-a343-87ffa5f01191
+                    message:
+                      type: string
+                      example: The monthly quota limit of 30 or concurrent limit of 1 has been reached.
+                    orgId:
+                      $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                    source:
+                      type: string
+                      example: Export
+        '401':
+          description: Invalid authentication
+          content:
+            application/json:
+              schema:
+                title: Response Object for Authentication Failure
+                description: Response with authentication failure message
+                type: object
+                required:
+                - message
+                properties:
+                  message:
+                    description: Message for authentication failure
+                    type: string
+                    example: Invalid authentication credentials
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                description: Internal Server Error
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: internal_server_error
+                  namespace:
+                    type: string
+                    example: exports
+                  errorId:
+                    type: string
+                    example: 54c5a2b5-9b1c-11eb-a343-87ffa5f01191
+                  message:
+                    type: string
+                    example: An unexpected error occurred.
+                  orgId:
+                    description: The organization's Clari account ID. Commonly referred to as `orgId`.
+                    type: integer
+                    format: int32
+                    example: 101
+        x-export-results:
+          description: JSON response from the `/export/jobs/{jobId}/results` endpoint returns an array of activity records. It returns an empty `activities` array if no records are found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        activityId:
+                          type: string
+                          description: unique identifier for each activity record
+                          example: 58eaf6bae6bdab17f362400127170cc3
+                        activityType:
+                          type: string
+                          description: type of activity record (i.e. MEETING, EMAIL_SENT)
+                          example: MEETING
+                        subject:
+                          type: string
+                          description: subject of the activity
+                          example: Data Pulse <> Clari Sync
+                        date:
+                          type: integer
+                          description: date/time as an epoch timestamp on which activity occurred or occurs
+                          format: int64
+                          example: 1702906200000
+                        activityOwnerId:
+                          type: string
+                          description: salesforce id of user whose inbox or calendar from which the activity is indexed from
+                          example: 0073x000005ChMyQKK
+                        activityOrganiserId:
+                          type: string
+                          description: salesforce id of user who organised or created the activity
+                          example: 0044x000005ChMyQQA
+                        accounts:
+                          type: array
+                          description: list of accounts to which the activity is mapped to
+                          items:
+                            type: object
+                            properties:
+                              accountId:
+                                type: string
+                                description: salesforce account id
+                                example: 0014x000018I6EVAA0
+                              accountName:
+                                type: string
+                                description: name of the account
+                                example: Data Pulse FY24
+                              accountOwnerId:
+                                type: string
+                                description: salesforce account owner id
+                                example: 0073x000005ChMyQKK
+                        opportunities:
+                          type: array
+                          description: list of opportunities to which the activity is mapped to
+                          items:
+                            type: object
+                            properties:
+                              opportunityId:
+                                type: string
+                                description: salesforce opportunity id
+                                example: 0064x00000MaqIEAAZ
+                              opportunityName:
+                                type: string
+                                description: name of the opportunity
+                                example: Data Pulse FY24
+                              opportunityOwnerId:
+                                type: string
+                                description: salesforce opportunity owner id
+                                example: 0073x000005ChMyQKK
+                        participants:
+                          type: array
+                          description: list of participants in the activity
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                description: name of the participant
+                                example: Ava Turner
+                              email:
+                                type: string
+                                description: email address of the participant
+                                example: aturner@internaldomain.com
+                              sfdcUserId:
+                                type: string
+                                description: salesforce user id of the participant (will be empty in case of external participant)
+                                example: 0073x000005ChMyQKK
+                              isInternal:
+                                type: boolean
+                                description: shows whether the participant is internal user or not
+                                example: true
+              example:
+                activities:
+                - activityId: 58eaf6bae6bdab17f362400127170cc3
+                  activityType: MEETING
+                  activityOwnerId: 0073x000005ChMyQKK
+                  activityOrganiserId: 0044x000005ChMyQQA
+                  subject: Data Pulse <> Clari Sync
+                  date: '1702906200000'
+                  accounts:
+                  - accountId: 0014x000018I6EVAA0
+                    accountName: Data Pulse Inc.
+                    accountOwnerId: 0073x000005ChMyQKK
+                  opportunities:
+                  - opportunityId: 0064x00000MaqIEAAZ
+                    opportunityName: Data Pulse FY24
+                    opportunityOwnerId: 0073x000005ChMyQKK
+                  participants:
+                  - name: Ava Turner
+                    email: aturner@internaldomain.com
+                    sfdcUserId: 0044x000005ChMyQQA
+                    isInternal: true
+                  - name: Aiden Lewis
+                    email: alewis@internaldomain.com
+                    sfdcUserId: 0073x000005ChMyQKK
+                    isInternal: true
+                  - name: Samuel Martin
+                    email: samuelm@datapulsedomain.com
+                    sfdcUserId: ''
+                    isInternal: false
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: apikey
+      in: header

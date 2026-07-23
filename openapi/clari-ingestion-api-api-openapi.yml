@@ -1,0 +1,651 @@
+openapi: 3.0.0
+info:
+  title: Clari API Reference Activity API Ingestion API API
+  version: 5.0.0
+  description: "# Clari API Reference\nClari is the heartbeat of your revenue organization and holds your most important revenue data. Clari APIs enable customers to retrieve revenue data out of the Clari platform and push missing revenue-critical data into the platform.\n\n## Authentication\n\nClari APIs use tokens to authenticate requests. You can create and manage your tokens in Account Settings under \"API Token\". Please reach out to your CSM if you don't see a token generation tool as you may not have been given access.\n### Creating an authentication token\nFollow the steps below to generate a token:\n- Go to user avatar\n- Navigate to Settings\n- Navigate to the API Token tab and click \"Generate New API Token\"\n- Enter a Token Name and click \"Generate New Token\". Few things to note about tokens:\n  - After generating a token, make sure to keep it in a secure location as you won't be able to access it again. This is your key to accessing Clari data for your organization.\n  - If you revoke a token, any active integration that is using that token will break.\n  - When deactivating a user, any tokens created by the user will be revoked (and thus break any active integration).\n\n## Bulk data exports\n\nClari supports bulk data exports. Bulk exports run asynchronously in a\nthree step process. First, the bulk export is requested using a `POST` API call.\nMultiple products support bulk exports. In the documentation below, the `POST` API\nis described in respective product sections. The `POST` API call queues the bulk export job to run it asynchronously, and returns\na job ID. To monitor the export's status and be notified of its completion, you\nshould poll status via the API periodically. When the export completes, the status\nwill be set to `DONE` and you can then retrieve the output of the export.\n\n## Bulk data imports\n\nClari also supports bulk data imports. Customers or partners can import their Account\nor Opportunity fields in bulk to create a complete picture of revenue in Clari. Bulk imports also run\nasynchronously in a three step process. In the documentation below, the `/bulk` API is described\nin respective product sections. The `/bulk` API call queues the bulk import job to run it asynchronously, and returns\na job ID. To monitor the import's status and be notified of its completion, you\nshould poll status via the API periodically. When the import completes, the status\nwill be set to `DONE`. If records fail validation, the entire batch is rejected and has to be retried\nafter fixing the errors. The errors can be retrieved from the results API.\n\n\n## Forecasting APIs\n\nRevenue teams use Clari Forecasting to track their attainment to date\nagainst goals and forecast their revenue numbers for the month, quarter and\nyear. This data is captured by revenue leaders, managers, and sales reps --\nit provides a clear view of the entire team's forecast and their submission\nstatus.\n\nClari's Forecasting APIs enable you to pull your forecasting data out of Clari, merge\nit with data sitting in your own data warehouse, and build custom reports. Forecasting\nsupports both a REST API as well as a bulk export API.\n\n### Creating and accessing Forecast exports\n\n\n  You can export any Forecast Tab with our Forecasting APIs. To do so, retrieve the `forecastId` from the URL when viewing a Forecast Tab and provide the ID when using the Export API. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.\n\n  <img src=\"https://developer.clari.com/assets/images/forecastid.png\" alt=\"forecast id\" width=\"400\"/>\n\n\nFor details on Forecast Tabs and what data is available with Forecast Exports see guides below:\n\n- [Forecasting Building Blocks](https://clari.my.site.com/customer/s/article/Forecast-Building-Blocks)\n- [How to Read the Forecast Export](https://clari.my.site.com/customer/s/article/How-to-Read-the-Forecast-Export)\n- [How to Read the Export API Output](https://clari.my.site.com/customer/s/article/How-to-Read-Claris-Export-API-Output)\n\n\n## Audit APIs\n\nThe Audit API allows its users to audit events happening in their Clari instances. Call the Audit API to understand who is making changes in your Clari instance and when these changes happened.\n\n## Data Ingestion API\n\nThis API is for Clari's integration partners - such as technology platforms or revenue tools, looking to build a direct data integration with Clari. It enables partners to send data that can be surfaced in Clari's Accounts and Opportunities views for mutual customers who have turned on the integration.\n\n## Activity API\n\nActivity Export API allows its users to pull sales activity data like emails, meetings and files.\nWith this powerful sales activity data available on demand through an API call, customers can create powerful custom reports in the reporting tool of their choice and analyze Accounts and Opportunity engagement across different activity types.\n\n## Questions?\n"
+  contact:
+    name: us here! We're always happy to help with any questions.
+    email: support@clari.com
+servers:
+- url: https://api.clari.com/{basePath}
+  description: Clari gateway
+  variables:
+    basePath:
+      default: v4
+      description: version identifier
+security:
+- api_key: []
+tags:
+- name: Ingestion API
+paths:
+  /ingest/bulk/entity/{entity}:
+    post:
+      summary: Bulk Upload entity data
+      description: 'This API allows partners to perform a bulk upload of field extensions and sub-objects to Clari''s Account and Opportunity entities. It is designed for high-volume updates, enabling the ingestion of additional metadata beyond the standard CRM fields.
+
+
+
+        Here are key details to keep in mind when using this API:
+
+        - Upload a single JSON file (max 10MB) per request.
+
+        - Specify the entity (account/opportunity/any sub-object entity) in the path.
+
+        - Include both apikey and partnerkey in the request headers.
+
+        - Use Salesforce Account IDs or Opportunity IDs to associate data.
+
+        - JSON structure must match the /ingest/entity/{entity} API.
+
+        - createdAt and updatedAt timestamps should be sent in milliseconds.
+
+
+        BASE URL: `https://api.clari.com/v2`
+
+
+        EXAMPLE: `https://api.clari.com/v2/ingest/bulk/entity/account`
+
+        '
+      operationId: ingestBulk
+      tags:
+      - Ingestion API
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token
+        required: true
+        schema:
+          type: string
+      - name: partnerkey
+        in: header
+        description: Partner key
+        required: true
+        schema:
+          type: string
+      - name: entity
+        in: path
+        description: the entity to upload data to
+        required: true
+        schema:
+          type: string
+        example: account
+      - name: mode
+        in: query
+        description: data upload mode
+        schema:
+          type: string
+          enum:
+          - initial
+          - incremental
+      - name: isLastBatch
+        in: query
+        description: whether data is the last batch of initial data
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+            example: 'Content-Type: multipart/form-data; boundary=----7MA4YWxkTrZu0gW
+
+
+              ------7MA4YWxkTrZu0gW
+
+              Content-Disposition: form-data; name="FileData"; filename="data.json"
+
+              Content-Type:
+
+
+              --FILE DATA--
+
+              ------7MA4YWxkTrZu0gW--
+
+              '
+      responses:
+        '202':
+          description: Data is accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    example: 64eef062b1a00d40e5f0bac5
+        '400':
+          description: input is not in right format
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion bad request Error Object
+                  type: object
+                  description: Details of an bad request error encountered when ingesting data.
+                  required:
+                  - errorCode
+                  - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                      - INVALID_INPUT_FORMAT
+                      - INVALID_FILE_FORMAT
+                      - INVALID_CONFIGURATION
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                - errorCode: INVALID_FILE_FORMAT
+                  errorSummary: Allowed file format is JSON only. Please try again with right format.
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Mode value is invalid. Please try again with a valid mode value, possible values are [initial, increment]
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: '''Initial'' mode is allowed only during initial ingestion of data, please try ingesting it with ''Incremental'' mode for xyz entity'
+                - errorCode: INVALID_CONFIGURATION
+                  errorSummary: Integration is not yet enabled, please contact support for assistance
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Entity is not valid/enabled for integration. Please try again with a valid/enabled entity
+        '401':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/401'
+        '403':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/403'
+        '428':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/428'
+        '429':
+          description: Maximum concurrent request limit has been reached.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion requests limit reached Error Object
+                  type: object
+                  description: Ingestion requests limit reached
+                  required:
+                  - errorCode
+                  - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                      - TOO_MANY_REQUESTS
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                - errorCode: TOO_MANY_REQUESTS
+                  errorSummary: Max concurrent async ingestion jobs limit reached for partner <partnerName>
+        '500':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/500'
+  /ingest/entity/{entity}:
+    post:
+      summary: Upload entity data
+      description: 'This API allows partners to perform frequent, incremental updates to Clari’s Account and Opportunity entities. It supports uploading up to 100 records per request, and can be used to add or update field extensions or sub-objects associated with these entities.
+
+
+
+        Key points to know when using this API:
+
+        - Designed for partner integrations to sync small, regular data updates.
+
+        - Supports up to 100 records in a single JSON payload.
+
+        - Specify the target entity (account/opportunity/any sub-object entity) in the API path.
+
+        - Include both apikey and partnerkey in the request headers.
+
+        - Use Salesforce Account IDs or Opportunity IDs to identify records.
+
+        - createdAt and updatedAt timestamps should be sent in milliseconds.
+
+
+        BASE URL: `https://api.clari.com/v2`
+
+
+        EXAMPLE: `https://api.clari.com/v2/ingest/entity/account`
+
+        '
+      operationId: ingestIncremental
+      tags:
+      - Ingestion API
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token
+        required: true
+        schema:
+          type: string
+      - name: partnerkey
+        in: header
+        description: Partner key
+        required: true
+        schema:
+          type: string
+      - name: entity
+        in: path
+        description: the entity to upload data to
+        required: true
+        schema:
+          type: string
+        example: account
+      - name: mode
+        in: query
+        description: data upload mode
+        schema:
+          type: string
+          enum:
+          - initial
+          - incremental
+      - name: isLastBatch
+        in: query
+        description: whether data is the last batch of initial data
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: Ingest API Data
+              description: Data could comprises of multiple source entity data
+              type: array
+              items:
+                title: Entity Data
+                description: Ingest extra Salesforce account or opportunities field data into Clari.
+                type: object
+                properties:
+                  sourceEntity:
+                    description: Source entity of the records
+                    type: string
+                  records:
+                    description: Data Records
+                    type: array
+                    items:
+                      title: Ingest API Data Record
+                      description: list required fields of a record
+                      type: object
+                      required:
+                      - createdAt
+                      - updatedAt
+                      - id
+                      properties:
+                        createdAt:
+                          description: The record creation timestamp denotes the number of milliseconds that have elapsed since the epoch.
+                          type: number
+                        updatedAt:
+                          description: The record update timestamp denotes the number of milliseconds elapsed since the epoch.
+                          type: number
+                        id:
+                          description: Salesforce identifier of the record
+                          type: string
+            example:
+            - sourceEntity: sourceEntityB
+              records:
+              - id: 001Z000000xOn4bIAA
+                createdAt: 1303324502462
+                updatedAt: 1303324602462
+                adoptionDate: '2022-10-01T07:00:00Z'
+                openSuccessPlan: 'yes'
+              - id: 001Z000000xOn4bIAJ
+                createdAt: 1303324502462
+                updatedAt: 1303324602462
+                adoptionDate: '2022-10-01T07:00:00Z'
+                openSuccessPlan: 'yes'
+            - sourceEntity: sourceEntityA
+              records:
+              - id: 001Z000000xOn4bIAC
+                createdAt: 1303324502462
+                updatedAt: 1303324602462
+                healthScore: 88
+                nps: 13
+                csm: USD
+                lifecycleStage: early
+                mrr: 5146000
+                trend: Up
+                dateOfLastTimelineActivity: '2022-10-10T07:00:00Z'
+              - id: 001Z000000xOn4bIAD
+                createdAt: 1303324502462
+                updatedAt: 1303324602462
+                healthScore: 89
+                nps: 13
+                csm: USD
+                lifecycleStage: early
+                mrr: 5146100
+                trend: Same
+                dateOfLastTimelineActivity: '2022-10-10T07:00:00Z'
+      responses:
+        '200':
+          description: Data is uploaded
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion bad request Error Object
+                  type: object
+                  description: Details of an bad request error encountered when ingesting data.
+                  required:
+                  - errorCode
+                  - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                      - INVALID_INPUT_FORMAT
+                      - DATA_TYPE_ERROR
+                      - INVALID_CONFIGURATION
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: 'Failed validation for data at path: /email 12345 is not of type ''string'''
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: 'Failed validation for data at path: /quantity Value -5 is less than or equal to the minimum of 0'''
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: 'Failed validation for data at path: / updatedAt should be greater than or equal to createdAt'''
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Payload is not an array
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: sourceEntity is missing dataSet <index>
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: records is missing for dataSet <index>
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: No entries have valid accountId for the domains
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: The number of records limit to 100
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Mode value is invalid. Please try again with a valid mode value, possible values are [initial, increment]
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: '''Initial'' mode is allowed only during initial ingestion of data, please try ingesting it with ''Incremental'' mode for xyz entity'
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Entity is not valid/enabled for integration. Please try again with a valid/enabled entity
+                - errorCode: INVALID_CONFIGURATION
+                  errorSummary: Integration is not yet enabled, please contact support for assistance
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Primary key field <field name> is missing
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Field <field name> is missing
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Duplicate record with value <field value> for primary key field <field name>
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Duplicate record with value <field value> for primary key field <field name>
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Field <field name> value <field value> is not a valid date
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Field <field name> type <field type> does not match expected type <expected name>
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Field <field name> length exceeds max length of <max length>
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion Unauthorized Error Object
+                  type: object
+                  description: Details of an Unauthorized error encountered when ingesting data.
+                  required:
+                  - errorCode
+                  - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                      - INVALID_PARTNER_KEY
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                - errorCode: INVALID_PARTNER_KEY
+                  errorSummary: Unauthorized PartnerKey
+        '403':
+          description: data ingestion has disabled.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion forbidden Error Object
+                  type: object
+                  description: Details of an forbidden error encountered when ingesting data.
+                  required:
+                  - errorCode
+                  - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                      - FORBIDDEN_ERROR
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                - errorCode: FORBIDDEN_ERROR
+                  errorSummary: Data Ingestion has been disabled
+        '428':
+          description: precondition required error.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion precondition required Error Object
+                  type: object
+                  description: Details of an precondition required error encountered when ingesting data.
+                  required:
+                  - errorCode
+                  - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                      - SCHEMA_MISSING
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                - errorCode: SCHEMA_MISSING
+                  errorSummary: 'Schema file information of partner is not available for entity : <account/opportunity>, Please contact clari support.'
+        '429':
+          $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/429'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion Internal Error Object
+                  type: object
+                  description: Details of an Internal error encountered when ingesting data.
+                  required:
+                  - errorCode
+                  - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                      - INTERNAL_SERVER_ERROR
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                - errorCode: INTERNAL_SERVER_ERROR
+                  errorSummary: <error message>
+  /ingest/schema/{entity}/field:
+    post:
+      summary: Add picklist | multi-picicklist values
+      description: This API lets us add <code>picklist</code> | <code>multi-picklist</code> values to a field of an appropriate type for a particular org of a partner
+      operationId: ingestAddPicklist
+      tags:
+      - Ingestion API
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token
+        required: true
+        schema:
+          type: string
+      - name: partnerkey
+        in: header
+        description: Partner key
+        required: true
+        schema:
+          type: string
+      - name: entity
+        in: path
+        description: the entity to upload data to
+        required: true
+        schema:
+          type: string
+        example: account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fieldName:
+                  description: Name of the field to which the values are going to be added
+                  type: string
+                  example: isACustomerOf
+                fieldType:
+                  description: Type of the field to which the values are going to be added
+                  type: string
+                  example: multipicklist
+                  enum:
+                  - picklist
+                  - multipicklist
+                values:
+                  description: The values which are going to be added to the given field type
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - Customer1
+                  - Customer2
+                  - Customer3
+      responses:
+        '200':
+          description: The list of values provided have been added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: picklist options have been updated successfully.
+        '400':
+          description: The provided field type is not valid or supported
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion bad request Error Object
+                  type: object
+                  description: Details of an bad request error encountered when ingesting data.
+                  required:
+                  - errorCode
+                  - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                      - INVALID_INPUT_FORMAT
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: FieldType is not supported. Supported FieldTypes are [picklist, multipicklist]
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Oops! %s is not defined in schema.
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: Oops! Partner Schema is not defined.
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: One or more error in validating field details. Please provide picklist options.
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: One or more error in validating field details. fieldType cannot be empty or null
+                - errorCode: INVALID_INPUT_FORMAT
+                  errorSummary: One or more error in validating field details. fieldName cannot be empty or null
+        '401':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/401'
+        '429':
+          $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/429'
+        '500':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/500'
+    get:
+      summary: Get picklist | multi-picicklist values
+      description: This API lets us get the list of <code>picklist</code> | <code>multi-picklist</code> values which has been added to a field of an appropriate type for a particular org of a partner
+      operationId: ingestGetPicklist
+      tags:
+      - Ingestion API
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token
+        required: true
+        schema:
+          type: string
+      - name: partnerkey
+        in: header
+        description: Partner key
+        required: true
+        schema:
+          type: string
+      - name: entity
+        in: path
+        description: the entity to upload data to
+        required: true
+        schema:
+          type: string
+      - name: fieldNames
+        in: query
+        description: List of field names in a comma seperated format to get the values for only those fields
+        required: false
+        schema:
+          type: string
+          example: fieldName1,fieldName2
+      responses:
+        '200':
+          description: The list of values provided have been added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fieldName:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                    - fieldValue1
+                    - fieldValue2
+        '401':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/401'
+        '429':
+          $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/429'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: apikey
+      in: header

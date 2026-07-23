@@ -1,0 +1,393 @@
+openapi: 3.0.0
+info:
+  title: Clari API Reference Activity API Audit API API
+  version: 5.0.0
+  description: "# Clari API Reference\nClari is the heartbeat of your revenue organization and holds your most important revenue data. Clari APIs enable customers to retrieve revenue data out of the Clari platform and push missing revenue-critical data into the platform.\n\n## Authentication\n\nClari APIs use tokens to authenticate requests. You can create and manage your tokens in Account Settings under \"API Token\". Please reach out to your CSM if you don't see a token generation tool as you may not have been given access.\n### Creating an authentication token\nFollow the steps below to generate a token:\n- Go to user avatar\n- Navigate to Settings\n- Navigate to the API Token tab and click \"Generate New API Token\"\n- Enter a Token Name and click \"Generate New Token\". Few things to note about tokens:\n  - After generating a token, make sure to keep it in a secure location as you won't be able to access it again. This is your key to accessing Clari data for your organization.\n  - If you revoke a token, any active integration that is using that token will break.\n  - When deactivating a user, any tokens created by the user will be revoked (and thus break any active integration).\n\n## Bulk data exports\n\nClari supports bulk data exports. Bulk exports run asynchronously in a\nthree step process. First, the bulk export is requested using a `POST` API call.\nMultiple products support bulk exports. In the documentation below, the `POST` API\nis described in respective product sections. The `POST` API call queues the bulk export job to run it asynchronously, and returns\na job ID. To monitor the export's status and be notified of its completion, you\nshould poll status via the API periodically. When the export completes, the status\nwill be set to `DONE` and you can then retrieve the output of the export.\n\n## Bulk data imports\n\nClari also supports bulk data imports. Customers or partners can import their Account\nor Opportunity fields in bulk to create a complete picture of revenue in Clari. Bulk imports also run\nasynchronously in a three step process. In the documentation below, the `/bulk` API is described\nin respective product sections. The `/bulk` API call queues the bulk import job to run it asynchronously, and returns\na job ID. To monitor the import's status and be notified of its completion, you\nshould poll status via the API periodically. When the import completes, the status\nwill be set to `DONE`. If records fail validation, the entire batch is rejected and has to be retried\nafter fixing the errors. The errors can be retrieved from the results API.\n\n\n## Forecasting APIs\n\nRevenue teams use Clari Forecasting to track their attainment to date\nagainst goals and forecast their revenue numbers for the month, quarter and\nyear. This data is captured by revenue leaders, managers, and sales reps --\nit provides a clear view of the entire team's forecast and their submission\nstatus.\n\nClari's Forecasting APIs enable you to pull your forecasting data out of Clari, merge\nit with data sitting in your own data warehouse, and build custom reports. Forecasting\nsupports both a REST API as well as a bulk export API.\n\n### Creating and accessing Forecast exports\n\n\n  You can export any Forecast Tab with our Forecasting APIs. To do so, retrieve the `forecastId` from the URL when viewing a Forecast Tab and provide the ID when using the Export API. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.\n\n  <img src=\"https://developer.clari.com/assets/images/forecastid.png\" alt=\"forecast id\" width=\"400\"/>\n\n\nFor details on Forecast Tabs and what data is available with Forecast Exports see guides below:\n\n- [Forecasting Building Blocks](https://clari.my.site.com/customer/s/article/Forecast-Building-Blocks)\n- [How to Read the Forecast Export](https://clari.my.site.com/customer/s/article/How-to-Read-the-Forecast-Export)\n- [How to Read the Export API Output](https://clari.my.site.com/customer/s/article/How-to-Read-Claris-Export-API-Output)\n\n\n## Audit APIs\n\nThe Audit API allows its users to audit events happening in their Clari instances. Call the Audit API to understand who is making changes in your Clari instance and when these changes happened.\n\n## Data Ingestion API\n\nThis API is for Clari's integration partners - such as technology platforms or revenue tools, looking to build a direct data integration with Clari. It enables partners to send data that can be surfaced in Clari's Accounts and Opportunities views for mutual customers who have turned on the integration.\n\n## Activity API\n\nActivity Export API allows its users to pull sales activity data like emails, meetings and files.\nWith this powerful sales activity data available on demand through an API call, customers can create powerful custom reports in the reporting tool of their choice and analyze Accounts and Opportunity engagement across different activity types.\n\n## Questions?\n"
+  contact:
+    name: us here! We're always happy to help with any questions.
+    email: support@clari.com
+servers:
+- url: https://api.clari.com/{basePath}
+  description: Clari gateway
+  variables:
+    basePath:
+      default: v4
+      description: version identifier
+security:
+- api_key: []
+tags:
+- name: Audit API
+paths:
+  /export/audit/events:
+    post:
+      summary: Queue a job to export audit events as a json file
+      description: 'This is a bulk export API.
+
+
+        Queue an export job to export audit events for your org filtered by parameters specified in the request body. The exported json file will contain an array of audit events (`items` field) and an array of actors (`actors` field).  The exported file can be downloaded using the `jobId` returned, once the job completes. The job status can also be queried using the `jobId`.
+
+
+        To create your request, you will need to pass your `apikey` in as a header, all other optional parameters as a JSON in the body.'
+      operationId: exportAuditEvents
+      tags:
+      - Audit API
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Optional request parameters for the audit event export.
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                actorId:
+                  description: The Actor ID to filter the result set
+                  type: integer
+                  format: int64
+                  default: null
+                  example: 1
+                impersonatingActorId:
+                  type: integer
+                  format: int64
+                  description: The Impersonating Actor ID to filter the result set
+                  default: null
+                  example: 1
+                sessionId:
+                  description: The Session UUID to filter the result set.
+                  type: string
+                  format: uuid
+                  maxLength: 36
+                  default: null
+                  example: fe795746-54b0-11ed-bdc3-0242ac120002
+                sessionType:
+                  description: Filters the result based on the session type. If not presents all session types are returned.
+                  type: string
+                  default: WEB
+                  enum:
+                  - WEB
+                  - IOS
+                  - ANDROID
+                dateFrom:
+                  description: 'Date from which events need to be pulled. The Internet Date/Time Format  profile of ISO 8601 (opens new window) for example date-time: `2017-05-03T16:22:18Z` for example date-only: `2017-05-03`
+
+                    Defaults to 30 days ago'
+                  type: string
+                  format: date-time
+                  default: null
+                  example: '2022-08-03T16:22:18Z'
+                dateTo:
+                  description: 'Date until which events need to be pulled. The Internet Date/Time Format  profile of ISO 8601 (opens new window) for example date-time: `2017-05-03T16:22:18Z` for example date-only: `2017-05-03`
+
+                    Defaults to the current date and time'
+                  type: string
+                  format: date-time
+                  default: null
+                  example: 20122-08-05T16:22:18Z
+                event:
+                  description: Different categories/subcategories of events that we track.
+                  type: string
+                  default: null
+                  example: api.accessed
+      responses:
+        '202':
+          description: Your export job was successfully queued. Use the `jobId`, provided in your response, to check its status and retrieve the requested data.
+          content:
+            application/json:
+              schema:
+                title: Response Object With JobId
+                description: jobId is the identifier of the queued job.
+                type: object
+                required:
+                - jobId
+                properties:
+                  jobId:
+                    description: The Job ID of the successfully queued export job.
+                    type: string
+                    example: 6073683781a6da229df71e00
+        '400':
+          description: Client Error. Your job could not be queued.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - title: Errors Response Object
+                  description: A Clari API-compliant error response. This object is inherited by the specific response type.
+                  type: object
+                  required:
+                  - errors
+                  properties:
+                    errors:
+                      description: An array of Error objects
+                      type: array
+                      minItems: 1
+                      items:
+                        title: Error Object
+                        type: object
+                        description: A Clari API-compliant error object. An array of details about specific errors that led to this reported error.
+                        required:
+                        - status
+                        - message
+                        properties:
+                          code:
+                            description: an application-specific error code
+                            type: string
+                          message:
+                            description: a short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization
+                            type: string
+                          target:
+                            description: The target of the error.
+                            type: string
+                          status:
+                            description: the HTTP status code applicable to this problem
+                            type: string
+                            minLength: 3
+                            maxLength: 3
+                          details:
+                            description: A String containing more specific information than the current object about the error.
+                            type: string
+                - $ref: '#/paths/~1export~1activity/post/responses/400/content/application~1json/schema/oneOf/1'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+        x-export-results:
+          description: JSON response from the `/export/jobs/{jobId}/results` endpoint returns an array of Audit Events items. It returns an empty `items` array if no records are found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1audit~1events/get/responses/200/content/application~1json/schema'
+  /audit/events:
+    get:
+      summary: View audit events with pagination
+      description: View audit events filtered by query string parameters. This API returns a list of audit events, and a list of actors for all the events. If no items are found an empty array will returned. Additionally the response provides a `nextLink` for the next page available. Pages can be managed by the `limit` query string parameter. Use the `nextLink` to navigate to the next page if present.
+      operationId: listAuditEvents
+      tags:
+      - Audit API
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token.
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Sets the number of results that are returned in the response The limit field can trigger for multiple pages to be generated.  If more than the `limit` of records is in the results  a `nextLink` is provided to facilitate the navigation. Integer between 1 and 1000. Defaults to 100
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 1000
+          default: 100
+      - name: actorId
+        in: query
+        description: The Actor ID to filter the result set
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: impersonatingActorId
+        in: query
+        description: The Impersonating Actor ID to filter the result set
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: sessionId
+        in: query
+        description: The Session UUID to filter the result set.
+        required: false
+        schema:
+          type: string
+          format: uuid
+          maxLength: 36
+      - name: sessionType
+        in: query
+        description: Filters the result based on the session type. If not presents all session types are returned.
+        required: false
+        schema:
+          type: string
+          enum:
+          - WEB
+          - IOS
+          - ANDROID
+      - name: dateFrom
+        in: query
+        description: 'Date from which events need to be pulled. The Internet Date/Time Format  profile of ISO 8601 (opens new window) for example date-time: `2017-05-03T16:22:18Z` for example date-only: `2017-05-03` Defaults to 30 days ago'
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: dateTo
+        in: query
+        description: 'Date until which events need to be pulled. The Internet Date/Time Format  profile of ISO 8601 (opens new window) for example date-time: `2017-05-03T16:22:18Z` for example date-only: `2017-05-03` Defaults to the current date and time'
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: event
+        in: query
+        description: Different categories/subcategories of events that we track.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns a paged array of Audit Events items.  Returns an empty `items` array if no records are found.
+          content:
+            application/json:
+              schema:
+                title: Audit Logs Get Response Object
+                type: object
+                properties:
+                  nextLink:
+                    type: string
+                    format: url
+                  items:
+                    type: array
+                    items:
+                      title: Audit Event Response Object
+                      description: Represents an Audit Logger Log entry.
+                      type: object
+                      required:
+                      - actorId
+                      - sessionId
+                      - sessionType
+                      - event
+                      - ipAddress
+                      - actorType
+                      properties:
+                        correlationID:
+                          description: An additional field for the system to provide an ID to correlate the  Audit Logger events with other log entries.
+                          type: string
+                        actorId:
+                          description: The person who is responsible for the changes
+                          type: string
+                        impersonatingActorId:
+                          description: The person on whose behalf the actor is logging in. Null if the actor is the same as impersonating_actor (allows for easy filtering).
+                          type: string
+                        actorType:
+                          description: 'The subject type who requested the action.
+
+                            `USER` - Clari user interactions `SYSTEM` - Can be from a specific line in service. `JOB` - Scheduled jobs only'
+                          type: string
+                          enum:
+                          - USER
+                          - SYSTEM
+                          - JOB
+                        sessionId:
+                          description: Session ID of the current user performing the action
+                          type: string
+                          format: uuid
+                        ipAddress:
+                          description: IP Address where the event is originated from.
+                          type: string
+                          format: ipv4
+                        sessionType:
+                          description: 'Device source from where the action is performed.
+
+                            Eg. If the change is originating from the Web application then the sessionType should be of Web'
+                          type: string
+                          enum:
+                          - WEB
+                          - IOS
+                          - ANDROID
+                        event:
+                          description: The different categories and subcategories of events that can be logged into the service.
+                          type: string
+                        eventParameters:
+                          title: Event Parameters Object
+                          description: Allow passing additional parameters for a particular event as  specified in [Audit Log Priorities C Column](https://docs.google.com/spreadsheets/d/1Kx5YUrpn13sSyh3pvYP68lxiU1mzzZNhr-cOPzBD_aE/edit?usp=sharing)
+                          type: object
+                          maximum: 10
+                        eventTimestamp:
+                          description: 'The date and time the event occurred. For example: 2017-05-03T16:22:18Z'
+                          type: string
+                          format: date-time
+                    maxItems: 1000
+                  actors:
+                    type: array
+                    items:
+                      title: Actor Object
+                      type: object
+                      description: An Actor object including actorType, actorId, name and email return as get request response object.
+                      required:
+                      - actorType
+                      - actorId
+                      - name
+                      - email
+                      properties:
+                        actorType:
+                          description: UserType is 'USER'
+                          type: string
+                        actorId:
+                          description: Clari User's userId
+                          type: string
+                        name:
+                          description: Clari User's full name
+                          type: string
+                        email:
+                          description: Clari User's email
+                          type: string
+                uniqueItems: true
+        4XX:
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                title: Errors Response Object
+                description: A Clari API-compliant error response. This object is inherited by the specific response type.
+                type: object
+                required:
+                - errors
+                properties:
+                  errors:
+                    description: An array of Error objects
+                    type: array
+                    minItems: 1
+                    items:
+                      title: Error Object
+                      type: object
+                      description: A Clari API-compliant error object. An array of details about specific errors that led to this reported error.
+                      required:
+                      - status
+                      - message
+                      properties:
+                        code:
+                          description: an application-specific error code
+                          type: string
+                        message:
+                          description: a short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization
+                          type: string
+                        target:
+                          description: The target of the error.
+                          type: string
+                        status:
+                          description: the HTTP status code applicable to this problem
+                          type: string
+                          minLength: 3
+                          maxLength: 3
+                        details:
+                          description: A String containing more specific information than the current object about the error.
+                          type: string
+        5XX:
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1audit~1events/get/responses/4XX/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: apikey
+      in: header

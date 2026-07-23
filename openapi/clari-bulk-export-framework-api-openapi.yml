@@ -1,0 +1,439 @@
+openapi: 3.0.0
+info:
+  title: Clari API Reference Activity API Bulk Export Framework API
+  version: 5.0.0
+  description: "# Clari API Reference\nClari is the heartbeat of your revenue organization and holds your most important revenue data. Clari APIs enable customers to retrieve revenue data out of the Clari platform and push missing revenue-critical data into the platform.\n\n## Authentication\n\nClari APIs use tokens to authenticate requests. You can create and manage your tokens in Account Settings under \"API Token\". Please reach out to your CSM if you don't see a token generation tool as you may not have been given access.\n### Creating an authentication token\nFollow the steps below to generate a token:\n- Go to user avatar\n- Navigate to Settings\n- Navigate to the API Token tab and click \"Generate New API Token\"\n- Enter a Token Name and click \"Generate New Token\". Few things to note about tokens:\n  - After generating a token, make sure to keep it in a secure location as you won't be able to access it again. This is your key to accessing Clari data for your organization.\n  - If you revoke a token, any active integration that is using that token will break.\n  - When deactivating a user, any tokens created by the user will be revoked (and thus break any active integration).\n\n## Bulk data exports\n\nClari supports bulk data exports. Bulk exports run asynchronously in a\nthree step process. First, the bulk export is requested using a `POST` API call.\nMultiple products support bulk exports. In the documentation below, the `POST` API\nis described in respective product sections. The `POST` API call queues the bulk export job to run it asynchronously, and returns\na job ID. To monitor the export's status and be notified of its completion, you\nshould poll status via the API periodically. When the export completes, the status\nwill be set to `DONE` and you can then retrieve the output of the export.\n\n## Bulk data imports\n\nClari also supports bulk data imports. Customers or partners can import their Account\nor Opportunity fields in bulk to create a complete picture of revenue in Clari. Bulk imports also run\nasynchronously in a three step process. In the documentation below, the `/bulk` API is described\nin respective product sections. The `/bulk` API call queues the bulk import job to run it asynchronously, and returns\na job ID. To monitor the import's status and be notified of its completion, you\nshould poll status via the API periodically. When the import completes, the status\nwill be set to `DONE`. If records fail validation, the entire batch is rejected and has to be retried\nafter fixing the errors. The errors can be retrieved from the results API.\n\n\n## Forecasting APIs\n\nRevenue teams use Clari Forecasting to track their attainment to date\nagainst goals and forecast their revenue numbers for the month, quarter and\nyear. This data is captured by revenue leaders, managers, and sales reps --\nit provides a clear view of the entire team's forecast and their submission\nstatus.\n\nClari's Forecasting APIs enable you to pull your forecasting data out of Clari, merge\nit with data sitting in your own data warehouse, and build custom reports. Forecasting\nsupports both a REST API as well as a bulk export API.\n\n### Creating and accessing Forecast exports\n\n\n  You can export any Forecast Tab with our Forecasting APIs. To do so, retrieve the `forecastId` from the URL when viewing a Forecast Tab and provide the ID when using the Export API. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.\n\n  <img src=\"https://developer.clari.com/assets/images/forecastid.png\" alt=\"forecast id\" width=\"400\"/>\n\n\nFor details on Forecast Tabs and what data is available with Forecast Exports see guides below:\n\n- [Forecasting Building Blocks](https://clari.my.site.com/customer/s/article/Forecast-Building-Blocks)\n- [How to Read the Forecast Export](https://clari.my.site.com/customer/s/article/How-to-Read-the-Forecast-Export)\n- [How to Read the Export API Output](https://clari.my.site.com/customer/s/article/How-to-Read-Claris-Export-API-Output)\n\n\n## Audit APIs\n\nThe Audit API allows its users to audit events happening in their Clari instances. Call the Audit API to understand who is making changes in your Clari instance and when these changes happened.\n\n## Data Ingestion API\n\nThis API is for Clari's integration partners - such as technology platforms or revenue tools, looking to build a direct data integration with Clari. It enables partners to send data that can be surfaced in Clari's Accounts and Opportunities views for mutual customers who have turned on the integration.\n\n## Activity API\n\nActivity Export API allows its users to pull sales activity data like emails, meetings and files.\nWith this powerful sales activity data available on demand through an API call, customers can create powerful custom reports in the reporting tool of their choice and analyze Accounts and Opportunity engagement across different activity types.\n\n## Questions?\n"
+  contact:
+    name: us here! We're always happy to help with any questions.
+    email: support@clari.com
+servers:
+- url: https://api.clari.com/{basePath}
+  description: Clari gateway
+  variables:
+    basePath:
+      default: v4
+      description: version identifier
+security:
+- api_key: []
+tags:
+- name: Bulk Export Framework
+paths:
+  /export/jobs/{jobId}:
+    get:
+      summary: View the status of a given export using its jobId
+      description: "Once your export job has been successfully created, it will be initialized with `\"status\": \"STARTED\"`. You'll need to poll the status of your request until it is complete. The possible states of your export request are: \n- `SCHEDULED` - job successfully created and queued up\n- `STARTED` - job in-progress\n- `DONE` - job complete and ready to output data\n- `FAILED` - job could not complete \n- `CANCELLED` - job was scheduled but then got cancelled \n- `ABORTED` - job started running but then got cancelled \n"
+      operationId: jobStatus
+      tags:
+      - Bulk Export Framework
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token.
+        required: true
+        schema:
+          type: string
+      - name: jobId
+        description: The job id for the job to fetch the details for.
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success! See job details for the requested job ID.
+          content:
+            application/json:
+              schema:
+                description: The UI formatted export item.
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    description: Unique identifier for your forecast export request.
+                    example: 6073683781a6da229df71e00
+                  userId:
+                    type: integer
+                    description: Clari user ID of the user that initiated the job.
+                    example: 1
+                  orgId:
+                    type: integer
+                    description: Clari org ID of the user that requested the job.
+                    example: 101
+                  title:
+                    type: string
+                    description: Title of the Forecast Tab requested for the export.
+                    example: Forecast Export
+                  module:
+                    type: string
+                    description: Module from which the export is requested from.
+                    example: FORECAST
+                  startTime:
+                    type: integer
+                    description: Start time of export job.
+                    example: 1618451575216
+                  endTime:
+                    type: integer
+                    description: End time of export job.
+                    example: 1618451581663
+                  expiredTime:
+                    type: integer
+                    description: Expiry time of export job.
+                    example: 1621043581663
+                  version:
+                    type: integer
+                    description: API version from when export job was initiated.
+                    example: 1
+                  fileName:
+                    type: string
+                    description: File name of export job.
+                    example: clari_export_forecast_total_new_2021_Q12915_20210415_015255.json
+                  fileType:
+                    type: string
+                    example: JSON
+                  status:
+                    description: The status of the export job.
+                    type: string
+                    enum:
+                    - SCHEDULED
+                    - STARTED
+                    - DONE
+                    - FAILED
+                    - CANCELLED
+                    - ABORTED
+                  viewed:
+                    type: boolean
+                    example: false
+                  cellsTruncated:
+                    type: boolean
+                    example: false
+                  rowsTruncated:
+                    type: boolean
+                    example: false
+                  downloads:
+                    type: integer
+                    description: Number of times the export request was downloaded.
+                    example: 1
+                  currency:
+                    type: string
+                    description: Currency used when initiating export job.
+                    example: USD
+              example:
+                jobId: 606e23c981a6da229d75b515
+                userId: 1
+                orgId: 101
+                title: Forecast Export
+                module: FORECAST
+                startTime: 1617830857175
+                endTime: 1617830861959
+                expiredTime: 1620422861959
+                version: 1
+                fileName: clari_export_forecast_new_summary_2021_Q12915_20210407_212737.json
+                fileType: JSON
+                status: STARTED
+                viewed: false
+                cellsTruncated: false
+                rowsTruncated: false
+                downloads: 0
+                deliveryStatusMap: {}
+                currency: USD
+        '400':
+          description: The job status could not be retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1jobs/get/responses/400/content/application~1json/schema'
+        '403':
+          description: Invalid permissions to view this job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1jobs/get/responses/400/content/application~1json/schema'
+        '500':
+          description: There was an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+    patch:
+      summary: Stop or cancel an in-progress job
+      description: Use this endpoint to stop or “cancel” an in-progress export job. The job will stop executing and free up space on your monthly quota. The job will still be accessible if you call the `GET /export/jobs` endpoint.
+      operationId: updateJob
+      tags:
+      - Bulk Export Framework
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token.
+        required: true
+        schema:
+          type: string
+      - name: jobId
+        description: The job id for the job to fetch the details for.
+        $ref: '#/paths/~1export~1jobs~1%7BjobId%7D/get/parameters/1'
+      requestBody:
+        description: The request parameters for the update options available to update the job with.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  description: The type of patch task to perform on the job. Currently only `CANCEL` is supported.
+                  type: string
+                  example: CANCEL
+                  enum:
+                  - CANCEL
+      responses:
+        '200':
+          description: Your job was successfully cancelled.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/paths/~1export~1jobs~1%7BjobId%7D/get/responses/200/content/application~1json/schema/properties/status'
+                  successful:
+                    type: boolean
+                example:
+                  status: CANCELLED
+                  successful: true
+        '400':
+          description: Unable to complete request. Please check your parameters and/or the status of your job. If the job has already completed where `STATUS` is `DONE` you will not be able to cancel it.
+          content:
+            application/json:
+              schema:
+                description: Cannot cancel job as it has already finished executing.
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: export_failed_to_cancel
+                  namespace:
+                    type: string
+                    example: exports
+                  errorId:
+                    type: string
+                    example: 54c5a2b5-9b1c-11eb-a343-87ffa5f01191
+                  message:
+                    type: string
+                    example: Cannot cancel the job because it already finished executing.
+                  orgId:
+                    $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+        '500':
+          description: There was an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+  /export/jobs/{jobId}/results:
+    get:
+      summary: Retrieve and save forecast export content
+      description: 'Once your export finishes processing and its status returns `DONE`, you will be able to retrieve your file contents using this endpoint.
+
+        '
+      operationId: externalExportDownload
+      tags:
+      - Bulk Export Framework
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token.
+        required: true
+        schema:
+          type: string
+      - name: jobId
+        description: The job ID for the export job to fetch JSON output for.
+        $ref: '#/paths/~1export~1jobs~1%7BjobId%7D/get/parameters/1'
+      responses:
+        '200':
+          description: Retrieve the content of the output file of the desired export job.
+          content:
+            application/json:
+              example:
+              - User
+              - Email
+              - CRM User ID
+              - Role
+              - Parent Role
+              - Timeframe
+              - Field
+              - Week
+              - Start Day
+              - End Day
+              - Data Type
+              - Data Value
+              - Jain
+              - name@s-clari.com
+              - 005110000069tRpAAI
+              - Sales Rep - East
+              - CEO
+              - July FY 2023
+              - Monthly Commit
+              - '0'
+              - 06/30/2023
+              - 06/30/2023
+              - Forecast Value
+              - Jain
+              - name@s-clari.com
+              - 005110000069tRpAAI
+              - Sales Rep - East
+              - CEO
+              - July FY 2023
+              - Monthly Commit
+              - '0'
+              - 06/30/2023
+              - 06/30/2023
+              - Forecast Updated
+              - 'No'
+              - Clari QA10
+              - manager@s-clari.com
+              - 005d0000001rfYSAAY
+              - CEO
+              - ''
+              - July FY 2023
+              - Monthly Commit
+              - '0'
+              - 06/30/2023
+              - 06/30/2023
+              - Forecast Value
+              - $3,000,190.00
+              - Clari QA10
+              - manager@s-clari.com
+              - 005d0000001rfYSAAY
+              - CEO
+              - ''
+              - July FY 2023
+              - Monthly Commit
+              - '0'
+              - 06/30/2023
+              - 06/30/2023
+              - Forecast Updated
+              - 'No'
+        '400':
+          description: Unable to retrieve data. Please ensure you have passed in a valid `jobId`. Note that you will only be able to retrieve output for successfully completed jobs. Specifically, the job's status must be `DONE` in order to retrieve its output.
+          content:
+            application/json:
+              schema:
+                description: Cannot retrieve data for the requested jobId. Check your parameters and try again.
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: invalid_jobId
+                  namespace:
+                    type: string
+                    example: exports
+                  errorId:
+                    type: string
+                    example: 54c5a2b5-9b1c-11eb-a343-87ffa5f01191
+                  message:
+                    type: string
+                    example: Cannot retrieve data for job because it has not finished executing.
+                  orgId:
+                    $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+        '500':
+          description: There was an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+  /export/jobs:
+    get:
+      summary: View all jobs initiated from a particular user
+      description: View a list of all jobs initiated by a particular user. The response will include all complete, cancelled, and in-progress jobs.
+      operationId: externalFcwExport
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token.
+        required: true
+        schema:
+          type: string
+      tags:
+      - Bulk Export Framework
+      responses:
+        '200':
+          description: Success! See job details for all export jobs initiated by the authentication token passed in your parameter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1export~1jobs~1%7BjobId%7D/get/responses/200/content/application~1json/schema'
+              example:
+              - jobId: 6073683781a6da229df71e00,
+                userId: 1,
+                orgId: 1,
+                title: Forecast Export,
+                module: FORECAST,
+                startTime: 123456789,
+                endTime: 123456799,
+                expiredTime: 133333333,
+                version: 1,
+                fileName: clari_export_default-view_20180118_004234.json,
+                fileType: JSON,
+                status: STARTED,
+                viewed: true,
+                cellsTruncated: false,
+                rowsTruncated: false,
+                downloads: 0,
+                currency: USD
+              - jobId: 6073680cac043e61f93bac07,
+                userId: 1,
+                orgId: 1,
+                title: Forecast Export,
+                module: FORECAST,
+                startTime: 133456789,
+                endTime: 133456799,
+                expiredTime: 143333333,
+                version: 1,
+                fileName: clari_export_default-view_20180118_004234.json,
+                fileType: JSON,
+                status: STARTED,
+                viewed: true,
+                cellsTruncated: false,
+                rowsTruncated: false,
+                downloads: 2,
+                currency: USD
+        '400':
+          description: The job status could not be retrieved.
+          content:
+            application/json:
+              schema:
+                description: The generic exception response from the application.
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: SWW
+                  namespace:
+                    type: string
+                    example: exports
+                  errorId:
+                    type: string
+                    example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                  message:
+                    type: string
+                    example: Something went wrong
+                  orgId:
+                    $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+        '403':
+          description: Invalid permissions to view this job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1jobs/get/responses/400/content/application~1json/schema'
+        '500':
+          description: There was an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: apikey
+      in: header

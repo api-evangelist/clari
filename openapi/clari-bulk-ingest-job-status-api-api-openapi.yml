@@ -1,0 +1,228 @@
+openapi: 3.0.0
+info:
+  title: Clari API Reference Activity API Bulk Ingest Job Status API API
+  version: 5.0.0
+  description: "# Clari API Reference\nClari is the heartbeat of your revenue organization and holds your most important revenue data. Clari APIs enable customers to retrieve revenue data out of the Clari platform and push missing revenue-critical data into the platform.\n\n## Authentication\n\nClari APIs use tokens to authenticate requests. You can create and manage your tokens in Account Settings under \"API Token\". Please reach out to your CSM if you don't see a token generation tool as you may not have been given access.\n### Creating an authentication token\nFollow the steps below to generate a token:\n- Go to user avatar\n- Navigate to Settings\n- Navigate to the API Token tab and click \"Generate New API Token\"\n- Enter a Token Name and click \"Generate New Token\". Few things to note about tokens:\n  - After generating a token, make sure to keep it in a secure location as you won't be able to access it again. This is your key to accessing Clari data for your organization.\n  - If you revoke a token, any active integration that is using that token will break.\n  - When deactivating a user, any tokens created by the user will be revoked (and thus break any active integration).\n\n## Bulk data exports\n\nClari supports bulk data exports. Bulk exports run asynchronously in a\nthree step process. First, the bulk export is requested using a `POST` API call.\nMultiple products support bulk exports. In the documentation below, the `POST` API\nis described in respective product sections. The `POST` API call queues the bulk export job to run it asynchronously, and returns\na job ID. To monitor the export's status and be notified of its completion, you\nshould poll status via the API periodically. When the export completes, the status\nwill be set to `DONE` and you can then retrieve the output of the export.\n\n## Bulk data imports\n\nClari also supports bulk data imports. Customers or partners can import their Account\nor Opportunity fields in bulk to create a complete picture of revenue in Clari. Bulk imports also run\nasynchronously in a three step process. In the documentation below, the `/bulk` API is described\nin respective product sections. The `/bulk` API call queues the bulk import job to run it asynchronously, and returns\na job ID. To monitor the import's status and be notified of its completion, you\nshould poll status via the API periodically. When the import completes, the status\nwill be set to `DONE`. If records fail validation, the entire batch is rejected and has to be retried\nafter fixing the errors. The errors can be retrieved from the results API.\n\n\n## Forecasting APIs\n\nRevenue teams use Clari Forecasting to track their attainment to date\nagainst goals and forecast their revenue numbers for the month, quarter and\nyear. This data is captured by revenue leaders, managers, and sales reps --\nit provides a clear view of the entire team's forecast and their submission\nstatus.\n\nClari's Forecasting APIs enable you to pull your forecasting data out of Clari, merge\nit with data sitting in your own data warehouse, and build custom reports. Forecasting\nsupports both a REST API as well as a bulk export API.\n\n### Creating and accessing Forecast exports\n\n\n  You can export any Forecast Tab with our Forecasting APIs. To do so, retrieve the `forecastId` from the URL when viewing a Forecast Tab and provide the ID when using the Export API. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.\n\n  <img src=\"https://developer.clari.com/assets/images/forecastid.png\" alt=\"forecast id\" width=\"400\"/>\n\n\nFor details on Forecast Tabs and what data is available with Forecast Exports see guides below:\n\n- [Forecasting Building Blocks](https://clari.my.site.com/customer/s/article/Forecast-Building-Blocks)\n- [How to Read the Forecast Export](https://clari.my.site.com/customer/s/article/How-to-Read-the-Forecast-Export)\n- [How to Read the Export API Output](https://clari.my.site.com/customer/s/article/How-to-Read-Claris-Export-API-Output)\n\n\n## Audit APIs\n\nThe Audit API allows its users to audit events happening in their Clari instances. Call the Audit API to understand who is making changes in your Clari instance and when these changes happened.\n\n## Data Ingestion API\n\nThis API is for Clari's integration partners - such as technology platforms or revenue tools, looking to build a direct data integration with Clari. It enables partners to send data that can be surfaced in Clari's Accounts and Opportunities views for mutual customers who have turned on the integration.\n\n## Activity API\n\nActivity Export API allows its users to pull sales activity data like emails, meetings and files.\nWith this powerful sales activity data available on demand through an API call, customers can create powerful custom reports in the reporting tool of their choice and analyze Accounts and Opportunity engagement across different activity types.\n\n## Questions?\n"
+  contact:
+    name: us here! We're always happy to help with any questions.
+    email: support@clari.com
+servers:
+- url: https://api.clari.com/{basePath}
+  description: Clari gateway
+  variables:
+    basePath:
+      default: v4
+      description: version identifier
+security:
+- api_key: []
+tags:
+- name: Bulk Ingest Job Status API
+paths:
+  /ingest/job/{jobId}:
+    get:
+      summary: Check the data upload status
+      description: "Upon receiving a response from the asynchronous ingest bulk upload API, make use of the provided 'jobId' to check the status \nand result of the upload job.\n\nBASE URL: `https://api.clari.com/v2`\n\nEXAMPLE: `https://api.clari.com/v2/ingest/bulk/entity/account`\n"
+      operationId: ingestJobStatus
+      tags:
+      - Bulk Ingest Job Status API
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token
+        required: true
+        schema:
+          type: string
+      - name: partnerkey
+        in: header
+        description: Partner key
+        required: true
+        schema:
+          type: string
+        example: account
+      - name: jobId
+        in: path
+        description: the job identifier of the asynchronous upload request
+        required: true
+        schema:
+          type: string
+        example: 1231244212322
+      responses:
+        '200':
+          description: Ingestion job success response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response containing job details wrapped in a message field
+                properties:
+                  message:
+                    type: object
+                    description: Details of an async ingestion job.
+                    properties:
+                      jobId:
+                        description: Unique identifier of the job
+                        type: string
+                      module:
+                        description: Module name
+                        type: string
+                      submittedTime:
+                        description: Time when the job was submitted in milliseconds
+                        type: number
+                      startTime:
+                        description: Time when the job started in milliseconds
+                        type: number
+                      endTime:
+                        description: Time when the job ended in milliseconds
+                        type: number
+                      title:
+                        description: Title of the service
+                        type: string
+                      fileName:
+                        description: Name of the file
+                        type: string
+                      status:
+                        description: Status of the job
+                        type: string
+                        enum:
+                        - SUCCESS
+                        - IN_PROGRESS
+                        - FAILED
+                        - QUEUED
+                        - VALIDATION_FAILED
+                      message:
+                        description: Message of the job
+                        type: string
+              example:
+                message:
+                  jobId: 64eef062b1a00d40e5f0bac5
+                  orgId: 1234
+                  userId: 12345
+                  module: DATA_INGESTION
+                  submittedTime: 1231244212310
+                  startTime: 1231244212322
+                  endTime: 1231244212340
+                  title: Data Ingestion
+                  fileName: file.json
+                  status: SUCCESS
+                  message: Ingestion successfully completed.
+        '202':
+          description: Data is either in progress or in queue
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/200/content/application~1json/schema'
+              example:
+                message:
+                  jobId: 64eef062b1a00d40e5f0bac5
+                  orgId: 1234
+                  userId: 12345
+                  module: DATA_INGESTION
+                  submittedTime: 1231244212310
+                  startTime: 1231244212322
+                  endTime: null
+                  title: Data Ingestion
+                  fileName: file.json
+                  status: IN_PROGRESS
+                  message: Bulk ingestion job is in progress
+        '400':
+          description: Ingestion job validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/200/content/application~1json/schema'
+              example:
+                message:
+                  jobId: 64eef062b1a00d40e5f0bac5
+                  orgId: 1234
+                  userId: 12345
+                  module: DATA_INGESTION
+                  submittedTime: 1231244212310
+                  startTime: 1231244212322
+                  endTime: 1231244212340
+                  title: Data Ingestion
+                  fileName: file.json
+                  status: VALIDATION_ERROR
+                  message:
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: 'Failed validation for data at path: /email 12345 is not of type ''string'''
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: 'Failed validation for data at path: /quantity Value -5 is less than or equal to the minimum of 0'''
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: 'Failed validation for data at path: / updatedAt should be greater than or equal to createdAt'''
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Payload is not an array
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: sourceEntity is missing dataSet <index>
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: records is missing for dataSet <index>
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: No entries have valid accountId for the domains
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Primary key field <field name> is missing
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Field <field name> is missing
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Duplicate record with value <field value> for primary key field <field name>
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Duplicate record with value <field value> for primary key field <field name>
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Field <field name> value <field value> is not a valid date
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Field <field name> type <field type> does not match expected type <expected name>
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Field <field name> length exceeds max length of <max length>
+        '401':
+          description: Invalid authentication token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid authentication credentials
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bulk ingestion job not found. Please provide correct jobId.
+        '429':
+          description: API rate limit has been exceeded. The api limit is 100 requests per second per api token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: API rate limit exceeded
+        '500':
+          description: Ingestion job internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/200/content/application~1json/schema'
+              example:
+                message:
+                  jobId: 64eef062b1a00d40e5f0bac5
+                  orgId: 1234
+                  userId: 12345
+                  module: DATA_INGESTION
+                  submittedTime: 1231244212310
+                  startTime: 1231244212322
+                  endTime: 1231244212340
+                  title: Data Ingestion
+                  fileName: file.json
+                  status: FAILED
+                  message: Bulk ingestion job failed. Please retry ingestion.
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: apikey
+      in: header

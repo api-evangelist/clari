@@ -1,0 +1,160 @@
+openapi: 3.0.0
+info:
+  title: Clari API Reference Activity API Opportunity API API
+  version: 5.0.0
+  description: "# Clari API Reference\nClari is the heartbeat of your revenue organization and holds your most important revenue data. Clari APIs enable customers to retrieve revenue data out of the Clari platform and push missing revenue-critical data into the platform.\n\n## Authentication\n\nClari APIs use tokens to authenticate requests. You can create and manage your tokens in Account Settings under \"API Token\". Please reach out to your CSM if you don't see a token generation tool as you may not have been given access.\n### Creating an authentication token\nFollow the steps below to generate a token:\n- Go to user avatar\n- Navigate to Settings\n- Navigate to the API Token tab and click \"Generate New API Token\"\n- Enter a Token Name and click \"Generate New Token\". Few things to note about tokens:\n  - After generating a token, make sure to keep it in a secure location as you won't be able to access it again. This is your key to accessing Clari data for your organization.\n  - If you revoke a token, any active integration that is using that token will break.\n  - When deactivating a user, any tokens created by the user will be revoked (and thus break any active integration).\n\n## Bulk data exports\n\nClari supports bulk data exports. Bulk exports run asynchronously in a\nthree step process. First, the bulk export is requested using a `POST` API call.\nMultiple products support bulk exports. In the documentation below, the `POST` API\nis described in respective product sections. The `POST` API call queues the bulk export job to run it asynchronously, and returns\na job ID. To monitor the export's status and be notified of its completion, you\nshould poll status via the API periodically. When the export completes, the status\nwill be set to `DONE` and you can then retrieve the output of the export.\n\n## Bulk data imports\n\nClari also supports bulk data imports. Customers or partners can import their Account\nor Opportunity fields in bulk to create a complete picture of revenue in Clari. Bulk imports also run\nasynchronously in a three step process. In the documentation below, the `/bulk` API is described\nin respective product sections. The `/bulk` API call queues the bulk import job to run it asynchronously, and returns\na job ID. To monitor the import's status and be notified of its completion, you\nshould poll status via the API periodically. When the import completes, the status\nwill be set to `DONE`. If records fail validation, the entire batch is rejected and has to be retried\nafter fixing the errors. The errors can be retrieved from the results API.\n\n\n## Forecasting APIs\n\nRevenue teams use Clari Forecasting to track their attainment to date\nagainst goals and forecast their revenue numbers for the month, quarter and\nyear. This data is captured by revenue leaders, managers, and sales reps --\nit provides a clear view of the entire team's forecast and their submission\nstatus.\n\nClari's Forecasting APIs enable you to pull your forecasting data out of Clari, merge\nit with data sitting in your own data warehouse, and build custom reports. Forecasting\nsupports both a REST API as well as a bulk export API.\n\n### Creating and accessing Forecast exports\n\n\n  You can export any Forecast Tab with our Forecasting APIs. To do so, retrieve the `forecastId` from the URL when viewing a Forecast Tab and provide the ID when using the Export API. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.\n\n  <img src=\"https://developer.clari.com/assets/images/forecastid.png\" alt=\"forecast id\" width=\"400\"/>\n\n\nFor details on Forecast Tabs and what data is available with Forecast Exports see guides below:\n\n- [Forecasting Building Blocks](https://clari.my.site.com/customer/s/article/Forecast-Building-Blocks)\n- [How to Read the Forecast Export](https://clari.my.site.com/customer/s/article/How-to-Read-the-Forecast-Export)\n- [How to Read the Export API Output](https://clari.my.site.com/customer/s/article/How-to-Read-Claris-Export-API-Output)\n\n\n## Audit APIs\n\nThe Audit API allows its users to audit events happening in their Clari instances. Call the Audit API to understand who is making changes in your Clari instance and when these changes happened.\n\n## Data Ingestion API\n\nThis API is for Clari's integration partners - such as technology platforms or revenue tools, looking to build a direct data integration with Clari. It enables partners to send data that can be surfaced in Clari's Accounts and Opportunities views for mutual customers who have turned on the integration.\n\n## Activity API\n\nActivity Export API allows its users to pull sales activity data like emails, meetings and files.\nWith this powerful sales activity data available on demand through an API call, customers can create powerful custom reports in the reporting tool of their choice and analyze Accounts and Opportunity engagement across different activity types.\n\n## Questions?\n"
+  contact:
+    name: us here! We're always happy to help with any questions.
+    email: support@clari.com
+servers:
+- url: https://api.clari.com/{basePath}
+  description: Clari gateway
+  variables:
+    basePath:
+      default: v4
+      description: version identifier
+security:
+- api_key: []
+tags:
+- name: Opportunity API
+paths:
+  /opportunity:
+    get:
+      summary: Retrieve opportunity data
+      description: 'You can retrieve opportunity related data from Clari. To create your request, you will need to pass your `apikey` in as a header, the one or more `oppId` in the request path, and optional `mode` query parameter.
+
+
+        EXAMPLE: `/opportunity?oppId=005Z00000038x09IAA&oppId=006Z000000EPuiyIAD&mode=OPPORTUNITY_MODE_ID`'
+      operationId: externalOpportunityResource
+      tags:
+      - Opportunity API
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token
+        required: true
+        schema:
+          type: string
+      - name: oppId
+        in: query
+        description: specific one or more Opportunity ID
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+          maxItems: 100
+        example: 005Z00000038x09IAA
+      - name: mode
+        in: query
+        description: Clari mode ID
+        required: false
+        schema:
+          type: string
+          default: OPPORTUNITY_MODE_ID
+      responses:
+        '200':
+          description: Return an array of Opportunity Export Items.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Opportunity Export Object
+                  description: Opportunity Export - oppId, crmScore and fields
+                  type: object
+                  properties:
+                    id:
+                      description: Unique Identifier
+                      type: string
+                      example: 005Z00000038x09IAA
+                    crmScore:
+                      description: Opportunity CRM crmScore
+                      type: object
+                      properties:
+                        message:
+                          type: string
+                          example: Opportunity is lost
+                        score:
+                          type: integer
+                          example: 0
+                    fields:
+                      description: List of fields
+                      type: array
+                      items:
+                        description: Opportunity Field Object
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: opportunity.amount
+                          alias:
+                            type: string
+                          imageUrl:
+                            type: string
+                            example: /images/CardOppSunny@2x.png
+                          trendHistory:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                oldValue:
+                                  type: object
+                                newValue:
+                                  type: object
+                                date:
+                                  description: specifies date as long
+                                  type: integer
+                                  format: int64
+                                  example: 1605312000000
+                          trend:
+                            type: string
+                          value:
+                            description: Can be any value - string, number, boolean, array or object.
+                          originalValue:
+                            $ref: '#/paths/~1opportunity/get/responses/200/content/application~1json/schema/items/properties/fields/items/properties/value'
+        4XX:
+          description: 'Client Error
+
+
+            For example {statusCode:400, reaspnPhrase:"Bad Request", description:"invalid query parameter", "details": "oppId is required"}'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Error Object
+                  type: object
+                  description: A Clari API-compliant error object. An array of details about specific errors that led to this reported error.
+                  properties:
+                    statusCode:
+                      description: an application-specific error code
+                      type: integer
+                    reaspnPhrase:
+                      description: give a short textual description of the Status-Code
+                      type: string
+                    description:
+                      description: The description of the error.
+                      type: string
+                    details:
+                      description: A String containing more specific information than the current object about the error.
+                      type: string
+        5XX:
+          description: 'Server Error
+
+
+            For example {statusCode:500, reaspnPhrase:"Server Error", description:"NullPointerException", "details": "Cannot initialize ExternalOpportunityResource"}'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1opportunity/get/responses/4XX/content/application~1json/schema/items'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: apikey
+      in: header

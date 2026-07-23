@@ -1,0 +1,336 @@
+openapi: 3.0.0
+info:
+  title: Clari API Reference Activity API Forecast API API
+  version: 5.0.0
+  description: "# Clari API Reference\nClari is the heartbeat of your revenue organization and holds your most important revenue data. Clari APIs enable customers to retrieve revenue data out of the Clari platform and push missing revenue-critical data into the platform.\n\n## Authentication\n\nClari APIs use tokens to authenticate requests. You can create and manage your tokens in Account Settings under \"API Token\". Please reach out to your CSM if you don't see a token generation tool as you may not have been given access.\n### Creating an authentication token\nFollow the steps below to generate a token:\n- Go to user avatar\n- Navigate to Settings\n- Navigate to the API Token tab and click \"Generate New API Token\"\n- Enter a Token Name and click \"Generate New Token\". Few things to note about tokens:\n  - After generating a token, make sure to keep it in a secure location as you won't be able to access it again. This is your key to accessing Clari data for your organization.\n  - If you revoke a token, any active integration that is using that token will break.\n  - When deactivating a user, any tokens created by the user will be revoked (and thus break any active integration).\n\n## Bulk data exports\n\nClari supports bulk data exports. Bulk exports run asynchronously in a\nthree step process. First, the bulk export is requested using a `POST` API call.\nMultiple products support bulk exports. In the documentation below, the `POST` API\nis described in respective product sections. The `POST` API call queues the bulk export job to run it asynchronously, and returns\na job ID. To monitor the export's status and be notified of its completion, you\nshould poll status via the API periodically. When the export completes, the status\nwill be set to `DONE` and you can then retrieve the output of the export.\n\n## Bulk data imports\n\nClari also supports bulk data imports. Customers or partners can import their Account\nor Opportunity fields in bulk to create a complete picture of revenue in Clari. Bulk imports also run\nasynchronously in a three step process. In the documentation below, the `/bulk` API is described\nin respective product sections. The `/bulk` API call queues the bulk import job to run it asynchronously, and returns\na job ID. To monitor the import's status and be notified of its completion, you\nshould poll status via the API periodically. When the import completes, the status\nwill be set to `DONE`. If records fail validation, the entire batch is rejected and has to be retried\nafter fixing the errors. The errors can be retrieved from the results API.\n\n\n## Forecasting APIs\n\nRevenue teams use Clari Forecasting to track their attainment to date\nagainst goals and forecast their revenue numbers for the month, quarter and\nyear. This data is captured by revenue leaders, managers, and sales reps --\nit provides a clear view of the entire team's forecast and their submission\nstatus.\n\nClari's Forecasting APIs enable you to pull your forecasting data out of Clari, merge\nit with data sitting in your own data warehouse, and build custom reports. Forecasting\nsupports both a REST API as well as a bulk export API.\n\n### Creating and accessing Forecast exports\n\n\n  You can export any Forecast Tab with our Forecasting APIs. To do so, retrieve the `forecastId` from the URL when viewing a Forecast Tab and provide the ID when using the Export API. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.\n\n  <img src=\"https://developer.clari.com/assets/images/forecastid.png\" alt=\"forecast id\" width=\"400\"/>\n\n\nFor details on Forecast Tabs and what data is available with Forecast Exports see guides below:\n\n- [Forecasting Building Blocks](https://clari.my.site.com/customer/s/article/Forecast-Building-Blocks)\n- [How to Read the Forecast Export](https://clari.my.site.com/customer/s/article/How-to-Read-the-Forecast-Export)\n- [How to Read the Export API Output](https://clari.my.site.com/customer/s/article/How-to-Read-Claris-Export-API-Output)\n\n\n## Audit APIs\n\nThe Audit API allows its users to audit events happening in their Clari instances. Call the Audit API to understand who is making changes in your Clari instance and when these changes happened.\n\n## Data Ingestion API\n\nThis API is for Clari's integration partners - such as technology platforms or revenue tools, looking to build a direct data integration with Clari. It enables partners to send data that can be surfaced in Clari's Accounts and Opportunities views for mutual customers who have turned on the integration.\n\n## Activity API\n\nActivity Export API allows its users to pull sales activity data like emails, meetings and files.\nWith this powerful sales activity data available on demand through an API call, customers can create powerful custom reports in the reporting tool of their choice and analyze Accounts and Opportunity engagement across different activity types.\n\n## Questions?\n"
+  contact:
+    name: us here! We're always happy to help with any questions.
+    email: support@clari.com
+servers:
+- url: https://api.clari.com/{basePath}
+  description: Clari gateway
+  variables:
+    basePath:
+      default: v4
+      description: version identifier
+security:
+- api_key: []
+tags:
+- name: Forecast API
+paths:
+  /export/forecast/{forecastId}:
+    post:
+      summary: Create a new forecast export
+      description: 'Configure and start processing an export job by providing the ID of the Forecast Tab you would like to export data from. You will be able to retrieve the `forecastId` from the URL when viewing a Forecast Tab from your Clari account. If you don''t already have a Forecast Tab configured for the data you''re trying to export, please work with your CSM to get that configured first.
+
+
+        To create your request, you will need to pass your `apikey` in as a header, the `forecastId` in the request path, and all other optional parameters as a JSON in the body.'
+      operationId: externalFcwExport
+      tags:
+      - Forecast API
+      parameters:
+      - name: apikey
+        in: header
+        description: Authentication token.
+        required: true
+        schema:
+          type: string
+      - name: forecastId
+        in: path
+        description: Forecast tab on which to run the export on.
+        required: true
+        schema:
+          type: string
+      - name: timePeriod
+        in: query
+        description: 'Fiscal Quarter for when you''d like to run your export. Must be passed in as a string (e.g. "YYYY_QQ")
+
+
+          <img src="https://developer.clari.com/assets/images/fiscal_quarter.png" alt="fiscal quarter" width="300"/>'
+        schema:
+          type: string
+          example: 2020_Q3
+          default: current quarter
+      - name: scopeId
+        in: query
+        description: Specifies the scopeId to use as the root for the hierarchy that the export will run against. We recommend to add the integration user at the top of the hierarchy and opting the integration user into forecasting.
+        schema:
+          type: string
+          example: 1905::MGR
+          default: null
+      - name: typesToExport
+        in: query
+        description: 'Forecast data types you''d like to export. Must be passed in as a list.
+
+          - **forecast** indicates the actual amount entered by the individual contributor, and is associated with the forecast call fields (i.e. Commit or Most Likely, Best Case or Upside, etc.).
+
+          - **quota** indicates the value from the Quota field in Forecasting, and this data type is associated with Quota fields (i.e. Quota, Plan, Budget, etc.).
+
+          - **forecast_updated** indicates whether or not the individual contributor actually went into Forecasting and updated their call(s) or number(s), and this data type is associated with forecast call fields.
+
+          - **adjustment** indicates the adjusted call/number that a forecasting manager entered when they made a manager override to their report''s call/number, and this data type is associated with forecast call fields.
+
+          - **crm_total** indicates the crm aggregation value for an associated field and owner is desired for the fields returned in the payload.
+
+          - **crm_closed** indicates the opportunities closed amount.'
+        schema:
+          type: array
+          items:
+            enum:
+            - forecast
+            - quota
+            - forecast_updated
+            - adjustment
+            - crm_total
+            - crm_closed
+            type: string
+          example: forecast
+          default: forecast *AND* forecast_updated
+      - name: currency
+        in: query
+        description: Specifies the currency that currency fields should return in.
+        schema:
+          type: string
+          example: USD
+          default: null
+      - name: exportFormat
+        in: query
+        description: Format of the exported file. Some export formats can be unavailable depending the export data size and type.
+        schema:
+          type: string
+          enum:
+          - CSV
+          - JSON
+          example: CSV
+          default: JSON
+      - name: includeHistorical
+        in: query
+        description: If set to true, you will receive week over week forecasts and CRM aggregations from the start of the quarter requested in timePeriod till the current week.  If false, only the current week’s forecast and CRM aggregations will be returned…
+        schema:
+          type: boolean
+          example: true
+      requestBody:
+        description: Optional request parameters for the forecast export.
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                timePeriod:
+                  type: string
+                  description: Fiscal quarter for when you'd like to run your export. Must be passed in as a string (e.g. "YYYY_QQ")
+                  example: 2020_Q3
+                  default: current quarter
+                typesToExport:
+                  description: "Forecast data types you'd like to export. Must be passed in as a list of strings.\n      \n- `forecast` indicates the actual amount entered by the individual contributor, and is associated with the forecast call fields (i.e. Commit or Most Likely, Best Case or Upside, etc.).\n- `quota` indicates the value from the Quota field in Forecasting, and this data type is associated with Quota fields (i.e. Quota, Plan, Budget, etc.).\n- `forecast_updated` indicates whether or not the individual contributor actually went into Forecasting and updated their call(s) or number(s), and this data type is associated with forecast call fields.  \n- `adjustment` indicates the adjusted call/number that a forecasting manager entered when they made a manager override to their report's call/number, and this data type is associated with forecast call fields.\n- `crm_total` indicates the Opportunities Total, and this data type is associated with read only fields.\n- `crm_closed` indicates the opportunities closed amount."
+                  type: array
+                  items:
+                    enum:
+                    - forecast
+                    - quota
+                    - forecast_updated
+                    - adjustment
+                    - crm_total
+                    - crm_closed
+                    type: string
+                  example:
+                  - forecast
+                  - forecast_updated
+                  default:
+                  - forecast
+                  - forecast_updated
+                scopeId:
+                  type: string
+                  description: Specifies the scopeId to use as the root for the hierarchy that the export will run against.
+                  example: 1905::MGR
+                  default: null
+                currency:
+                  type: string
+                  description: Specifies the currency that currency fields should return in.
+                  example: USD
+                  default: null
+                schedule:
+                  description: 'Use this parameter to schedule retries of your export if the first attempt fails.
+
+                    - `NONE` means no retries
+
+                    - `ONCE` means retry once after 30 minutes if the first attempt failed
+
+                    - `MAX` means retry 3 times with 30 minute sleep between failed runs
+
+                    '
+                  type: string
+                  enum:
+                  - NONE
+                  - ONCE
+                  - MAX
+                  default: NONE
+                includeHistorical:
+                  type: boolean
+                  description: 'If set to true, you will receive week over week forecasts from the start of the quarter requested in `timePeriod` till the current week. If false, only the current week’s forecast will be returned. Note: these weeks will not be ordered by default in the JSON response. You can sort on the `timeFrameId` to sequence the weeks as needed.'
+                  default: false
+                exportFormat:
+                  type: string
+                  enum:
+                  - JSON
+                  - CSV
+                  description: Format of the exported file
+                  example: CSV
+                  default: JSON
+      responses:
+        '200':
+          description: Your export job was successfully queued. Use the `jobId`, provided in your response, to check it's status and retrieve the requested data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    description: Unique identifier for your forecast export request. Use this `jobId` to check the status and retrieve data for your export.
+              example:
+                jobId: 6073683781a6da229df71e00
+        '400':
+          description: Your job could not be queued. You may have reached your monthly quota or concurrent job limit. Use the `/admin/limits` endpoint to find out which limit you have hit. If you find yourself hitting the concurrent limit often, try adjusting your request parameters. Specifically, set `SCHEDULE` to `ONCE` or `MAX`. This parameter will initiate retries without extra effort on your end.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/paths/~1export~1activity/post/responses/400/content/application~1json/schema/oneOf/1'
+                - description: An exception thrown when a forecast is requested that does not exist.
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      example: no_such_forecast_config
+                    namespace:
+                      type: string
+                      example: fcw
+                    errorId:
+                      type: string
+                      example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                    message:
+                      type: string
+                      example: Forecast deal_owner does not exist in the ForecastTemplate.
+                    orgId:
+                      $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                - description: An exception thrown when a the forecast path parameter is not present.
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      example: missing_forecast_id
+                    namespace:
+                      type: string
+                      example: fcw
+                    errorId:
+                      type: string
+                      example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                    message:
+                      type: string
+                      example: The forecastId query parameter is required.
+                    orgId:
+                      $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                - description: An exception thrown when a forecast export request is made with an unsupported typeToExport.
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      example: type_not_supported
+                    namespace:
+                      type: string
+                      example: fcw
+                    errorId:
+                      type: string
+                      example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                    message:
+                      type: string
+                      example: CRM Totals and CRM Closed are not supported typeToExport values for Export API. Please see Forecast API documentation if you’d like to retrieve CRM Totals or CRM Closed values.
+                    orgId:
+                      $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                - description: An exception thrown when the request body is malformed.
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      example: bad_request
+                    namespace:
+                      type: string
+                      example: fcw
+                    errorId:
+                      type: string
+                      example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                    message:
+                      type: string
+                      example: 'The request body was malformed: {REQUEST_BODY}'
+                    orgId:
+                      $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                - description: An exception thrown when the currency query parameter is not valid.
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      example: bad_request
+                    namespace:
+                      type: string
+                      example: fcw
+                    errorId:
+                      type: string
+                      example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                    message:
+                      type: string
+                      example: The currency parameter is invalid.
+                    orgId:
+                      $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                - description: An exception thrown when a typesToExport query parameter is not valid.
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      example: bad_request
+                    namespace:
+                      type: string
+                      example: fcw
+                    errorId:
+                      type: string
+                      example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                    message:
+                      type: string
+                      example: 'The following typesToExport values are invalid: ["forecast_value", "quota_value"]'
+                    orgId:
+                      $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+        '401':
+          description: The user associated with the api token does not have permission to view the requested forecast's data.
+          content:
+            application/json:
+              schema:
+                description: An exception thrown when access to a given forecast is not allowed for the user.
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: no_optin
+                  namespace:
+                    type: string
+                    example: fcw
+                  errorId:
+                    type: string
+                    example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                  message:
+                    type: string
+                    example: No optins for scope 1::MGR for forecast 'deal_owner'.
+                  orgId:
+                    $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+        '500':
+          description: There was an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: apikey
+      in: header
