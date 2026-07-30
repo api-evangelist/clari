@@ -8,7 +8,20 @@ description: Clari is a revenue operations platform that provides a REST API for
   insights. The platform serves enterprise B2B organizations with tools to improve
   forecast accuracy, accelerate pipeline execution, and unify revenue operations across
   sales, marketing, and customer success teams.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: enterprise
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Enterprise · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/clari.png
 url: https://raw.githubusercontent.com/api-evangelist/clari/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -26,48 +39,11 @@ tags:
 - B2B
 - Enterprise
 apis:
-- name: Clari Revenue API
-  description: The Clari Revenue API provides programmatic access to forecast data,
-    pipeline activity, audit events, and data ingestion capabilities. Built on REST
-    principles with async job-based exports, the API supports exporting manual forecast
-    submissions, activity records (meetings, emails, attachments), and audit event
-    logs to data warehouses or BI tools.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://developer.clari.com/
-  baseURL: https://api.clari.com/v4
-  tags:
-  - Revenue Operations
-  - Forecasting
-  - Pipeline Management
-  - Activity Intelligence
-  - Data Export
-  - Data Ingestion
-  properties:
-  - type: Documentation
-    url: https://developer.clari.com/documentation/external_spec
-  - type: OpenAPI
-    url: https://developer.clari.com/documentation/external_spec
-  - type: OpenAPI
-    url: openapi/clari-revenue-api-openapi.yml
-  - type: JSONSchema
-    url: json-schema/clari-export-job-schema.json
-  - type: JSONSchema
-    url: json-schema/clari-forecast-export-request-schema.json
-  - type: JSONSchema
-    url: json-schema/clari-ingestion-request-schema.json
-  - type: Examples
-    url: examples/clari-forecast-export-example.json
-  - type: Examples
-    url: examples/clari-job-status-example.json
-  - type: Examples
-    url: examples/clari-activity-export-example.json
-  - url: graphql/clari-graphql.md
-    type: GraphQL
 - name: Clari Copilot API
-  description: The Clari Copilot API provides access to conversation intelligence
-    features including call recordings, AI-generated summaries, coaching insights,
-    deal intelligence, and competitor tracking signals captured during sales meetings
-    and calls.
+  description: >-
+    The Clari Copilot API provides access to conversation intelligence features including call recordings,
+    AI-generated summaries, coaching insights, deal intelligence, and competitor tracking signals captured
+    during sales meetings and calls.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://api-doc.copilot.clari.com/
   baseURL: https://api.copilot.clari.com
@@ -80,6 +56,241 @@ apis:
   properties:
   - type: Documentation
     url: https://api-doc.copilot.clari.com/
+- aid: clari:clari-activity-api-api
+  name: Clari Activity API API
+  description: The Activity API API from Clari — 1 operation(s) for activity api.
+  humanURL: https://developer.clari.com/
+  baseURL: https://api.clari.com/v4
+  tags:
+  - Activity API
+  properties:
+  - type: OpenAPI
+    url: openapi/clari-activity-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.clari.com/documentation/external_spec
+  - type: JSONSchema
+    url: json-schema/clari-export-job-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-forecast-export-request-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-ingestion-request-schema.json
+  - type: Examples
+    url: examples/clari-forecast-export-example.json
+  - type: Examples
+    url: examples/clari-job-status-example.json
+  - type: Examples
+    url: examples/clari-activity-export-example.json
+  - type: GraphQL
+    url: graphql/clari-graphql.md
+- aid: clari:clari-administrative-api-api
+  name: Clari Administrative API API
+  description: The Administrative API API from Clari — 1 operation(s) for administrative api.
+  humanURL: https://developer.clari.com/
+  baseURL: https://api.clari.com/v4
+  tags:
+  - Administrative API
+  properties:
+  - type: OpenAPI
+    url: openapi/clari-administrative-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.clari.com/documentation/external_spec
+  - type: JSONSchema
+    url: json-schema/clari-export-job-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-forecast-export-request-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-ingestion-request-schema.json
+  - type: Examples
+    url: examples/clari-forecast-export-example.json
+  - type: Examples
+    url: examples/clari-job-status-example.json
+  - type: Examples
+    url: examples/clari-activity-export-example.json
+  - type: GraphQL
+    url: graphql/clari-graphql.md
+- aid: clari:clari-audit-api-api
+  name: Clari Audit API API
+  description: The Audit API API from Clari — 2 operation(s) for audit api.
+  humanURL: https://developer.clari.com/
+  baseURL: https://api.clari.com/v4
+  tags:
+  - Audit API
+  properties:
+  - type: OpenAPI
+    url: openapi/clari-audit-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.clari.com/documentation/external_spec
+  - type: JSONSchema
+    url: json-schema/clari-export-job-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-forecast-export-request-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-ingestion-request-schema.json
+  - type: Examples
+    url: examples/clari-forecast-export-example.json
+  - type: Examples
+    url: examples/clari-job-status-example.json
+  - type: Examples
+    url: examples/clari-activity-export-example.json
+  - type: GraphQL
+    url: graphql/clari-graphql.md
+- aid: clari:clari-bulk-export-framework-api
+  name: Clari Bulk Export Framework API
+  description: The Bulk Export Framework API from Clari — 3 operation(s) for bulk export framework.
+  humanURL: https://developer.clari.com/
+  baseURL: https://api.clari.com/v4
+  tags:
+  - Bulk Export Framework
+  properties:
+  - type: OpenAPI
+    url: openapi/clari-bulk-export-framework-api-openapi.yml
+  - type: Documentation
+    url: https://developer.clari.com/documentation/external_spec
+  - type: JSONSchema
+    url: json-schema/clari-export-job-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-forecast-export-request-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-ingestion-request-schema.json
+  - type: Examples
+    url: examples/clari-forecast-export-example.json
+  - type: Examples
+    url: examples/clari-job-status-example.json
+  - type: Examples
+    url: examples/clari-activity-export-example.json
+  - type: GraphQL
+    url: graphql/clari-graphql.md
+- aid: clari:clari-bulk-ingest-job-status-api-api
+  name: Clari Bulk Ingest Job Status API API
+  description: >-
+    The Bulk Ingest Job Status API API from Clari — 1 operation(s) for bulk ingest job status api.
+  humanURL: https://developer.clari.com/
+  baseURL: https://api.clari.com/v4
+  tags:
+  - Bulk Ingest Job Status API
+  properties:
+  - type: OpenAPI
+    url: openapi/clari-bulk-ingest-job-status-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.clari.com/documentation/external_spec
+  - type: JSONSchema
+    url: json-schema/clari-export-job-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-forecast-export-request-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-ingestion-request-schema.json
+  - type: Examples
+    url: examples/clari-forecast-export-example.json
+  - type: Examples
+    url: examples/clari-job-status-example.json
+  - type: Examples
+    url: examples/clari-activity-export-example.json
+  - type: GraphQL
+    url: graphql/clari-graphql.md
+- aid: clari:clari-export-api
+  name: Clari Export API
+  description: The Export API from Clari — 1 operation(s) for export.
+  humanURL: https://developer.clari.com/
+  baseURL: https://api.clari.com/v4
+  tags:
+  - Export
+  properties:
+  - type: OpenAPI
+    url: openapi/clari-export-api-openapi.yml
+  - type: Documentation
+    url: https://developer.clari.com/documentation/external_spec
+  - type: JSONSchema
+    url: json-schema/clari-export-job-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-forecast-export-request-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-ingestion-request-schema.json
+  - type: Examples
+    url: examples/clari-forecast-export-example.json
+  - type: Examples
+    url: examples/clari-job-status-example.json
+  - type: Examples
+    url: examples/clari-activity-export-example.json
+  - type: GraphQL
+    url: graphql/clari-graphql.md
+- aid: clari:clari-forecast-api-api
+  name: Clari Forecast API API
+  description: The Forecast API API from Clari — 1 operation(s) for forecast api.
+  humanURL: https://developer.clari.com/
+  baseURL: https://api.clari.com/v4
+  tags:
+  - Forecast API
+  properties:
+  - type: OpenAPI
+    url: openapi/clari-forecast-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.clari.com/documentation/external_spec
+  - type: JSONSchema
+    url: json-schema/clari-export-job-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-forecast-export-request-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-ingestion-request-schema.json
+  - type: Examples
+    url: examples/clari-forecast-export-example.json
+  - type: Examples
+    url: examples/clari-job-status-example.json
+  - type: Examples
+    url: examples/clari-activity-export-example.json
+  - type: GraphQL
+    url: graphql/clari-graphql.md
+- aid: clari:clari-ingestion-api-api
+  name: Clari Ingestion API API
+  description: The Ingestion API API from Clari — 3 operation(s) for ingestion api.
+  humanURL: https://developer.clari.com/
+  baseURL: https://api.clari.com/v4
+  tags:
+  - Ingestion API
+  properties:
+  - type: OpenAPI
+    url: openapi/clari-ingestion-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.clari.com/documentation/external_spec
+  - type: JSONSchema
+    url: json-schema/clari-export-job-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-forecast-export-request-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-ingestion-request-schema.json
+  - type: Examples
+    url: examples/clari-forecast-export-example.json
+  - type: Examples
+    url: examples/clari-job-status-example.json
+  - type: Examples
+    url: examples/clari-activity-export-example.json
+  - type: GraphQL
+    url: graphql/clari-graphql.md
+- aid: clari:clari-opportunity-api-api
+  name: Clari Opportunity API API
+  description: The Opportunity API API from Clari — 1 operation(s) for opportunity api.
+  humanURL: https://developer.clari.com/
+  baseURL: https://api.clari.com/v4
+  tags:
+  - Opportunity API
+  properties:
+  - type: OpenAPI
+    url: openapi/clari-opportunity-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.clari.com/documentation/external_spec
+  - type: JSONSchema
+    url: json-schema/clari-export-job-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-forecast-export-request-schema.json
+  - type: JSONSchema
+    url: json-schema/clari-ingestion-request-schema.json
+  - type: Examples
+    url: examples/clari-forecast-export-example.json
+  - type: Examples
+    url: examples/clari-job-status-example.json
+  - type: Examples
+    url: examples/clari-activity-export-example.json
+  - type: GraphQL
+    url: graphql/clari-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/clari-agentic-access.yml
