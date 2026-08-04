@@ -1,0 +1,48 @@
+{
+  "provider": "clari",
+  "sources": [
+    "clari-activity-api-api-openapi.yml",
+    "clari-administrative-api-api-openapi.yml",
+    "clari-audit-api-api-openapi.yml",
+    "clari-bulk-export-framework-api-openapi.yml",
+    "clari-bulk-ingest-job-status-api-api-openapi.yml",
+    "clari-export-api-openapi.yml",
+    "clari-forecast-api-api-openapi.yml",
+    "clari-ingestion-api-api-openapi.yml",
+    "clari-opportunity-api-api-openapi.yml"
+  ],
+  "outputs": [
+    "clari-activity-api-api-openapi.yml",
+    "clari-administrative-api-api-openapi.yml",
+    "clari-audit-api-api-openapi.yml",
+    "clari-bulk-export-framework-api-openapi.yml",
+    "clari-bulk-ingest-job-status-api-api-openapi.yml",
+    "clari-export-api-openapi.yml",
+    "clari-forecast-api-api-openapi.yml",
+    "clari-ingestion-api-api-openapi.yml",
+    "clari-opportunity-api-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [
+    "clari-administrative-api-api-openapi.yml: dangling $ref: #/paths/~1export~1activity/post/responses/500/content/application~1json/schema",
+    "clari-audit-api-api-openapi.yml: dangling $ref: #/paths/~1export~1activity/post/responses/400/content/application~1json/schema/oneOf/1",
+    "clari-audit-api-api-openapi.yml: dangling $ref: #/paths/~1export~1activity/post/responses/500/content/application~1json/schema",
+    "clari-bulk-export-framework-api-openapi.yml: dangling $ref: #/paths/~1export~1activity/post/responses/500/content/application~1json/schema",
+    "clari-bulk-export-framework-api-openapi.yml: dangling $ref: #/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId",
+    "clari-bulk-export-framework-api-openapi.yml: dangling $ref: #/paths/~1export~1jobs~1%7BjobId%7D/get/parameters/1",
+    "clari-bulk-export-framework-api-openapi.yml: dangling $ref: #/paths/~1export~1jobs~1%7BjobId%7D/get/responses/200/content/application~1json/schema",
+    "clari-bulk-export-framework-api-openapi.yml: dangling $ref: #/paths/~1export~1jobs~1%7BjobId%7D/get/responses/200/content/application~1json/schema/properties/status",
+    "clari-bulk-ingest-job-status-api-api-openapi.yml: dangling $ref: #/paths/~1ingest~1job~1%7BjobId%7D/get/responses/200/content/application~1json/schema",
+    "clari-forecast-api-api-openapi.yml: dangling $ref: #/paths/~1export~1activity/post/responses/400/content/application~1json/schema/oneOf/1",
+    "clari-forecast-api-api-openapi.yml: dangling $ref: #/paths/~1export~1activity/post/responses/500/content/application~1json/schema",
+    "clari-forecast-api-api-openapi.yml: dangling $ref: #/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId",
+    "clari-ingestion-api-api-openapi.yml: dangling $ref: #/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/401",
+    "clari-ingestion-api-api-openapi.yml: dangling $ref: #/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/403",
+    "clari-ingestion-api-api-openapi.yml: dangling $ref: #/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/428",
+    "clari-ingestion-api-api-openapi.yml: dangling $ref: #/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/500",
+    "clari-ingestion-api-api-openapi.yml: dangling $ref: #/paths/~1ingest~1job~1%7BjobId%7D/get/responses/429"
+  ],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

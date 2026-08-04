@@ -1,0 +1,2522 @@
+openapi: 3.0.0
+info:
+  title: Clari API Reference
+  version: 5.0.0
+  description: |
+    # Clari API Reference
+    Clari is the heartbeat of your revenue organization and holds your most important revenue data. Clari APIs enable customers to retrieve revenue data out of the Clari platform and push missing revenue-critical data into the platform.
+
+    ## Authentication
+
+    Clari APIs use tokens to authenticate requests. You can create and manage your tokens in Account Settings under "API Token". Please reach out to your CSM if you don't see a token generation tool as you may not have been given access.
+    ### Creating an authentication token
+    Follow the steps below to generate a token:
+    - Go to user avatar
+    - Navigate to Settings
+    - Navigate to the API Token tab and click "Generate New API Token"
+    - Enter a Token Name and click "Generate New Token". Few things to note about tokens:
+      - After generating a token, make sure to keep it in a secure location as you won't be able to access it again. This is your key to accessing Clari data for your organization.
+      - If you revoke a token, any active integration that is using that token will break.
+      - When deactivating a user, any tokens created by the user will be revoked (and thus break any active integration).
+
+    ## Bulk data exports
+
+    Clari supports bulk data exports. Bulk exports run asynchronously in a
+    three step process. First, the bulk export is requested using a `POST` API call.
+    Multiple products support bulk exports. In the documentation below, the `POST` API
+    is described in respective product sections. The `POST` API call queues the bulk export job to run it asynchronously, and returns
+    a job ID. To monitor the export's status and be notified of its completion, you
+    should poll status via the API periodically. When the export completes, the status
+    will be set to `DONE` and you can then retrieve the output of the export.
+
+    ## Bulk data imports
+
+    Clari also supports bulk data imports. Customers or partners can import their Account
+    or Opportunity fields in bulk to create a complete picture of revenue in Clari. Bulk imports also run
+    asynchronously in a three step process. In the documentation below, the `/bulk` API is described
+    in respective product sections. The `/bulk` API call queues the bulk import job to run it asynchronously, and returns
+    a job ID. To monitor the import's status and be notified of its completion, you
+    should poll status via the API periodically. When the import completes, the status
+    will be set to `DONE`. If records fail validation, the entire batch is rejected and has to be retried
+    after fixing the errors. The errors can be retrieved from the results API.
+
+
+    ## Forecasting APIs
+
+    Revenue teams use Clari Forecasting to track their attainment to date
+    against goals and forecast their revenue numbers for the month, quarter and
+    year. This data is captured by revenue leaders, managers, and sales reps --
+    it provides a clear view of the entire team's forecast and their submission
+    status.
+
+    Clari's Forecasting APIs enable you to pull your forecasting data out of Clari, merge
+    it with data sitting in your own data warehouse, and build custom reports. Forecasting
+    supports both a REST API as well as a bulk export API.
+
+    ### Creating and accessing Forecast exports
+
+
+      You can export any Forecast Tab with our Forecasting APIs. To do so, retrieve the `forecastId` from the URL when viewing a Forecast Tab and provide the ID when using the Export API. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.
+
+      <img src="https://developer.clari.com/assets/images/forecastid.png" alt="forecast id" width="400"/>
+
+
+    For details on Forecast Tabs and what data is available with Forecast Exports see guides below:
+
+    - [Forecasting Building Blocks](https://clari.my.site.com/customer/s/article/Forecast-Building-Blocks)
+    - [How to Read the Forecast Export](https://clari.my.site.com/customer/s/article/How-to-Read-the-Forecast-Export)
+    - [How to Read the Export API Output](https://clari.my.site.com/customer/s/article/How-to-Read-Claris-Export-API-Output)
+
+
+    ## Audit APIs
+
+    The Audit API allows its users to audit events happening in their Clari instances. Call the Audit API to understand who is making changes in your Clari instance and when these changes happened.
+
+    ## Data Ingestion API
+
+    This API is for Clari's integration partners - such as technology platforms or revenue tools, looking to build a direct data integration with Clari. It enables partners to send data that can be surfaced in Clari's Accounts and Opportunities views for mutual customers who have turned on the integration.
+
+    ## Activity API
+
+    Activity Export API allows its users to pull sales activity data like emails, meetings and files.
+    With this powerful sales activity data available on demand through an API call, customers can create powerful custom reports in the reporting tool of their choice and analyze Accounts and Opportunity engagement across different activity types.
+
+    ## Questions?
+  contact:
+    name: us here! We're always happy to help with any questions.
+    email: support@clari.com
+servers:
+  - url: 'https://api.clari.com/{basePath}'
+    description: Clari gateway
+    variables:
+      basePath:
+        default: v4
+        description: version identifier
+tags:
+  - name: Bulk Export Framework
+  - name: Bulk Ingest Job Status API
+  - name: Forecast API
+  - name: Audit API
+  - name: Administrative API
+paths:
+  '/export/forecast/{forecastId}':
+    post:
+      summary: Create a new forecast export
+      description: |-
+        Configure and start processing an export job by providing the ID of the Forecast Tab you would like to export data from. You will be able to retrieve the `forecastId` from the URL when viewing a Forecast Tab from your Clari account. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.
+
+        To create your request, you will need to pass your `apikey` in as a header, the `forecastId` in the request path, and all other optional parameters as a JSON in the body.
+      operationId: externalFcwExport
+      tags:
+        - Forecast API
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token.
+          required: true
+          schema:
+            type: string
+        - name: forecastId
+          in: path
+          description: Forecast tab on which to run the export on.
+          required: true
+          schema:
+            type: string
+        - name: timePeriod
+          in: query
+          description: |-
+            Fiscal Quarter for when you'd like to run your export. Must be passed in as a string (e.g. "YYYY_QQ")
+
+            <img src="https://developer.clari.com/assets/images/fiscal_quarter.png" alt="fiscal quarter" width="300"/>
+          schema:
+            type: string
+            example: 2020_Q3
+            default: current quarter
+        - name: scopeId
+          in: query
+          description: Specifies the scopeId to use as the root for the hierarchy that the export will run against. We recommend to add the integration user at the top of the hierarchy and opting the integration user into forecasting.
+          schema:
+            type: string
+            example: '1905::MGR'
+            default: null
+        - name: typesToExport
+          in: query
+          description: |-
+            Forecast data types you'd like to export. Must be passed in as a list.
+            - **forecast** indicates the actual amount entered by the individual contributor, and is associated with the forecast call fields (i.e. Commit or Most Likely, Best Case or Upside, etc.).
+            - **quota** indicates the value from the Quota field in Forecasting, and this data type is associated with Quota fields (i.e. Quota, Plan, Budget, etc.).
+            - **forecast_updated** indicates whether or not the individual contributor actually went into Forecasting and updated their call(s) or number(s), and this data type is associated with forecast call fields.
+            - **adjustment** indicates the adjusted call/number that a forecasting manager entered when they made a manager override to their report's call/number, and this data type is associated with forecast call fields.
+            - **crm_total** indicates the crm aggregation value for an associated field and owner is desired for the fields returned in the payload.
+            - **crm_closed** indicates the opportunities closed amount.
+          schema:
+            type: array
+            items:
+              enum:
+                - forecast
+                - quota
+                - forecast_updated
+                - adjustment
+                - crm_total
+                - crm_closed
+              type: string
+            example: forecast
+            default: forecast *AND* forecast_updated
+        - name: currency
+          in: query
+          description: Specifies the currency that currency fields should return in.
+          schema:
+            type: string
+            example: USD
+            default: null
+        - name: exportFormat
+          in: query
+          description: Format of the exported file. Some export formats can be unavailable depending the export data size and type.
+          schema:
+            type: string
+            enum:
+              - CSV
+              - JSON
+            example: CSV
+            default: JSON
+        - name: includeHistorical
+          in: query
+          description: 'If set to true, you will receive week over week forecasts and CRM aggregations from the start of the quarter requested in timePeriod till the current week.  If false, only the current week’s forecast and CRM aggregations will be returned…'
+          schema:
+            type: boolean
+            example: true
+      requestBody:
+        description: Optional request parameters for the forecast export.
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                timePeriod:
+                  type: string
+                  description: Fiscal quarter for when you'd like to run your export. Must be passed in as a string (e.g. "YYYY_QQ")
+                  example: 2020_Q3
+                  default: current quarter
+                typesToExport:
+                  description: |-
+                    Forecast data types you'd like to export. Must be passed in as a list of strings.
+                          
+                    - `forecast` indicates the actual amount entered by the individual contributor, and is associated with the forecast call fields (i.e. Commit or Most Likely, Best Case or Upside, etc.).
+                    - `quota` indicates the value from the Quota field in Forecasting, and this data type is associated with Quota fields (i.e. Quota, Plan, Budget, etc.).
+                    - `forecast_updated` indicates whether or not the individual contributor actually went into Forecasting and updated their call(s) or number(s), and this data type is associated with forecast call fields.  
+                    - `adjustment` indicates the adjusted call/number that a forecasting manager entered when they made a manager override to their report's call/number, and this data type is associated with forecast call fields.
+                    - `crm_total` indicates the Opportunities Total, and this data type is associated with read only fields.
+                    - `crm_closed` indicates the opportunities closed amount.
+                  type: array
+                  items:
+                    enum:
+                      - forecast
+                      - quota
+                      - forecast_updated
+                      - adjustment
+                      - crm_total
+                      - crm_closed
+                    type: string
+                  example:
+                    - forecast
+                    - forecast_updated
+                  default:
+                    - forecast
+                    - forecast_updated
+                scopeId:
+                  type: string
+                  description: Specifies the scopeId to use as the root for the hierarchy that the export will run against.
+                  example: '1905::MGR'
+                  default: null
+                currency:
+                  type: string
+                  description: Specifies the currency that currency fields should return in.
+                  example: USD
+                  default: null
+                schedule:
+                  description: |
+                    Use this parameter to schedule retries of your export if the first attempt fails.
+                    - `NONE` means no retries
+                    - `ONCE` means retry once after 30 minutes if the first attempt failed
+                    - `MAX` means retry 3 times with 30 minute sleep between failed runs
+                  type: string
+                  enum:
+                    - NONE
+                    - ONCE
+                    - MAX
+                  default: NONE
+                includeHistorical:
+                  type: boolean
+                  description: 'If set to true, you will receive week over week forecasts from the start of the quarter requested in `timePeriod` till the current week. If false, only the current week’s forecast will be returned. Note: these weeks will not be ordered by default in the JSON response. You can sort on the `timeFrameId` to sequence the weeks as needed.'
+                  default: false
+                exportFormat:
+                  type: string
+                  enum:
+                    - JSON
+                    - CSV
+                  description: Format of the exported file
+                  example: CSV
+                  default: JSON
+      responses:
+        '200':
+          description: 'Your export job was successfully queued. Use the `jobId`, provided in your response, to check it''s status and retrieve the requested data.'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    description: Unique identifier for your forecast export request. Use this `jobId` to check the status and retrieve data for your export.
+              example:
+                jobId: 6073683781a6da229df71e00
+        '400':
+          description: 'Your job could not be queued. You may have reached your monthly quota or concurrent job limit. Use the `/admin/limits` endpoint to find out which limit you have hit. If you find yourself hitting the concurrent limit often, try adjusting your request parameters. Specifically, set `SCHEDULE` to `ONCE` or `MAX`. This parameter will initiate retries without extra effort on your end.'
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/paths/~1export~1activity/post/responses/400/content/application~1json/schema/oneOf/1'
+                  - description: An exception thrown when a forecast is requested that does not exist.
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: no_such_forecast_config
+                      namespace:
+                        type: string
+                        example: fcw
+                      errorId:
+                        type: string
+                        example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                      message:
+                        type: string
+                        example: Forecast deal_owner does not exist in the ForecastTemplate.
+                      orgId:
+                        $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                  - description: An exception thrown when a the forecast path parameter is not present.
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: missing_forecast_id
+                      namespace:
+                        type: string
+                        example: fcw
+                      errorId:
+                        type: string
+                        example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                      message:
+                        type: string
+                        example: The forecastId query parameter is required.
+                      orgId:
+                        $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                  - description: An exception thrown when a forecast export request is made with an unsupported typeToExport.
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: type_not_supported
+                      namespace:
+                        type: string
+                        example: fcw
+                      errorId:
+                        type: string
+                        example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                      message:
+                        type: string
+                        example: CRM Totals and CRM Closed are not supported typeToExport values for Export API. Please see Forecast API documentation if you’d like to retrieve CRM Totals or CRM Closed values.
+                      orgId:
+                        $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                  - description: An exception thrown when the request body is malformed.
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: bad_request
+                      namespace:
+                        type: string
+                        example: fcw
+                      errorId:
+                        type: string
+                        example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                      message:
+                        type: string
+                        example: 'The request body was malformed: {REQUEST_BODY}'
+                      orgId:
+                        $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                  - description: An exception thrown when the currency query parameter is not valid.
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: bad_request
+                      namespace:
+                        type: string
+                        example: fcw
+                      errorId:
+                        type: string
+                        example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                      message:
+                        type: string
+                        example: The currency parameter is invalid.
+                      orgId:
+                        $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                  - description: An exception thrown when a typesToExport query parameter is not valid.
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: bad_request
+                      namespace:
+                        type: string
+                        example: fcw
+                      errorId:
+                        type: string
+                        example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                      message:
+                        type: string
+                        example: 'The following typesToExport values are invalid: ["forecast_value", "quota_value"]'
+                      orgId:
+                        $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+        '401':
+          description: The user associated with the api token does not have permission to view the requested forecast's data.
+          content:
+            application/json:
+              schema:
+                description: An exception thrown when access to a given forecast is not allowed for the user.
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: no_optin
+                  namespace:
+                    type: string
+                    example: fcw
+                  errorId:
+                    type: string
+                    example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                  message:
+                    type: string
+                    example: 'No optins for scope 1::MGR for forecast ''deal_owner''.'
+                  orgId:
+                    $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+        '500':
+          description: There was an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+  '/export/jobs/{jobId}':
+    get:
+      summary: View the status of a given export using its jobId
+      description: |
+        Once your export job has been successfully created, it will be initialized with `"status": "STARTED"`. You'll need to poll the status of your request until it is complete. The possible states of your export request are: 
+        - `SCHEDULED` - job successfully created and queued up
+        - `STARTED` - job in-progress
+        - `DONE` - job complete and ready to output data
+        - `FAILED` - job could not complete 
+        - `CANCELLED` - job was scheduled but then got cancelled 
+        - `ABORTED` - job started running but then got cancelled 
+      operationId: jobStatus
+      tags:
+        - Bulk Export Framework
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token.
+          required: true
+          schema:
+            type: string
+        - name: jobId
+          description: The job id for the job to fetch the details for.
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success! See job details for the requested job ID.
+          content:
+            application/json:
+              schema:
+                description: The UI formatted export item.
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    description: Unique identifier for your forecast export request.
+                    example: 6073683781a6da229df71e00
+                  userId:
+                    type: integer
+                    description: Clari user ID of the user that initiated the job.
+                    example: 1
+                  orgId:
+                    type: integer
+                    description: Clari org ID of the user that requested the job.
+                    example: 101
+                  title:
+                    type: string
+                    description: Title of the Forecast Tab requested for the export.
+                    example: Forecast Export
+                  module:
+                    type: string
+                    description: Module from which the export is requested from.
+                    example: FORECAST
+                  startTime:
+                    type: integer
+                    description: Start time of export job.
+                    example: 1618451575216
+                  endTime:
+                    type: integer
+                    description: End time of export job.
+                    example: 1618451581663
+                  expiredTime:
+                    type: integer
+                    description: Expiry time of export job.
+                    example: 1621043581663
+                  version:
+                    type: integer
+                    description: API version from when export job was initiated.
+                    example: 1
+                  fileName:
+                    type: string
+                    description: File name of export job.
+                    example: clari_export_forecast_total_new_2021_Q12915_20210415_015255.json
+                  fileType:
+                    type: string
+                    example: JSON
+                  status:
+                    description: The status of the export job.
+                    type: string
+                    enum:
+                      - SCHEDULED
+                      - STARTED
+                      - DONE
+                      - FAILED
+                      - CANCELLED
+                      - ABORTED
+                  viewed:
+                    type: boolean
+                    example: false
+                  cellsTruncated:
+                    type: boolean
+                    example: false
+                  rowsTruncated:
+                    type: boolean
+                    example: false
+                  downloads:
+                    type: integer
+                    description: Number of times the export request was downloaded.
+                    example: 1
+                  currency:
+                    type: string
+                    description: Currency used when initiating export job.
+                    example: USD
+              example:
+                jobId: 606e23c981a6da229d75b515
+                userId: 1
+                orgId: 101
+                title: Forecast Export
+                module: FORECAST
+                startTime: 1617830857175
+                endTime: 1617830861959
+                expiredTime: 1620422861959
+                version: 1
+                fileName: clari_export_forecast_new_summary_2021_Q12915_20210407_212737.json
+                fileType: JSON
+                status: STARTED
+                viewed: false
+                cellsTruncated: false
+                rowsTruncated: false
+                downloads: 0
+                deliveryStatusMap: {}
+                currency: USD
+        '400':
+          description: The job status could not be retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1jobs/get/responses/400/content/application~1json/schema'
+        '403':
+          description: Invalid permissions to view this job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1jobs/get/responses/400/content/application~1json/schema'
+        '500':
+          description: There was an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+    patch:
+      summary: Stop or cancel an in-progress job
+      description: Use this endpoint to stop or “cancel” an in-progress export job. The job will stop executing and free up space on your monthly quota. The job will still be accessible if you call the `GET /export/jobs` endpoint.
+      operationId: updateJob
+      tags:
+        - Bulk Export Framework
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token.
+          required: true
+          schema:
+            type: string
+        - name: jobId
+          description: The job id for the job to fetch the details for.
+          $ref: '#/paths/~1export~1jobs~1%7BjobId%7D/get/parameters/1'
+      requestBody:
+        description: The request parameters for the update options available to update the job with.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  description: The type of patch task to perform on the job. Currently only `CANCEL` is supported.
+                  type: string
+                  example: CANCEL
+                  enum:
+                    - CANCEL
+      responses:
+        '200':
+          description: Your job was successfully cancelled.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/paths/~1export~1jobs~1%7BjobId%7D/get/responses/200/content/application~1json/schema/properties/status'
+                  successful:
+                    type: boolean
+                example:
+                  status: CANCELLED
+                  successful: true
+        '400':
+          description: Unable to complete request. Please check your parameters and/or the status of your job. If the job has already completed where `STATUS` is `DONE` you will not be able to cancel it.
+          content:
+            application/json:
+              schema:
+                description: Cannot cancel job as it has already finished executing.
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: export_failed_to_cancel
+                  namespace:
+                    type: string
+                    example: exports
+                  errorId:
+                    type: string
+                    example: 54c5a2b5-9b1c-11eb-a343-87ffa5f01191
+                  message:
+                    type: string
+                    example: Cannot cancel the job because it already finished executing.
+                  orgId:
+                    $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+        '500':
+          description: There was an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+  '/export/jobs/{jobId}/results':
+    get:
+      summary: Retrieve and save forecast export content
+      description: |
+        Once your export finishes processing and its status returns `DONE`, you will be able to retrieve your file contents using this endpoint.
+      operationId: externalExportDownload
+      tags:
+        - Bulk Export Framework
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token.
+          required: true
+          schema:
+            type: string
+        - name: jobId
+          description: The job ID for the export job to fetch JSON output for.
+          $ref: '#/paths/~1export~1jobs~1%7BjobId%7D/get/parameters/1'
+      responses:
+        '200':
+          description: Retrieve the content of the output file of the desired export job.
+          content:
+            application/json:
+              example:
+                - User
+                - Email
+                - CRM User ID
+                - Role
+                - Parent Role
+                - Timeframe
+                - Field
+                - Week
+                - Start Day
+                - End Day
+                - Data Type
+                - Data Value
+                - Jain
+                - name@s-clari.com
+                - 005110000069tRpAAI
+                - Sales Rep - East
+                - CEO
+                - July FY 2023
+                - Monthly Commit
+                - '0'
+                - 06/30/2023
+                - 06/30/2023
+                - Forecast Value
+                - Jain
+                - name@s-clari.com
+                - 005110000069tRpAAI
+                - Sales Rep - East
+                - CEO
+                - July FY 2023
+                - Monthly Commit
+                - '0'
+                - 06/30/2023
+                - 06/30/2023
+                - Forecast Updated
+                - 'No'
+                - Clari QA10
+                - manager@s-clari.com
+                - 005d0000001rfYSAAY
+                - CEO
+                - ''
+                - July FY 2023
+                - Monthly Commit
+                - '0'
+                - 06/30/2023
+                - 06/30/2023
+                - Forecast Value
+                - '$3,000,190.00'
+                - Clari QA10
+                - manager@s-clari.com
+                - 005d0000001rfYSAAY
+                - CEO
+                - ''
+                - July FY 2023
+                - Monthly Commit
+                - '0'
+                - 06/30/2023
+                - 06/30/2023
+                - Forecast Updated
+                - 'No'
+        '400':
+          description: 'Unable to retrieve data. Please ensure you have passed in a valid `jobId`. Note that you will only be able to retrieve output for successfully completed jobs. Specifically, the job''s status must be `DONE` in order to retrieve its output.'
+          content:
+            application/json:
+              schema:
+                description: Cannot retrieve data for the requested jobId. Check your parameters and try again.
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: invalid_jobId
+                  namespace:
+                    type: string
+                    example: exports
+                  errorId:
+                    type: string
+                    example: 54c5a2b5-9b1c-11eb-a343-87ffa5f01191
+                  message:
+                    type: string
+                    example: Cannot retrieve data for job because it has not finished executing.
+                  orgId:
+                    $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+        '500':
+          description: There was an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+  /export/jobs:
+    get:
+      summary: View all jobs initiated from a particular user
+      description: 'View a list of all jobs initiated by a particular user. The response will include all complete, cancelled, and in-progress jobs.'
+      operationId: externalFcwExport
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token.
+          required: true
+          schema:
+            type: string
+      tags:
+        - Bulk Export Framework
+      responses:
+        '200':
+          description: Success! See job details for all export jobs initiated by the authentication token passed in your parameter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1export~1jobs~1%7BjobId%7D/get/responses/200/content/application~1json/schema'
+              example:
+                - jobId: '6073683781a6da229df71e00,'
+                  userId: '1,'
+                  orgId: '1,'
+                  title: 'Forecast Export,'
+                  module: 'FORECAST,'
+                  startTime: '123456789,'
+                  endTime: '123456799,'
+                  expiredTime: '133333333,'
+                  version: '1,'
+                  fileName: 'clari_export_default-view_20180118_004234.json,'
+                  fileType: 'JSON,'
+                  status: 'STARTED,'
+                  viewed: 'true,'
+                  cellsTruncated: 'false,'
+                  rowsTruncated: 'false,'
+                  downloads: '0,'
+                  currency: USD
+                - jobId: '6073680cac043e61f93bac07,'
+                  userId: '1,'
+                  orgId: '1,'
+                  title: 'Forecast Export,'
+                  module: 'FORECAST,'
+                  startTime: '133456789,'
+                  endTime: '133456799,'
+                  expiredTime: '143333333,'
+                  version: '1,'
+                  fileName: 'clari_export_default-view_20180118_004234.json,'
+                  fileType: 'JSON,'
+                  status: 'STARTED,'
+                  viewed: 'true,'
+                  cellsTruncated: 'false,'
+                  rowsTruncated: 'false,'
+                  downloads: '2,'
+                  currency: USD
+        '400':
+          description: The job status could not be retrieved.
+          content:
+            application/json:
+              schema:
+                description: The generic exception response from the application.
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: SWW
+                  namespace:
+                    type: string
+                    example: exports
+                  errorId:
+                    type: string
+                    example: c16ae643-481a-11eb-a48d-a7e5677deee5
+                  message:
+                    type: string
+                    example: Something went wrong
+                  orgId:
+                    $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+        '403':
+          description: Invalid permissions to view this job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1jobs/get/responses/400/content/application~1json/schema'
+        '500':
+          description: There was an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+  /admin/limits:
+    get:
+      summary: View limit information for your organization
+      description: List information about API limits and aggregate consumption for your organization. The response will include your monthly quota and all active and completed jobs that contribute to that quota.
+      operationId: limits
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token.
+          required: true
+          schema:
+            type: string
+      tags:
+        - Administrative API
+      responses:
+        '200':
+          description: Success! View the limits and export jobs contributing to those limits for your organization.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobs:
+                    description: The limits for an org at the time of the call.
+                    type: object
+                    properties:
+                      concurrentLimit:
+                        type: integer
+                        description: The maximum number of concurrent exports that can be queued or run at the same time.
+                        example: 3
+                      monthlyQuota:
+                        type: integer
+                        description: 'The maximum number of exports that can be run in a rolling 30 day period. The monthly quota is at the organization level and can be adjusted as needed. Please work with your CSM if you''d like to adjust your quota. '
+                        example: 1000
+                      runningJobIds:
+                        type: array
+                        description: 'List of jobs that are in the `RUNNING` state. If all jobs are complete or there is no in-progress job, you will not receive a list of `runningJobIds` in the response. '
+                        items:
+                          type: string
+                        example:
+                          - 6073680cac043e61f93bac07
+                          - 607367f6304d430d58ab34ae
+                      submittedJobIds:
+                        type: array
+                        description: List of jobs contributing to your monthlyQuota.
+                        items:
+                          type: string
+                        example:
+                          - 606e6f6f304d430d583fdd4c
+                          - 606e2406304d430d5835db02
+                          - 606e23c981a6da229d75b515
+                      availableConcurrentLimit:
+                        type: integer
+                        description: The unused concurrent limit at the time. Concurrent limit - (running jobs + queued jobs)
+                        example: 1
+                      availableMonthlyQuota:
+                        type: integer
+                        description: 'The unused monthly quota at the time. Monthly quota - submitted jobs. Before creating an export job request, make sure you have available quota. If you have completed your monthly quota, your requests to Clari API will fail. '
+                        example: 995
+        '500':
+          description: There was an unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+  /export/audit/events:
+    post:
+      summary: Queue a job to export audit events as a json file
+      description: |-
+        This is a bulk export API.
+
+        Queue an export job to export audit events for your org filtered by parameters specified in the request body. The exported json file will contain an array of audit events (`items` field) and an array of actors (`actors` field).  The exported file can be downloaded using the `jobId` returned, once the job completes. The job status can also be queried using the `jobId`.
+
+        To create your request, you will need to pass your `apikey` in as a header, all other optional parameters as a JSON in the body.
+      operationId: exportAuditEvents
+      tags:
+        - Audit API
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Optional request parameters for the audit event export.
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                actorId:
+                  description: The Actor ID to filter the result set
+                  type: integer
+                  format: int64
+                  default: null
+                  example: 1
+                impersonatingActorId:
+                  type: integer
+                  format: int64
+                  description: The Impersonating Actor ID to filter the result set
+                  default: null
+                  example: 1
+                sessionId:
+                  description: The Session UUID to filter the result set.
+                  type: string
+                  format: uuid
+                  maxLength: 36
+                  default: null
+                  example: fe795746-54b0-11ed-bdc3-0242ac120002
+                sessionType:
+                  description: Filters the result based on the session type. If not presents all session types are returned.
+                  type: string
+                  default: WEB
+                  enum:
+                    - WEB
+                    - IOS
+                    - ANDROID
+                dateFrom:
+                  description: |-
+                    Date from which events need to be pulled. The Internet Date/Time Format  profile of ISO 8601 (opens new window) for example date-time: `2017-05-03T16:22:18Z` for example date-only: `2017-05-03`
+                    Defaults to 30 days ago
+                  type: string
+                  format: date-time
+                  default: null
+                  example: '2022-08-03T16:22:18Z'
+                dateTo:
+                  description: |-
+                    Date until which events need to be pulled. The Internet Date/Time Format  profile of ISO 8601 (opens new window) for example date-time: `2017-05-03T16:22:18Z` for example date-only: `2017-05-03`
+                    Defaults to the current date and time
+                  type: string
+                  format: date-time
+                  default: null
+                  example: '20122-08-05T16:22:18Z'
+                event:
+                  description: Different categories/subcategories of events that we track.
+                  type: string
+                  default: null
+                  example: api.accessed
+      responses:
+        '202':
+          description: 'Your export job was successfully queued. Use the `jobId`, provided in your response, to check its status and retrieve the requested data.'
+          content:
+            application/json:
+              schema:
+                title: Response Object With JobId
+                description: jobId is the identifier of the queued job.
+                type: object
+                required:
+                  - jobId
+                properties:
+                  jobId:
+                    description: The Job ID of the successfully queued export job.
+                    type: string
+                    example: 6073683781a6da229df71e00
+        '400':
+          description: Client Error. Your job could not be queued.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - title: Errors Response Object
+                    description: A Clari API-compliant error response. This object is inherited by the specific response type.
+                    type: object
+                    required:
+                      - errors
+                    properties:
+                      errors:
+                        description: An array of Error objects
+                        type: array
+                        minItems: 1
+                        items:
+                          title: Error Object
+                          type: object
+                          description: A Clari API-compliant error object. An array of details about specific errors that led to this reported error.
+                          required:
+                            - status
+                            - message
+                          properties:
+                            code:
+                              description: an application-specific error code
+                              type: string
+                            message:
+                              description: 'a short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization'
+                              type: string
+                            target:
+                              description: The target of the error.
+                              type: string
+                            status:
+                              description: the HTTP status code applicable to this problem
+                              type: string
+                              minLength: 3
+                              maxLength: 3
+                            details:
+                              description: A String containing more specific information than the current object about the error.
+                              type: string
+                  - $ref: '#/paths/~1export~1activity/post/responses/400/content/application~1json/schema/oneOf/1'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema'
+        x-export-results:
+          description: 'JSON response from the `/export/jobs/{jobId}/results` endpoint returns an array of Audit Events items. It returns an empty `items` array if no records are found.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1audit~1events/get/responses/200/content/application~1json/schema'
+  /audit/events:
+    get:
+      summary: View audit events with pagination
+      description: 'View audit events filtered by query string parameters. This API returns a list of audit events, and a list of actors for all the events. If no items are found an empty array will returned. Additionally the response provides a `nextLink` for the next page available. Pages can be managed by the `limit` query string parameter. Use the `nextLink` to navigate to the next page if present.'
+      operationId: listAuditEvents
+      tags:
+        - Audit API
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token.
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Sets the number of results that are returned in the response The limit field can trigger for multiple pages to be generated.  If more than the `limit` of records is in the results  a `nextLink` is provided to facilitate the navigation. Integer between 1 and 1000. Defaults to 100
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 1000
+            default: 100
+        - name: actorId
+          in: query
+          description: The Actor ID to filter the result set
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: impersonatingActorId
+          in: query
+          description: The Impersonating Actor ID to filter the result set
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: sessionId
+          in: query
+          description: The Session UUID to filter the result set.
+          required: false
+          schema:
+            type: string
+            format: uuid
+            maxLength: 36
+        - name: sessionType
+          in: query
+          description: Filters the result based on the session type. If not presents all session types are returned.
+          required: false
+          schema:
+            type: string
+            enum:
+              - WEB
+              - IOS
+              - ANDROID
+        - name: dateFrom
+          in: query
+          description: 'Date from which events need to be pulled. The Internet Date/Time Format  profile of ISO 8601 (opens new window) for example date-time: `2017-05-03T16:22:18Z` for example date-only: `2017-05-03` Defaults to 30 days ago'
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: dateTo
+          in: query
+          description: 'Date until which events need to be pulled. The Internet Date/Time Format  profile of ISO 8601 (opens new window) for example date-time: `2017-05-03T16:22:18Z` for example date-only: `2017-05-03` Defaults to the current date and time'
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: event
+          in: query
+          description: Different categories/subcategories of events that we track.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a paged array of Audit Events items.  Returns an empty `items` array if no records are found.
+          content:
+            application/json:
+              schema:
+                title: Audit Logs Get Response Object
+                type: object
+                properties:
+                  nextLink:
+                    type: string
+                    format: url
+                  items:
+                    type: array
+                    items:
+                      title: Audit Event Response Object
+                      description: Represents an Audit Logger Log entry.
+                      type: object
+                      required:
+                        - actorId
+                        - sessionId
+                        - sessionType
+                        - event
+                        - ipAddress
+                        - actorType
+                      properties:
+                        correlationID:
+                          description: An additional field for the system to provide an ID to correlate the  Audit Logger events with other log entries.
+                          type: string
+                        actorId:
+                          description: The person who is responsible for the changes
+                          type: string
+                        impersonatingActorId:
+                          description: The person on whose behalf the actor is logging in. Null if the actor is the same as impersonating_actor (allows for easy filtering).
+                          type: string
+                        actorType:
+                          description: |-
+                            The subject type who requested the action.
+                            `USER` - Clari user interactions `SYSTEM` - Can be from a specific line in service. `JOB` - Scheduled jobs only
+                          type: string
+                          enum:
+                            - USER
+                            - SYSTEM
+                            - JOB
+                        sessionId:
+                          description: Session ID of the current user performing the action
+                          type: string
+                          format: uuid
+                        ipAddress:
+                          description: IP Address where the event is originated from.
+                          type: string
+                          format: ipv4
+                        sessionType:
+                          description: |-
+                            Device source from where the action is performed.
+                            Eg. If the change is originating from the Web application then the sessionType should be of Web
+                          type: string
+                          enum:
+                            - WEB
+                            - IOS
+                            - ANDROID
+                        event:
+                          description: The different categories and subcategories of events that can be logged into the service.
+                          type: string
+                        eventParameters:
+                          title: Event Parameters Object
+                          description: 'Allow passing additional parameters for a particular event as  specified in [Audit Log Priorities C Column](https://docs.google.com/spreadsheets/d/1Kx5YUrpn13sSyh3pvYP68lxiU1mzzZNhr-cOPzBD_aE/edit?usp=sharing)'
+                          type: object
+                          maximum: 10
+                        eventTimestamp:
+                          description: 'The date and time the event occurred. For example: 2017-05-03T16:22:18Z'
+                          type: string
+                          format: date-time
+                    maxItems: 1000
+                  actors:
+                    type: array
+                    items:
+                      title: Actor Object
+                      type: object
+                      description: 'An Actor object including actorType, actorId, name and email return as get request response object.'
+                      required:
+                        - actorType
+                        - actorId
+                        - name
+                        - email
+                      properties:
+                        actorType:
+                          description: UserType is 'USER'
+                          type: string
+                        actorId:
+                          description: Clari User's userId
+                          type: string
+                        name:
+                          description: Clari User's full name
+                          type: string
+                        email:
+                          description: Clari User's email
+                          type: string
+                uniqueItems: true
+        4XX:
+          description: Client Error
+          content:
+            application/json:
+              schema:
+                title: Errors Response Object
+                description: A Clari API-compliant error response. This object is inherited by the specific response type.
+                type: object
+                required:
+                  - errors
+                properties:
+                  errors:
+                    description: An array of Error objects
+                    type: array
+                    minItems: 1
+                    items:
+                      title: Error Object
+                      type: object
+                      description: A Clari API-compliant error object. An array of details about specific errors that led to this reported error.
+                      required:
+                        - status
+                        - message
+                      properties:
+                        code:
+                          description: an application-specific error code
+                          type: string
+                        message:
+                          description: 'a short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization'
+                          type: string
+                        target:
+                          description: The target of the error.
+                          type: string
+                        status:
+                          description: the HTTP status code applicable to this problem
+                          type: string
+                          minLength: 3
+                          maxLength: 3
+                        details:
+                          description: A String containing more specific information than the current object about the error.
+                          type: string
+        5XX:
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1audit~1events/get/responses/4XX/content/application~1json/schema'
+  /opportunity:
+    get:
+      summary: Retrieve opportunity data
+      description: |-
+        You can retrieve opportunity related data from Clari. To create your request, you will need to pass your `apikey` in as a header, the one or more `oppId` in the request path, and optional `mode` query parameter.
+
+        EXAMPLE: `/opportunity?oppId=005Z00000038x09IAA&oppId=006Z000000EPuiyIAD&mode=OPPORTUNITY_MODE_ID`
+      operationId: externalOpportunityResource
+      tags:
+        - Opportunity API
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token
+          required: true
+          schema:
+            type: string
+        - name: oppId
+          in: query
+          description: specific one or more Opportunity ID
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+            maxItems: 100
+          example: 005Z00000038x09IAA
+        - name: mode
+          in: query
+          description: Clari mode ID
+          required: false
+          schema:
+            type: string
+            default: OPPORTUNITY_MODE_ID
+      responses:
+        '200':
+          description: Return an array of Opportunity Export Items.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Opportunity Export Object
+                  description: 'Opportunity Export - oppId, crmScore and fields'
+                  type: object
+                  properties:
+                    id:
+                      description: Unique Identifier
+                      type: string
+                      example: 005Z00000038x09IAA
+                    crmScore:
+                      description: Opportunity CRM crmScore
+                      type: object
+                      properties:
+                        message:
+                          type: string
+                          example: Opportunity is lost
+                        score:
+                          type: integer
+                          example: 0
+                    fields:
+                      description: List of fields
+                      type: array
+                      items:
+                        description: Opportunity Field Object
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: opportunity.amount
+                          alias:
+                            type: string
+                          imageUrl:
+                            type: string
+                            example: /images/CardOppSunny@2x.png
+                          trendHistory:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                oldValue:
+                                  type: object
+                                newValue:
+                                  type: object
+                                date:
+                                  description: specifies date as long
+                                  type: integer
+                                  format: int64
+                                  example: 1605312000000
+                          trend:
+                            type: string
+                          value:
+                            description: 'Can be any value - string, number, boolean, array or object.'
+                          originalValue:
+                            $ref: '#/paths/~1opportunity/get/responses/200/content/application~1json/schema/items/properties/fields/items/properties/value'
+        4XX:
+          description: |-
+            Client Error
+
+            For example {statusCode:400, reaspnPhrase:"Bad Request", description:"invalid query parameter", "details": "oppId is required"}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Error Object
+                  type: object
+                  description: A Clari API-compliant error object. An array of details about specific errors that led to this reported error.
+                  properties:
+                    statusCode:
+                      description: an application-specific error code
+                      type: integer
+                    reaspnPhrase:
+                      description: give a short textual description of the Status-Code
+                      type: string
+                    description:
+                      description: The description of the error.
+                      type: string
+                    details:
+                      description: A String containing more specific information than the current object about the error.
+                      type: string
+        5XX:
+          description: |-
+            Server Error
+
+            For example {statusCode:500, reaspnPhrase:"Server Error", description:"NullPointerException", "details": "Cannot initialize ExternalOpportunityResource"}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1opportunity/get/responses/4XX/content/application~1json/schema/items'
+  '/ingest/bulk/entity/{entity}':
+    post:
+      summary: Bulk Upload entity data
+      description: |
+        This API allows partners to perform a bulk upload of field extensions and sub-objects to Clari's Account and Opportunity entities. It is designed for high-volume updates, enabling the ingestion of additional metadata beyond the standard CRM fields.
+
+
+        Here are key details to keep in mind when using this API:
+        - Upload a single JSON file (max 10MB) per request.
+        - Specify the entity (account/opportunity/any sub-object entity) in the path.
+        - Include both apikey and partnerkey in the request headers.
+        - Use Salesforce Account IDs or Opportunity IDs to associate data.
+        - JSON structure must match the /ingest/entity/{entity} API.
+        - createdAt and updatedAt timestamps should be sent in milliseconds.
+
+        BASE URL: `https://api.clari.com/v2`
+
+        EXAMPLE: `https://api.clari.com/v2/ingest/bulk/entity/account`
+      operationId: ingestBulk
+      tags:
+        - Ingestion API
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token
+          required: true
+          schema:
+            type: string
+        - name: partnerkey
+          in: header
+          description: Partner key
+          required: true
+          schema:
+            type: string
+        - name: entity
+          in: path
+          description: the entity to upload data to
+          required: true
+          schema:
+            type: string
+          example: account
+        - name: mode
+          in: query
+          description: data upload mode
+          schema:
+            type: string
+            enum:
+              - initial
+              - incremental
+        - name: isLastBatch
+          in: query
+          description: whether data is the last batch of initial data
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+            example: |
+              Content-Type: multipart/form-data; boundary=----7MA4YWxkTrZu0gW
+
+              ------7MA4YWxkTrZu0gW
+              Content-Disposition: form-data; name="FileData"; filename="data.json"
+              Content-Type:
+
+              --FILE DATA--
+              ------7MA4YWxkTrZu0gW--
+      responses:
+        '202':
+          description: Data is accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    example: 64eef062b1a00d40e5f0bac5
+        '400':
+          description: input is not in right format
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion bad request Error Object
+                  type: object
+                  description: Details of an bad request error encountered when ingesting data.
+                  required:
+                    - errorCode
+                    - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                        - INVALID_INPUT_FORMAT
+                        - INVALID_FILE_FORMAT
+                        - INVALID_CONFIGURATION
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                  - errorCode: INVALID_FILE_FORMAT
+                    errorSummary: Allowed file format is JSON only. Please try again with right format.
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: 'Mode value is invalid. Please try again with a valid mode value, possible values are [initial, increment]'
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: '''Initial'' mode is allowed only during initial ingestion of data, please try ingesting it with ''Incremental'' mode for xyz entity'
+                  - errorCode: INVALID_CONFIGURATION
+                    errorSummary: 'Integration is not yet enabled, please contact support for assistance'
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Entity is not valid/enabled for integration. Please try again with a valid/enabled entity
+        '401':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/401'
+        '403':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/403'
+        '428':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/428'
+        '429':
+          description: Maximum concurrent request limit has been reached.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion requests limit reached Error Object
+                  type: object
+                  description: Ingestion requests limit reached
+                  required:
+                    - errorCode
+                    - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                        - TOO_MANY_REQUESTS
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                  - errorCode: TOO_MANY_REQUESTS
+                    errorSummary: Max concurrent async ingestion jobs limit reached for partner <partnerName>
+        '500':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/500'
+  '/ingest/entity/{entity}':
+    post:
+      summary: Upload entity data
+      description: |
+        This API allows partners to perform frequent, incremental updates to Clari’s Account and Opportunity entities. It supports uploading up to 100 records per request, and can be used to add or update field extensions or sub-objects associated with these entities.
+
+
+        Key points to know when using this API:
+        - Designed for partner integrations to sync small, regular data updates.
+        - Supports up to 100 records in a single JSON payload.
+        - Specify the target entity (account/opportunity/any sub-object entity) in the API path.
+        - Include both apikey and partnerkey in the request headers.
+        - Use Salesforce Account IDs or Opportunity IDs to identify records.
+        - createdAt and updatedAt timestamps should be sent in milliseconds.
+
+        BASE URL: `https://api.clari.com/v2`
+
+        EXAMPLE: `https://api.clari.com/v2/ingest/entity/account`
+      operationId: ingestIncremental
+      tags:
+        - Ingestion API
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token
+          required: true
+          schema:
+            type: string
+        - name: partnerkey
+          in: header
+          description: Partner key
+          required: true
+          schema:
+            type: string
+        - name: entity
+          in: path
+          description: the entity to upload data to
+          required: true
+          schema:
+            type: string
+          example: account
+        - name: mode
+          in: query
+          description: data upload mode
+          schema:
+            type: string
+            enum:
+              - initial
+              - incremental
+        - name: isLastBatch
+          in: query
+          description: whether data is the last batch of initial data
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: Ingest API Data
+              description: Data could comprises of multiple source entity data
+              type: array
+              items:
+                title: Entity Data
+                description: Ingest extra Salesforce account or opportunities field data into Clari.
+                type: object
+                properties:
+                  sourceEntity:
+                    description: Source entity of the records
+                    type: string
+                  records:
+                    description: Data Records
+                    type: array
+                    items:
+                      title: Ingest API Data Record
+                      description: list required fields of a record
+                      type: object
+                      required:
+                        - createdAt
+                        - updatedAt
+                        - id
+                      properties:
+                        createdAt:
+                          description: The record creation timestamp denotes the number of milliseconds that have elapsed since the epoch.
+                          type: number
+                        updatedAt:
+                          description: The record update timestamp denotes the number of milliseconds elapsed since the epoch.
+                          type: number
+                        id:
+                          description: Salesforce identifier of the record
+                          type: string
+            example:
+              - sourceEntity: sourceEntityB
+                records:
+                  - id: 001Z000000xOn4bIAA
+                    createdAt: 1303324502462
+                    updatedAt: 1303324602462
+                    adoptionDate: '2022-10-01T07:00:00Z'
+                    openSuccessPlan: 'yes'
+                  - id: 001Z000000xOn4bIAJ
+                    createdAt: 1303324502462
+                    updatedAt: 1303324602462
+                    adoptionDate: '2022-10-01T07:00:00Z'
+                    openSuccessPlan: 'yes'
+              - sourceEntity: sourceEntityA
+                records:
+                  - id: 001Z000000xOn4bIAC
+                    createdAt: 1303324502462
+                    updatedAt: 1303324602462
+                    healthScore: 88
+                    nps: 13
+                    csm: USD
+                    lifecycleStage: early
+                    mrr: 5146000
+                    trend: Up
+                    dateOfLastTimelineActivity: '2022-10-10T07:00:00Z'
+                  - id: 001Z000000xOn4bIAD
+                    createdAt: 1303324502462
+                    updatedAt: 1303324602462
+                    healthScore: 89
+                    nps: 13
+                    csm: USD
+                    lifecycleStage: early
+                    mrr: 5146100
+                    trend: Same
+                    dateOfLastTimelineActivity: '2022-10-10T07:00:00Z'
+      responses:
+        '200':
+          description: Data is uploaded
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion bad request Error Object
+                  type: object
+                  description: Details of an bad request error encountered when ingesting data.
+                  required:
+                    - errorCode
+                    - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                        - INVALID_INPUT_FORMAT
+                        - DATA_TYPE_ERROR
+                        - INVALID_CONFIGURATION
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: 'Failed validation for data at path: /email 12345 is not of type ''string'''
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: 'Failed validation for data at path: /quantity Value -5 is less than or equal to the minimum of 0'''
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: 'Failed validation for data at path: / updatedAt should be greater than or equal to createdAt'''
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Payload is not an array
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: sourceEntity is missing dataSet <index>
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: records is missing for dataSet <index>
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: No entries have valid accountId for the domains
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: The number of records limit to 100
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: 'Mode value is invalid. Please try again with a valid mode value, possible values are [initial, increment]'
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: '''Initial'' mode is allowed only during initial ingestion of data, please try ingesting it with ''Incremental'' mode for xyz entity'
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Entity is not valid/enabled for integration. Please try again with a valid/enabled entity
+                  - errorCode: INVALID_CONFIGURATION
+                    errorSummary: 'Integration is not yet enabled, please contact support for assistance'
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Primary key field <field name> is missing
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Field <field name> is missing
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Duplicate record with value <field value> for primary key field <field name>
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Duplicate record with value <field value> for primary key field <field name>
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Field <field name> value <field value> is not a valid date
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Field <field name> type <field type> does not match expected type <expected name>
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Field <field name> length exceeds max length of <max length>
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion Unauthorized Error Object
+                  type: object
+                  description: Details of an Unauthorized error encountered when ingesting data.
+                  required:
+                    - errorCode
+                    - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                        - INVALID_PARTNER_KEY
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                  - errorCode: INVALID_PARTNER_KEY
+                    errorSummary: Unauthorized PartnerKey
+        '403':
+          description: data ingestion has disabled.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion forbidden Error Object
+                  type: object
+                  description: Details of an forbidden error encountered when ingesting data.
+                  required:
+                    - errorCode
+                    - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                        - FORBIDDEN_ERROR
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                  - errorCode: FORBIDDEN_ERROR
+                    errorSummary: Data Ingestion has been disabled
+        '428':
+          description: precondition required error.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion precondition required Error Object
+                  type: object
+                  description: Details of an precondition required error encountered when ingesting data.
+                  required:
+                    - errorCode
+                    - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                        - SCHEMA_MISSING
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                  - errorCode: SCHEMA_MISSING
+                    errorSummary: 'Schema file information of partner is not available for entity : <account/opportunity>, Please contact clari support.'
+        '429':
+          $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/429'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion Internal Error Object
+                  type: object
+                  description: Details of an Internal error encountered when ingesting data.
+                  required:
+                    - errorCode
+                    - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                        - INTERNAL_SERVER_ERROR
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                  - errorCode: INTERNAL_SERVER_ERROR
+                    errorSummary: <error message>
+  '/ingest/job/{jobId}':
+    get:
+      summary: Check the data upload status
+      description: |
+        Upon receiving a response from the asynchronous ingest bulk upload API, make use of the provided 'jobId' to check the status 
+        and result of the upload job.
+
+        BASE URL: `https://api.clari.com/v2`
+
+        EXAMPLE: `https://api.clari.com/v2/ingest/bulk/entity/account`
+      operationId: ingestJobStatus
+      tags:
+        - Bulk Ingest Job Status API
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token
+          required: true
+          schema:
+            type: string
+        - name: partnerkey
+          in: header
+          description: Partner key
+          required: true
+          schema:
+            type: string
+          example: account
+        - name: jobId
+          in: path
+          description: the job identifier of the asynchronous upload request
+          required: true
+          schema:
+            type: string
+          example: 1231244212322
+      responses:
+        '200':
+          description: Ingestion job success response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response containing job details wrapped in a message field
+                properties:
+                  message:
+                    type: object
+                    description: Details of an async ingestion job.
+                    properties:
+                      jobId:
+                        description: Unique identifier of the job
+                        type: string
+                      module:
+                        description: Module name
+                        type: string
+                      submittedTime:
+                        description: Time when the job was submitted in milliseconds
+                        type: number
+                      startTime:
+                        description: Time when the job started in milliseconds
+                        type: number
+                      endTime:
+                        description: Time when the job ended in milliseconds
+                        type: number
+                      title:
+                        description: Title of the service
+                        type: string
+                      fileName:
+                        description: Name of the file
+                        type: string
+                      status:
+                        description: Status of the job
+                        type: string
+                        enum:
+                          - SUCCESS
+                          - IN_PROGRESS
+                          - FAILED
+                          - QUEUED
+                          - VALIDATION_FAILED
+                      message:
+                        description: Message of the job
+                        type: string
+              example:
+                message:
+                  jobId: 64eef062b1a00d40e5f0bac5
+                  orgId: 1234
+                  userId: 12345
+                  module: DATA_INGESTION
+                  submittedTime: 1231244212310
+                  startTime: 1231244212322
+                  endTime: 1231244212340
+                  title: Data Ingestion
+                  fileName: file.json
+                  status: SUCCESS
+                  message: Ingestion successfully completed.
+        '202':
+          description: Data is either in progress or in queue
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/200/content/application~1json/schema'
+              example:
+                message:
+                  jobId: 64eef062b1a00d40e5f0bac5
+                  orgId: 1234
+                  userId: 12345
+                  module: DATA_INGESTION
+                  submittedTime: 1231244212310
+                  startTime: 1231244212322
+                  endTime: null
+                  title: Data Ingestion
+                  fileName: file.json
+                  status: IN_PROGRESS
+                  message: Bulk ingestion job is in progress
+        '400':
+          description: Ingestion job validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/200/content/application~1json/schema'
+              example:
+                message:
+                  jobId: 64eef062b1a00d40e5f0bac5
+                  orgId: 1234
+                  userId: 12345
+                  module: DATA_INGESTION
+                  submittedTime: 1231244212310
+                  startTime: 1231244212322
+                  endTime: 1231244212340
+                  title: Data Ingestion
+                  fileName: file.json
+                  status: VALIDATION_ERROR
+                  message:
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: 'Failed validation for data at path: /email 12345 is not of type ''string'''
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: 'Failed validation for data at path: /quantity Value -5 is less than or equal to the minimum of 0'''
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: 'Failed validation for data at path: / updatedAt should be greater than or equal to createdAt'''
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: Payload is not an array
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: sourceEntity is missing dataSet <index>
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: records is missing for dataSet <index>
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: No entries have valid accountId for the domains
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: Primary key field <field name> is missing
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: Field <field name> is missing
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: Duplicate record with value <field value> for primary key field <field name>
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: Duplicate record with value <field value> for primary key field <field name>
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: Field <field name> value <field value> is not a valid date
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: Field <field name> type <field type> does not match expected type <expected name>
+                    - errorCode: INVALID_INPUT_FORMAT
+                      errorSummary: Field <field name> length exceeds max length of <max length>
+        '401':
+          description: Invalid authentication token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid authentication credentials
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bulk ingestion job not found. Please provide correct jobId.
+        '429':
+          description: API rate limit has been exceeded. The api limit is 100 requests per second per api token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: API rate limit exceeded
+        '500':
+          description: Ingestion job internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/200/content/application~1json/schema'
+              example:
+                message:
+                  jobId: 64eef062b1a00d40e5f0bac5
+                  orgId: 1234
+                  userId: 12345
+                  module: DATA_INGESTION
+                  submittedTime: 1231244212310
+                  startTime: 1231244212322
+                  endTime: 1231244212340
+                  title: Data Ingestion
+                  fileName: file.json
+                  status: FAILED
+                  message: Bulk ingestion job failed. Please retry ingestion.
+  /export/activity:
+    post:
+      summary: Create a new activity export job
+      description: |-
+        This is a bulk export API.
+
+        Configure and start processing an export job by providing activityTypes, startDate, and endDate in the JSON as request body.
+
+        To create your request, you will need to pass your `apikey` in as a header, all other parameters as a JSON in the body.
+      tags:
+        - Activity API
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Request parameters for the activity export.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                activityTypes:
+                  type: array
+                  items:
+                    enum:
+                      - MEETING
+                      - EMAIL_SENT
+                      - EMAIL_RECEIVED
+                      - ATTACHMENT_SENT
+                      - ATTACHMENT_RECEIVED
+                    type: string
+                  description: |
+                    Specifies the list of supported activity types to consider to filter the activities
+
+                    Supported activityTypes
+                    * MEETING
+                    * EMAIL_SENT
+                    * EMAIL_RECEIVED
+                    * ATTACHMENT_SENT
+                    * ATTACHMENT_RECEIVED
+                  default: null
+                  example:
+                    - MEETING
+                    - EMAIL_SENT
+                    - ATTACHMENT_RECEIVED
+                startDate:
+                  type: string
+                  format: date-time
+                  description: |
+                    Specifies the start date to filter the activities, following ISO-8601 date-time format. Ensure to provide UTC offset for accuracy.
+                    example: __10th March, 2023__ can be represented as below based on the timezone
+                    * UTC : 2023-03-10T00:00:00Z
+                    * PST : 2023-03-10T00:00:00-08:00
+                    * IST : 2023-03-10T00:00:00+05:30
+
+                    Note: Date and timezone provided will only be considered and not the time
+                  default: null
+                  example: '2023-03-10T00:00:00Z'
+                endDate:
+                  type: string
+                  format: date-time
+                  description: |
+                    Specifies the end date to filter the activities, following ISO-8601 date-time format. Ensure to provide UTC offset for accuracy.
+                    examples: __21st March, 2023__ can be represented as below based on the timezone
+                    * UTC : 2023-03-21T00:00:00Z
+                    * PST : 2023-03-21T00:00:00-08:00
+                    * IST : 2023-03-21T00:00:00+05:30
+
+                    Note: Date and timezone provided will only be considered and not the time
+                  default: null
+                  example: '2023-03-21T00:00:00Z'
+                exportFormat:
+                  type: string
+                  enum:
+                    - JSON
+                  description: Specifies format of the activity export
+                  example: JSON
+                  default: JSON
+      responses:
+        '202':
+          description: 'Your export job was successfully queued. Use the `jobId`, provided in your response, to check its status and retrieve the requested data.'
+          content:
+            application/json:
+              schema:
+                title: Response Object With JobId
+                description: jobId is the identifier of the queued job.
+                type: object
+                required:
+                  - jobId
+                properties:
+                  jobId:
+                    description: The Job ID of the successfully queued export job.
+                    type: string
+                    example: 6073683781a6da229df71e00
+        '400':
+          description: Client Error. Your job could not be queued.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - title: Error Object
+                    type: object
+                    description: A Clari API-compliant error object. An array of details about specific errors that led to this reported error.
+                    required:
+                      - message
+                    properties:
+                      code:
+                        type: string
+                        example: Bad request
+                      namespace:
+                        type: string
+                        example: activity
+                      errorId:
+                        type: string
+                        example: 87c7f26038f40e3dbb4e001ac07150c1
+                      message:
+                        description: 'a short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization'
+                        type: string
+                      userId:
+                        description: The user's Clari account ID
+                        type: string
+                      orgId:
+                        description: The organization's Clari account ID
+                        type: string
+                  - description: The job could not be queued.
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: export_monthly_quota_reached
+                      namespace:
+                        type: string
+                        example: exports
+                      errorId:
+                        type: string
+                        example: cd871759-9b0b-11eb-a343-87ffa5f01191
+                      message:
+                        type: string
+                        example: The monthly quota limit of 30 or concurrent limit of 1 has been reached.
+                      orgId:
+                        $ref: '#/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId'
+                      source:
+                        type: string
+                        example: Export
+        '401':
+          description: Invalid authentication
+          content:
+            application/json:
+              schema:
+                title: Response Object for Authentication Failure
+                description: Response with authentication failure message
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    description: Message for authentication failure
+                    type: string
+                    example: Invalid authentication credentials
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                description: Internal Server Error
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: internal_server_error
+                  namespace:
+                    type: string
+                    example: exports
+                  errorId:
+                    type: string
+                    example: 54c5a2b5-9b1c-11eb-a343-87ffa5f01191
+                  message:
+                    type: string
+                    example: An unexpected error occurred.
+                  orgId:
+                    description: The organization's Clari account ID. Commonly referred to as `orgId`.
+                    type: integer
+                    format: int32
+                    example: 101
+        x-export-results:
+          description: 'JSON response from the `/export/jobs/{jobId}/results` endpoint returns an array of activity records. It returns an empty `activities` array if no records are found.'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        activityId:
+                          type: string
+                          description: unique identifier for each activity record
+                          example: 58eaf6bae6bdab17f362400127170cc3
+                        activityType:
+                          type: string
+                          description: 'type of activity record (i.e. MEETING, EMAIL_SENT)'
+                          example: MEETING
+                        subject:
+                          type: string
+                          description: subject of the activity
+                          example: Data Pulse <> Clari Sync
+                        date:
+                          type: integer
+                          description: date/time as an epoch timestamp on which activity occurred or occurs
+                          format: int64
+                          example: 1702906200000
+                        activityOwnerId:
+                          type: string
+                          description: salesforce id of user whose inbox or calendar from which the activity is indexed from
+                          example: 0073x000005ChMyQKK
+                        activityOrganiserId:
+                          type: string
+                          description: salesforce id of user who organised or created the activity
+                          example: 0044x000005ChMyQQA
+                        accounts:
+                          type: array
+                          description: list of accounts to which the activity is mapped to
+                          items:
+                            type: object
+                            properties:
+                              accountId:
+                                type: string
+                                description: salesforce account id
+                                example: 0014x000018I6EVAA0
+                              accountName:
+                                type: string
+                                description: name of the account
+                                example: Data Pulse FY24
+                              accountOwnerId:
+                                type: string
+                                description: salesforce account owner id
+                                example: 0073x000005ChMyQKK
+                        opportunities:
+                          type: array
+                          description: list of opportunities to which the activity is mapped to
+                          items:
+                            type: object
+                            properties:
+                              opportunityId:
+                                type: string
+                                description: salesforce opportunity id
+                                example: 0064x00000MaqIEAAZ
+                              opportunityName:
+                                type: string
+                                description: name of the opportunity
+                                example: Data Pulse FY24
+                              opportunityOwnerId:
+                                type: string
+                                description: salesforce opportunity owner id
+                                example: 0073x000005ChMyQKK
+                        participants:
+                          type: array
+                          description: list of participants in the activity
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                description: name of the participant
+                                example: Ava Turner
+                              email:
+                                type: string
+                                description: email address of the participant
+                                example: aturner@internaldomain.com
+                              sfdcUserId:
+                                type: string
+                                description: salesforce user id of the participant (will be empty in case of external participant)
+                                example: 0073x000005ChMyQKK
+                              isInternal:
+                                type: boolean
+                                description: shows whether the participant is internal user or not
+                                example: true
+              example:
+                activities:
+                  - activityId: 58eaf6bae6bdab17f362400127170cc3
+                    activityType: MEETING
+                    activityOwnerId: 0073x000005ChMyQKK
+                    activityOrganiserId: 0044x000005ChMyQQA
+                    subject: Data Pulse <> Clari Sync
+                    date: '1702906200000'
+                    accounts:
+                      - accountId: 0014x000018I6EVAA0
+                        accountName: Data Pulse Inc.
+                        accountOwnerId: 0073x000005ChMyQKK
+                    opportunities:
+                      - opportunityId: 0064x00000MaqIEAAZ
+                        opportunityName: Data Pulse FY24
+                        opportunityOwnerId: 0073x000005ChMyQKK
+                    participants:
+                      - name: Ava Turner
+                        email: aturner@internaldomain.com
+                        sfdcUserId: 0044x000005ChMyQQA
+                        isInternal: true
+                      - name: Aiden Lewis
+                        email: alewis@internaldomain.com
+                        sfdcUserId: 0073x000005ChMyQKK
+                        isInternal: true
+                      - name: Samuel Martin
+                        email: samuelm@datapulsedomain.com
+                        sfdcUserId: ''
+                        isInternal: false
+  '/ingest/schema/{entity}/field':
+    post:
+      summary: Add picklist | multi-picicklist values
+      description: This API lets us add <code>picklist</code> | <code>multi-picklist</code> values to a field of an appropriate type for a particular org of a partner
+      operationId: ingestAddPicklist
+      tags:
+        - Ingestion API
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token
+          required: true
+          schema:
+            type: string
+        - name: partnerkey
+          in: header
+          description: Partner key
+          required: true
+          schema:
+            type: string
+        - name: entity
+          in: path
+          description: the entity to upload data to
+          required: true
+          schema:
+            type: string
+          example: account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fieldName:
+                  description: Name of the field to which the values are going to be added
+                  type: string
+                  example: isACustomerOf
+                fieldType:
+                  description: Type of the field to which the values are going to be added
+                  type: string
+                  example: multipicklist
+                  enum:
+                    - picklist
+                    - multipicklist
+                values:
+                  description: The values which are going to be added to the given field type
+                  type: array
+                  items:
+                    type: string
+                  example:
+                    - Customer1
+                    - Customer2
+                    - Customer3
+      responses:
+        '200':
+          description: The list of values provided have been added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: picklist options have been updated successfully.
+        '400':
+          description: The provided field type is not valid or supported
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: Ingestion bad request Error Object
+                  type: object
+                  description: Details of an bad request error encountered when ingesting data.
+                  required:
+                    - errorCode
+                    - errorSummary
+                  properties:
+                    errorCode:
+                      description: a short error code
+                      type: string
+                      enum:
+                        - INVALID_INPUT_FORMAT
+                    description:
+                      description: description of the error code
+                      type: string
+                example:
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: 'FieldType is not supported. Supported FieldTypes are [picklist, multipicklist]'
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Oops! %s is not defined in schema.
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: Oops! Partner Schema is not defined.
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: One or more error in validating field details. Please provide picklist options.
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: One or more error in validating field details. fieldType cannot be empty or null
+                  - errorCode: INVALID_INPUT_FORMAT
+                    errorSummary: One or more error in validating field details. fieldName cannot be empty or null
+        '401':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/401'
+        '429':
+          $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/429'
+        '500':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/500'
+    get:
+      summary: Get picklist | multi-picicklist values
+      description: This API lets us get the list of <code>picklist</code> | <code>multi-picklist</code> values which has been added to a field of an appropriate type for a particular org of a partner
+      operationId: ingestGetPicklist
+      tags:
+        - Ingestion API
+      parameters:
+        - name: apikey
+          in: header
+          description: Authentication token
+          required: true
+          schema:
+            type: string
+        - name: partnerkey
+          in: header
+          description: Partner key
+          required: true
+          schema:
+            type: string
+        - name: entity
+          in: path
+          description: the entity to upload data to
+          required: true
+          schema:
+            type: string
+        - name: fieldNames
+          in: query
+          description: List of field names in a comma seperated format to get the values for only those fields
+          required: false
+          schema:
+            type: string
+            example: 'fieldName1,fieldName2'
+      responses:
+        '200':
+          description: The list of values provided have been added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fieldName:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - fieldValue1
+                      - fieldValue2
+        '401':
+          $ref: '#/paths/~1ingest~1entity~1%7Bentity%7D/post/responses/401'
+        '429':
+          $ref: '#/paths/~1ingest~1job~1%7BjobId%7D/get/responses/429'
+security:
+  - api_key: []
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: apikey
+      in: header
