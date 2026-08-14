@@ -1,13 +1,16 @@
 name: Clari
-description: Clari is a revenue operations platform that provides a REST API for accessing
-  pipeline data, forecasts, opportunity signals, activity intelligence, and CRM-enriched
-  deal insights. The API enables revenue teams to programmatically export forecast
-  submissions, query activity data (meetings, emails, attachments), and ingest custom
-  entity data into the Clari platform. Clari also offers a Copilot API for accessing
-  conversation intelligence data including call recordings, AI summaries, and coaching
-  insights. The platform serves enterprise B2B organizations with tools to improve
-  forecast accuracy, accelerate pipeline execution, and unify revenue operations across
-  sales, marketing, and customer success teams.
+description: Clari is an enterprise revenue orchestration platform that publishes three
+  machine surfaces. The Clari Revenue API v5 (api.clari.com/v4) is an asynchronous,
+  job-based export and ingest surface — queue a forecast, activity or audit export, poll
+  until the job reads DONE, then download the results — plus a partner Ingestion API for
+  pushing third-party data into Clari accounts and opportunities. The Clari Copilot REST
+  API (rest-api.copilot.clari.com) is a synchronous conversation-intelligence and CRM
+  surface covering calls, transcripts, AI summaries, action items, competitor sentiment,
+  coaching scorecards, and CRUD over accounts, contacts and deals keyed on the customer's
+  own CRM id. Clari also runs a first-party remote MCP server at mcp.clari.com/mcp, OAuth
+  protected via Okta and listed natively in the Claude connector directory, which exposes
+  live Clari + Salesloft revenue context to AI agents. Both HTTP APIs authenticate with
+  header API keys, support no idempotency keys, and return no rate-limit headers.
 accessModel:
   pricing: enterprise
   onboarding: self-serve
@@ -24,7 +27,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/clari.png
 url: https://raw.githubusercontent.com/api-evangelist/clari/refs/heads/main/apis.yml
 created: '2026-06-13'
-modified: '2026-06-13'
+modified: '2026-08-13'
 specificationVersion: '0.19'
 type: Index
 tags:
@@ -38,15 +41,22 @@ tags:
 - Conversation Intelligence
 - B2B
 - Enterprise
+- MCP
+- Agents
+- Sales Engagement
+- Bulk Export
+- Data Ingestion
 apis:
-- name: Clari Copilot API
+- aid: clari:clari-copilot-api
+  name: Clari Copilot API
   description: >-
     The Clari Copilot API provides access to conversation intelligence features including call recordings,
-    AI-generated summaries, coaching insights, deal intelligence, and competitor tracking signals captured
-    during sales meetings and calls.
+    transcripts, AI-generated summaries and action items, coaching scorecards, competitor sentiment signals
+    captured during sales meetings, and CRUD over the accounts, contacts and deals mirrored from the
+    customer's CRM. 20 operations, published as OpenAPI 3.0.1 at https://api-doc.copilot.clari.com/spec.yaml.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://api-doc.copilot.clari.com/
-  baseURL: https://api.copilot.clari.com
+  baseURL: https://rest-api.copilot.clari.com
   tags:
   - Conversation Intelligence
   - Call Recording
@@ -54,8 +64,43 @@ apis:
   - Coaching
   - Deal Intelligence
   properties:
+  - type: OpenAPI
+    url: openapi/clari-copilot-api-openapi.yml
+  - type: Overlay
+    url: overlays/clari-copilot-api-overlay.yaml
   - type: Documentation
     url: https://api-doc.copilot.clari.com/
+  - type: APIReference
+    url: https://api-doc.copilot.clari.com/
+  - type: AgentSkill
+    url: skills/clari-copilot-call-intelligence.md
+  - type: AgentSkill
+    url: skills/clari-copilot-crm-sync.md
+- aid: clari:clari-mcp-server
+  name: Clari MCP Server
+  description: >-
+    Clari's first-party remote Model Context Protocol server. It exposes live Clari + Salesloft revenue
+    context — accounts, deals, people, calls and conversation intelligence, cadences and activity, team
+    metrics, and (rolling out through late summer 2026) forecasting and deal inspection — to any MCP client.
+    Listed natively in the Claude connector directory and available as a custom connector for ChatGPT,
+    Microsoft Copilot and Google Gemini. OAuth 2.0 via Okta; tools/list is auth-gated.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://community.clari.com/product-updates/august-2026-new-feature-release-notes-3009
+  baseURL: https://mcp.clari.com/mcp
+  tags:
+  - MCP
+  - Agents
+  - Revenue Intelligence
+  - Conversation Intelligence
+  properties:
+  - type: MCPServer
+    url: mcp/clari-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/clari-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/clari-scopes.yml
+  - type: Documentation
+    url: https://community.clari.com/product-updates/august-2026-new-feature-release-notes-3009
 - aid: clari:clari-activity-api-api
   name: Clari Activity API API
   description: The Activity API API from Clari — 1 operation(s) for activity api.
@@ -66,6 +111,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/clari-activity-api-api-openapi.yml
+  - type: Overlay
+    url: overlays/clari-activity-api-api-overlay.yaml
   - type: Documentation
     url: https://developer.clari.com/documentation/external_spec
   - type: JSONSchema
@@ -80,8 +127,6 @@ apis:
     url: examples/clari-job-status-example.json
   - type: Examples
     url: examples/clari-activity-export-example.json
-  - type: GraphQL
-    url: graphql/clari-graphql.md
 - aid: clari:clari-administrative-api-api
   name: Clari Administrative API API
   description: The Administrative API API from Clari — 1 operation(s) for administrative api.
@@ -92,6 +137,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/clari-administrative-api-api-openapi.yml
+  - type: Overlay
+    url: overlays/clari-administrative-api-api-overlay.yaml
   - type: Documentation
     url: https://developer.clari.com/documentation/external_spec
   - type: JSONSchema
@@ -106,8 +153,6 @@ apis:
     url: examples/clari-job-status-example.json
   - type: Examples
     url: examples/clari-activity-export-example.json
-  - type: GraphQL
-    url: graphql/clari-graphql.md
 - aid: clari:clari-audit-api-api
   name: Clari Audit API API
   description: The Audit API API from Clari — 2 operation(s) for audit api.
@@ -118,6 +163,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/clari-audit-api-api-openapi.yml
+  - type: Overlay
+    url: overlays/clari-audit-api-api-overlay.yaml
   - type: Documentation
     url: https://developer.clari.com/documentation/external_spec
   - type: JSONSchema
@@ -132,8 +179,6 @@ apis:
     url: examples/clari-job-status-example.json
   - type: Examples
     url: examples/clari-activity-export-example.json
-  - type: GraphQL
-    url: graphql/clari-graphql.md
 - aid: clari:clari-bulk-export-framework-api
   name: Clari Bulk Export Framework API
   description: The Bulk Export Framework API from Clari — 3 operation(s) for bulk export framework.
@@ -144,6 +189,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/clari-bulk-export-framework-api-openapi.yml
+  - type: Overlay
+    url: overlays/clari-bulk-export-framework-api-overlay.yaml
   - type: Documentation
     url: https://developer.clari.com/documentation/external_spec
   - type: JSONSchema
@@ -158,8 +205,6 @@ apis:
     url: examples/clari-job-status-example.json
   - type: Examples
     url: examples/clari-activity-export-example.json
-  - type: GraphQL
-    url: graphql/clari-graphql.md
 - aid: clari:clari-bulk-ingest-job-status-api-api
   name: Clari Bulk Ingest Job Status API API
   description: >-
@@ -171,6 +216,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/clari-bulk-ingest-job-status-api-api-openapi.yml
+  - type: Overlay
+    url: overlays/clari-bulk-ingest-job-status-api-api-overlay.yaml
   - type: Documentation
     url: https://developer.clari.com/documentation/external_spec
   - type: JSONSchema
@@ -185,8 +232,6 @@ apis:
     url: examples/clari-job-status-example.json
   - type: Examples
     url: examples/clari-activity-export-example.json
-  - type: GraphQL
-    url: graphql/clari-graphql.md
 - aid: clari:clari-export-api
   name: Clari Export API
   description: The Export API from Clari — 1 operation(s) for export.
@@ -197,6 +242,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/clari-export-api-openapi.yml
+  - type: Overlay
+    url: overlays/clari-export-api-overlay.yaml
   - type: Documentation
     url: https://developer.clari.com/documentation/external_spec
   - type: JSONSchema
@@ -211,8 +258,6 @@ apis:
     url: examples/clari-job-status-example.json
   - type: Examples
     url: examples/clari-activity-export-example.json
-  - type: GraphQL
-    url: graphql/clari-graphql.md
 - aid: clari:clari-forecast-api-api
   name: Clari Forecast API API
   description: The Forecast API API from Clari — 1 operation(s) for forecast api.
@@ -223,6 +268,10 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/clari-forecast-api-api-openapi.yml
+  - type: Overlay
+    url: overlays/clari-forecast-api-api-overlay.yaml
+  - type: AgentSkill
+    url: skills/clari-export-forecast.md
   - type: Documentation
     url: https://developer.clari.com/documentation/external_spec
   - type: JSONSchema
@@ -237,8 +286,6 @@ apis:
     url: examples/clari-job-status-example.json
   - type: Examples
     url: examples/clari-activity-export-example.json
-  - type: GraphQL
-    url: graphql/clari-graphql.md
 - aid: clari:clari-ingestion-api-api
   name: Clari Ingestion API API
   description: The Ingestion API API from Clari — 3 operation(s) for ingestion api.
@@ -249,6 +296,10 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/clari-ingestion-api-api-openapi.yml
+  - type: Overlay
+    url: overlays/clari-ingestion-api-api-overlay.yaml
+  - type: AgentSkill
+    url: skills/clari-ingest-partner-data.md
   - type: Documentation
     url: https://developer.clari.com/documentation/external_spec
   - type: JSONSchema
@@ -263,8 +314,6 @@ apis:
     url: examples/clari-job-status-example.json
   - type: Examples
     url: examples/clari-activity-export-example.json
-  - type: GraphQL
-    url: graphql/clari-graphql.md
 - aid: clari:clari-opportunity-api-api
   name: Clari Opportunity API API
   description: The Opportunity API API from Clari — 1 operation(s) for opportunity api.
@@ -275,6 +324,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/clari-opportunity-api-api-openapi.yml
+  - type: Overlay
+    url: overlays/clari-opportunity-api-api-overlay.yaml
   - type: Documentation
     url: https://developer.clari.com/documentation/external_spec
   - type: JSONSchema
@@ -289,8 +340,6 @@ apis:
     url: examples/clari-job-status-example.json
   - type: Examples
     url: examples/clari-activity-export-example.json
-  - type: GraphQL
-    url: graphql/clari-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/clari-agentic-access.yml
@@ -324,6 +373,60 @@ common:
   url: finops/clari-finops.yml
 - type: Vocabulary
   url: vocabulary/clari-vocabulary.yml
+- type: MCPServer
+  url: mcp/clari-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/clari-tool-crosswalk.yml
+- type: OAuthScopes
+  url: scopes/clari-scopes.yml
+- type: WellKnown
+  url: well-known/clari-well-known.yml
+- type: Conventions
+  url: conventions/clari-conventions.yml
+- type: ErrorCatalog
+  url: errors/clari-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/clari-lifecycle.yml
+- type: ChangeLog
+  url: changelog/clari-changelog.yml
+- type: Conformance
+  url: conformance/clari-conformance.yml
+- type: Compliance
+  url: security/clari-trust-center.yml
+- type: DataModel
+  url: data-model/clari-data-model.yml
+- type: Packages
+  url: packages/clari-packages.yml
+- type: LLMsTxt
+  url: llms/clari-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DeveloperPortal
+  url: https://developer.clari.com/
+- type: APIReference
+  url: https://developer.clari.com/documentation/external_spec
+- type: GettingStarted
+  url: https://community.clari.com/product-q-a-6/how-to-use-copilot-apis-2258
+- type: Support
+  url: https://clari.my.site.com/customer/s/get-support
+- type: Community
+  url: https://community.clari.com/
+- type: PrivacyPolicy
+  url: https://www.clari.com/privacy/
+- type: Security
+  url: security/clari-vulnerability-disclosure.yml
+- type: VulnerabilityDisclosure
+  url: security/clari-vulnerability-disclosure.yml
+- type: SecurityPolicy
+  url: https://www.clari.com/security/
+- type: SecurityAddendum
+  url: https://www.clari.com/security-addendum/
+- type: YouTube
+  url: https://www.youtube.com/@clarihq
+- type: Careers
+  url: https://www.clari.com/careers/
+- type: Press
+  url: https://www.clari.com/press/
 - type: JSONLDContext
   url: json-ld/clari-context.jsonld
 - type: BlogPosts
@@ -331,3 +434,8 @@ common:
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 33
+  pass: local-v1
