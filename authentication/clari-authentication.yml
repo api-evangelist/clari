@@ -1,6 +1,37 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/clari-revenue-api-openapi.yml
+generated: '2026-08-13'
+method: searched
+docs:
+- https://developer.clari.com/documentation/external_spec
+- https://api-doc.copilot.clari.com/
+- https://community.clari.com/product-q-a-6/how-to-use-copilot-apis-2258
+description: >-
+  Clari runs three distinct authentication schemes across three surfaces. The Revenue
+  API uses a single `apikey` header (plus a `partnerkey` header on partner/ingest
+  endpoints). The Copilot REST API requires BOTH `X-Api-Key` and `X-Api-Password` —
+  either alone returns 401. The MCP server uses OAuth 2.0 via Okta and is the only
+  Clari surface with delegated authorization; see scopes/clari-scopes.yml.
+issuance:
+  revenue_api:
+    location: Account Settings > API Token > "Generate New API Token"
+    caveats:
+    - The token value is displayed once and cannot be retrieved again.
+    - Revoking a token breaks every integration using it.
+    - Deactivating a user revokes every token that user created.
+    - A CSM must grant access to the token generation tool if it is not visible.
+  copilot_api:
+    location: Workspace Settings > Integrations > Clari Copilot API
+    note: Yields both the key and the password.
+  mcp:
+    type: oauth2
+    authorization_endpoint: https://app.clari.com/authorize
+    issuer: https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698
+    dynamic_client_registration: https://mcp.clari.com/okta/clients
+    see: scopes/clari-scopes.yml
+source: openapi/clari-activity-api-api-openapi.yml, openapi/clari-administrative-api-api-openapi.yml,
+  openapi/clari-audit-api-api-openapi.yml, openapi/clari-bulk-export-framework-api-openapi.yml,
+  openapi/clari-bulk-ingest-job-status-api-api-openapi.yml, openapi/clari-copilot-api-openapi.yml,
+  openapi/clari-export-api-openapi.yml, openapi/clari-forecast-api-api-openapi.yml, openapi/clari-ingestion-api-api-openapi.yml,
+  openapi/clari-opportunity-api-api-openapi.yml
 summary:
   types:
   - apiKey
@@ -12,4 +43,24 @@ schemes:
   in: header
   parameter: apikey
   sources:
-  - openapi/clari-revenue-api-openapi.yml
+  - openapi/clari-activity-api-api-openapi.yml
+  - openapi/clari-administrative-api-api-openapi.yml
+  - openapi/clari-audit-api-api-openapi.yml
+  - openapi/clari-bulk-export-framework-api-openapi.yml
+  - openapi/clari-bulk-ingest-job-status-api-api-openapi.yml
+  - openapi/clari-export-api-openapi.yml
+  - openapi/clari-forecast-api-api-openapi.yml
+  - openapi/clari-ingestion-api-api-openapi.yml
+  - openapi/clari-opportunity-api-api-openapi.yml
+- name: api_key
+  type: apiKey
+  in: header
+  parameter: X-Api-Key
+  sources:
+  - openapi/clari-copilot-api-openapi.yml
+- name: api_password
+  type: apiKey
+  in: header
+  parameter: X-Api-Password
+  sources:
+  - openapi/clari-copilot-api-openapi.yml

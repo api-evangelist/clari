@@ -1,0 +1,332 @@
+{
+  "item": [
+    {
+      "id": "c3d462d9-426b-43e1-8c7b-92b133190172",
+      "name": "Opportunity API",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "03f2cefe-1bbd-4110-b8f5-33ddb218fdeb",
+          "name": "Retrieve opportunity data",
+          "request": {
+            "name": "Retrieve opportunity data",
+            "description": {
+              "content": "You can retrieve opportunity related data from Clari. To create your request, you will need to pass your `apikey` in as a header, the one or more `oppId` in the request path, and optional `mode` query parameter.\n\nEXAMPLE: `/opportunity?oppId=005Z00000038x09IAA&oppId=006Z000000EPuiyIAD&mode=OPPORTUNITY_MODE_ID`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "opportunity"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "oppId",
+                  "value": "<string>",
+                  "description": "(Required) specific one or more Opportunity ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "oppId",
+                  "value": "<string>",
+                  "description": "(Required) specific one or more Opportunity ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "mode",
+                  "value": "OPPORTUNITY_MODE_ID",
+                  "description": "Clari mode ID"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "version identifier",
+                  "type": "any",
+                  "value": "{{basePath}}",
+                  "key": "basePath"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Authentication token",
+                "key": "apikey",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "187e606e-d768-49f2-9ecd-69d13ed8201e",
+              "name": "Return an array of Opportunity Export Items.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "opportunity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "oppId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "oppId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "mode",
+                      "value": "OPPORTUNITY_MODE_ID"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"005Z00000038x09IAA\",\n    \"crmScore\": {\n      \"message\": \"Opportunity is lost\",\n      \"score\": 0\n    },\n    \"fields\": [\n      {\n        \"id\": \"opportunity.amount\",\n        \"alias\": \"string\",\n        \"imageUrl\": \"/images/CardOppSunny@2x.png\",\n        \"trendHistory\": [\n          {\n            \"oldValue\": {},\n            \"newValue\": {},\n            \"date\": 1605312000000\n          },\n          {\n            \"oldValue\": {},\n            \"newValue\": {},\n            \"date\": 1605312000000\n          }\n        ],\n        \"trend\": \"string\",\n        \"value\": {},\n        \"originalValue\": {}\n      },\n      {\n        \"id\": \"opportunity.amount\",\n        \"alias\": \"string\",\n        \"imageUrl\": \"/images/CardOppSunny@2x.png\",\n        \"trendHistory\": [\n          {\n            \"oldValue\": {},\n            \"newValue\": {},\n            \"date\": 1605312000000\n          },\n          {\n            \"oldValue\": {},\n            \"newValue\": {},\n            \"date\": 1605312000000\n          }\n        ],\n        \"trend\": \"string\",\n        \"value\": {},\n        \"originalValue\": {}\n      }\n    ]\n  },\n  {\n    \"id\": \"005Z00000038x09IAA\",\n    \"crmScore\": {\n      \"message\": \"Opportunity is lost\",\n      \"score\": 0\n    },\n    \"fields\": [\n      {\n        \"id\": \"opportunity.amount\",\n        \"alias\": \"string\",\n        \"imageUrl\": \"/images/CardOppSunny@2x.png\",\n        \"trendHistory\": [\n          {\n            \"oldValue\": {},\n            \"newValue\": {},\n            \"date\": 1605312000000\n          },\n          {\n            \"oldValue\": {},\n            \"newValue\": {},\n            \"date\": 1605312000000\n          }\n        ],\n        \"trend\": \"string\",\n        \"value\": {},\n        \"originalValue\": {}\n      },\n      {\n        \"id\": \"opportunity.amount\",\n        \"alias\": \"string\",\n        \"imageUrl\": \"/images/CardOppSunny@2x.png\",\n        \"trendHistory\": [\n          {\n            \"oldValue\": {},\n            \"newValue\": {},\n            \"date\": 1605312000000\n          },\n          {\n            \"oldValue\": {},\n            \"newValue\": {},\n            \"date\": 1605312000000\n          }\n        ],\n        \"trend\": \"string\",\n        \"value\": {},\n        \"originalValue\": {}\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2af90f3-52f9-44a1-b0ed-d563f47591d5",
+              "name": "Client Error\n\nFor example {statusCode:400, reaspnPhrase:\"Bad Request\", description:\"invalid query parameter\", \"details\": \"oppId is required\"}",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "opportunity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "oppId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "oppId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "mode",
+                      "value": "OPPORTUNITY_MODE_ID"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"statusCode\": 8094,\n    \"reaspnPhrase\": \"string\",\n    \"description\": \"string\",\n    \"details\": \"string\"\n  },\n  {\n    \"statusCode\": 7059,\n    \"reaspnPhrase\": \"string\",\n    \"description\": \"string\",\n    \"details\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8757c81-04a7-4e50-8b71-09d1f654e593",
+              "name": "Server Error\n\nFor example {statusCode:500, reaspnPhrase:\"Server Error\", description:\"NullPointerException\", \"details\": \"Cannot initialize ExternalOpportunityResource\"}",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "opportunity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "oppId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "oppId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "mode",
+                      "value": "OPPORTUNITY_MODE_ID"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"statusCode\": 8094,\n    \"reaspnPhrase\": \"string\",\n    \"description\": \"string\",\n    \"details\": \"string\"\n  },\n  {\n    \"statusCode\": 7059,\n    \"reaspnPhrase\": \"string\",\n    \"description\": \"string\",\n    \"details\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "version identifier",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "v4",
+      "key": "basePath"
+    },
+    {
+      "type": "string",
+      "value": "https://api.clari.com/{{basePath}}",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apikey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "442b6e29-ca6c-49ee-b810-e1f6041894a0",
+    "name": "Clari API Reference Activity API Opportunity API API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Clari API Reference\nClari is the heartbeat of your revenue organization and holds your most important revenue data. Clari APIs enable customers to retrieve revenue data out of the Clari platform and push missing revenue-critical data into the platform.\n\n## Authentication\n\nClari APIs use tokens to authenticate requests. You can create and manage your tokens in Account Settings under \"API Token\". Please reach out to your CSM if you don't see a token generation tool as you may not have been given access.\n### Creating an authentication token\nFollow the steps below to generate a token:\n- Go to user avatar\n- Navigate to Settings\n- Navigate to the API Token tab and click \"Generate New API Token\"\n- Enter a Token Name and click \"Generate New Token\". Few things to note about tokens:\n  - After generating a token, make sure to keep it in a secure location as you won't be able to access it again. This is your key to accessing Clari data for your organization.\n  - If you revoke a token, any active integration that is using that token will break.\n  - When deactivating a user, any tokens created by the user will be revoked (and thus break any active integration).\n\n## Bulk data exports\n\nClari supports bulk data exports. Bulk exports run asynchronously in a\nthree step process. First, the bulk export is requested using a `POST` API call.\nMultiple products support bulk exports. In the documentation below, the `POST` API\nis described in respective product sections. The `POST` API call queues the bulk export job to run it asynchronously, and returns\na job ID. To monitor the export's status and be notified of its completion, you\nshould poll status via the API periodically. When the export completes, the status\nwill be set to `DONE` and you can then retrieve the output of the export.\n\n## Bulk data imports\n\nClari also supports bulk data imports. Customers or partners can import their Account\nor Opportunity fields in bulk to create a complete picture of revenue in Clari. Bulk imports also run\nasynchronously in a three step process. In the documentation below, the `/bulk` API is described\nin respective product sections. The `/bulk` API call queues the bulk import job to run it asynchronously, and returns\na job ID. To monitor the import's status and be notified of its completion, you\nshould poll status via the API periodically. When the import completes, the status\nwill be set to `DONE`. If records fail validation, the entire batch is rejected and has to be retried\nafter fixing the errors. The errors can be retrieved from the results API.\n\n\n## Forecasting APIs\n\nRevenue teams use Clari Forecasting to track their attainment to date\nagainst goals and forecast their revenue numbers for the month, quarter and\nyear. This data is captured by revenue leaders, managers, and sales reps --\nit provides a clear view of the entire team's forecast and their submission\nstatus.\n\nClari's Forecasting APIs enable you to pull your forecasting data out of Clari, merge\nit with data sitting in your own data warehouse, and build custom reports. Forecasting\nsupports both a REST API as well as a bulk export API.\n\n### Creating and accessing Forecast exports\n\n\n  You can export any Forecast Tab with our Forecasting APIs. To do so, retrieve the `forecastId` from the URL when viewing a Forecast Tab and provide the ID when using the Export API. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.\n\n  <img src=\"https://developer.clari.com/assets/images/forecastid.png\" alt=\"forecast id\" width=\"400\"/>\n\n\nFor details on Forecast Tabs and what data is available with Forecast Exports see guides below:\n\n- [Forecasting Building Blocks](https://clari.my.site.com/customer/s/article/Forecast-Building-Blocks)\n- [How to Read the Forecast Export](https://clari.my.site.com/customer/s/article/How-to-Read-the-Forecast-Export)\n- [How to Read the Export API Output](https://clari.my.site.com/customer/s/article/How-to-Read-Claris-Export-API-Output)\n\n\n## Audit APIs\n\nThe Audit API allows its users to audit events happening in their Clari instances. Call the Audit API to understand who is making changes in your Clari instance and when these changes happened.\n\n## Data Ingestion API\n\nThis API is for Clari's integration partners - such as technology platforms or revenue tools, looking to build a direct data integration with Clari. It enables partners to send data that can be surfaced in Clari's Accounts and Opportunities views for mutual customers who have turned on the integration.\n\n## Activity API\n\nActivity Export API allows its users to pull sales activity data like emails, meetings and files.\nWith this powerful sales activity data available on demand through an API call, customers can create powerful custom reports in the reporting tool of their choice and analyze Accounts and Opportunity engagement across different activity types.\n\n## Questions?\n\n\nContact Support:\n Name: us here! We're always happy to help with any questions.\n Email: support@clari.com",
+      "type": "text/plain"
+    }
+  }
+}

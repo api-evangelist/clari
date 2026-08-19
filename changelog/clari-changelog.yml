@@ -1,0 +1,87 @@
+generated: '2026-08-13'
+method: searched
+source: https://community.clari.com/product-updates
+name: Clari release notes
+description: >-
+  Clari publishes dated monthly release notes on its community site. They are
+  product-wide — covering Forecast, Copilot, Groove and the Salesloft-side platform —
+  and are NOT API-scoped: there is no per-endpoint changelog, no version history in
+  either OpenAPI, and no changelog section on developer.clari.com. API-relevant
+  changes have to be read out of the product notes.
+url: https://community.clari.com/product-updates
+scheme: monthly-dated-release-notes
+format: html
+machine_readable: false
+api_scoped: false
+current_version:
+  revenue_api: 5.0.0 (path v4)
+  copilot_api: 1.0.0
+entries:
+- title: August 2026 New Feature Release Notes
+  date: '2026-08-04'
+  url: https://community.clari.com/product-updates/august-2026-new-feature-release-notes-3009
+  api_relevant: true
+  breaking: true
+  highlights:
+  - MCP servers made available for both ChatGPT and Claude, for Salesloft and for Clari Copilot separately.
+  - Copilot MCP tools gated behind a new admin toggle (Copilot Settings > AI Features > "Copilot tools for MCP").
+  - Salesloft MCP gated behind Salesloft Settings > Artificial Intelligence > "Salesloft MCP".
+  - Salesforce account linking and custom object enhancements.
+  - Copilot mobile recording.
+  removals:
+  - The transcript retrieval tool was REMOVED from the Salesloft MCP Server for Claude; a protocol limitation prevented returning raw transcript content. Summaries and key moments remain.
+  note: The only entry in this window that changes a machine surface. The tool removal is a breaking change to any agent that bound to transcript retrieval.
+- title: July 2026 New Feature Release Notes
+  date: '2026-06-30'
+  url: https://community.clari.com/product-updates/july-2026-new-feature-release-notes-2973
+  api_relevant: false
+  breaking: false
+  highlights:
+  - Call recording security improvements.
+  - Calendar enhancements for non-organizer lofting.
+  - Sharing-link passcode controls.
+- title: June 2026 New Feature Release Notes
+  date: '2026-06-24'
+  url: https://community.clari.com/product-updates/june-2026-new-feature-release-2967
+  api_relevant: false
+  breaking: false
+  highlights:
+  - Copilot AI scoring integration.
+  - Unified conversation intelligence in Salesloft.
+  - Multi-select imports from Salesforce.
+- title: March 2026 New Feature Release
+  date: '2026-03-09'
+  url: https://community.clari.com/product-updates/march-2026-new-feature-release-2889
+  api_relevant: false
+  breaking: false
+  highlights:
+  - Clari-Salesloft integration — side panels, AI emails, task creation workflows.
+- title: February 2026 New Feature Release
+  date: '2026-01-30'
+  url: https://community.clari.com/product-updates/february-2026-new-feature-release-2856
+  api_relevant: false
+  breaking: false
+  highlights:
+  - Improved search.
+  - Automated actions in Groove.
+  - Notification enhancements.
+- title: January 2026 New Feature Release
+  date: '2026-01-08'
+  url: https://community.clari.com/product-updates/january-2026-new-feature-release-2831
+  api_relevant: false
+  breaking: false
+  highlights:
+  - Automated actions for flow transfers.
+  - Enhanced people exports in Groove.
+window:
+  from: '2026-01-08'
+  to: '2026-08-04'
+  entries_listed: 6
+  note: >-
+    Recent window only. The stream runs back to at least September 2025
+    (https://community.clari.com/product-updates/september-2025-new-feature-release-2270).
+gaps:
+- No API-specific changelog; developer.clari.com has no changelog page.
+- No RSS/Atom or JSON feed for release notes.
+- Neither OpenAPI records a version history or change annotations.
+- No advance notice channel for breaking API or MCP tool changes; the August 2026 MCP tool removal was announced in the same note that shipped it.

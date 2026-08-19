@@ -1,0 +1,1 @@
+{"resource":"https://api.clari.com/mcp","authorization_servers":["https://api.clari.com/mcp"],"bearer_methods_supported":["header"],"scopes_supported":["openid","profile"],"resource_name":"Clari MCP Server","resource_documentation":"https://api.clari.com"}

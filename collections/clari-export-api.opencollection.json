@@ -1,0 +1,36 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clari API Reference Activity API Export API",
+    "version": "5.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "POST /export/activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clari.com/{basePath}/export/activity"
+          }
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

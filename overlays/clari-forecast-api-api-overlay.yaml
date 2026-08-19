@@ -1,0 +1,51 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Clari API Reference Activity API Forecast API API
+  version: 1.0.0
+x-provenance:
+  generated: '2026-08-13'
+  method: generated
+  source: openapi/clari-forecast-api-api-openapi.yml
+  note: Captures API Evangelist enrichment as an OpenAPI Overlay 1.0.0 so the harvested specification
+    is never mutated. Every statement here is derived from the provider's own published documentation
+    and from live probes recorded in this repo.
+extends: openapi/clari-forecast-api-api-openapi.yml
+actions:
+- target: $.info
+  description: Record the API Evangelist profile and the canonical documentation entry point for this
+    API.
+  update:
+    x-api-evangelist:
+      profile: https://apis.io/provider/clari/
+      repository: https://github.com/api-evangelist/clari
+      artifacts:
+      - authentication/clari-authentication.yml
+      - conventions/clari-conventions.yml
+      - errors/clari-problem-types.yml
+      - lifecycle/clari-lifecycle.yml
+      - rate-limits/clari-rate-limits.yml
+- target: $.servers[0]
+  description: Clarify that basePath is a version segment and that info.version (5.0.0) is numbered independently
+    of it.
+  update:
+    x-version-note: basePath is the URL version segment (v4). info.version (5.0.0) is the document version
+      and moves independently.
+- target: $.paths.*.*
+  description: Clari supports no Idempotency-Key header and returns no rate-limit or Retry-After headers
+    on any operation. Record both absences so an agent plans retries correctly.
+  update:
+    x-idempotency:
+      supported: false
+      header: null
+    x-rate-limit-headers:
+      published: false
+      retry_after: false
+- target: $.paths.*.post
+  description: Every POST on the bulk export framework queues an asynchronous job. Record the three-step
+    contract so an agent knows the response is a job id, not a result.
+  update:
+    x-async-job:
+      pattern: queue-poll-retrieve
+      poll: GET /export/jobs/{jobId}
+      terminal_status: DONE
+      retrieve: GET /export/jobs/{jobId}/results

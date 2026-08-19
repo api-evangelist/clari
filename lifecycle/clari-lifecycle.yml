@@ -1,0 +1,106 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://developer.clari.com/documentation/external_spec,
+  https://api-doc.copilot.clari.com/spec.yaml,
+  https://clari.statuspage.io/api/v2/summary.json,
+  https://community.clari.com/product-updates
+name: Clari API lifecycle
+description: >-
+  Versioning, deprecation and availability posture for the Clari APIs. Clari publishes
+  a real, component-level status page and a monthly dated release-notes stream, but it
+  publishes NO written API deprecation policy, NO sunset-header practice, and NO public
+  SLA. The one deprecation Clari has communicated in an API document is a host
+  migration announced inside the Copilot spec description.
+
+versioning:
+  revenue_api:
+    scheme: path-segment
+    current_path_version: v4
+    document_version: 5.0.0
+    base: https://api.clari.com/{basePath}
+    templated: true
+    note: >-
+      `basePath` is a server variable defaulting to v4. The OpenAPI info.version is
+      5.0.0 and moves independently of the path segment. No v5 path is published.
+  copilot_api:
+    scheme: unversioned-host
+    document_version: 1.0.0
+    base: https://rest-api.copilot.clari.com
+    note: >-
+      No global version segment. Endpoint-level versioning appears once: GET /v2/topics
+      ships alongside GET /topics, and both are live. Clari does not say whether or when
+      /topics retires.
+
+deprecation:
+  policy_published: false
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation policy, no Sunset or Deprecation response headers, and no
+    `deprecated: true` flag on any operation or schema in either published spec.
+  announced_deprecations:
+  - subject: https://rest-api.trywingman.com
+    replacement: https://rest-api.copilot.clari.com
+    announced_in: Copilot OpenAPI info.description, section "# Deprecation"
+    verbatim: >-
+      "This api's old domain https://rest-api.trywingman.com is deprecated and will be
+      supported till end of 2023 to allow existing clients to migrate."
+    end_of_support: '2023-12-31'
+    status: elapsed
+    note: >-
+      A post-acquisition host migration (Wingman -> Clari Copilot) with a stated
+      migration window. It is the only deprecation Clari has communicated in an API
+      artifact, it is prose in a description rather than machine-readable metadata,
+      and its window closed over two years ago — the notice is now stale documentation
+      rather than an active signal.
+  observed_decommission:
+  - host: api.copilot.clari.com
+    status: NXDOMAIN
+    probed: '2026-08-13'
+    note: >-
+      This host was carried as the Copilot baseURL in this profile before the current
+      pass. It does not resolve and never appeared in the published servers[]. Recorded
+      here because a base URL disappearing with no deprecation notice is exactly the
+      failure the missing policy above allows.
+
+status_page:
+  url: https://trust.clari.com
+  alternate_url: https://clari.statuspage.io/
+  provider: Atlassian Statuspage
+  api: https://clari.statuspage.io/api/v2/summary.json
+  machine_readable: true
+  http_status: 200
+  components_published: true
+  component_examples:
+  - Align
+  - Groove Dialer
+  note: >-
+    Component-level status with a public JSON API. Note the canonical page id resolves
+    to https://trust.clari.com; clari.statuspage.io serves the same page.
+
+sla:
+  published: false
+  note: No public uptime SLA. Availability commitments are contractual (enterprise agreements only).
+
+support:
+  portal: https://clari.my.site.com/customer/s/get-support
+  community: https://community.clari.com/
+  api_contact: support@clari.com
+  copilot_contact: copilot-support@clari.com
+  note: The support portal is a Salesforce Experience Cloud site and requires a customer login.
+
+change_communication:
+  changelog: https://community.clari.com/product-updates
+  cadence: monthly
+  api_specific: false
+  note: >-
+    Release notes are product-wide, not API-scoped. There is no API changelog on
+    developer.clari.com and no version history in either OpenAPI. See
+    changelog/clari-changelog.yml.
+
+deprecated_operations: []
+deprecated_operations_note: >-
+  Zero operations carry a `deprecated` flag across all 35 published operations.

@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clari API Reference Activity API Bulk Export Framework API",
+    "version": "5.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Bulk Export Framework",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "View the status of a given export using its jobId",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clari.com/{basePath}/export/jobs/:jobId",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The job id for the job to fetch the details for."
+              }
+            ]
+          },
+          "docs": "Once your export job has been successfully created, it will be initialized with `\"status\": \"STARTED\"`. You'll need to poll the status of your request until it is complete. The possible states of your export request are: \n- `SCHEDULED` - job successfully created and queued up\n- `STARTED` - job in-progress\n- `DONE` - job complete and ready to output data\n- `FAILED` - job could not complete \n- `CANCELLED` - job was scheduled but then got cancelled \n- `ABORTED` - job started running but then got can"
+        },
+        {
+          "info": {
+            "name": "Stop or cancel an in-progress job",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.clari.com/{basePath}/export/jobs/:jobId",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Use this endpoint to stop or “cancel” an in-progress export job. The job will stop executing and free up space on your monthly quota. The job will still be accessible if you call the `GET /export/jobs` endpoint."
+        },
+        {
+          "info": {
+            "name": "Retrieve and save forecast export content",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clari.com/{basePath}/export/jobs/:jobId/results",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Once your export finishes processing and its status returns `DONE`, you will be able to retrieve your file contents using this endpoint.\n"
+        },
+        {
+          "info": {
+            "name": "View all jobs initiated from a particular user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clari.com/{basePath}/export/jobs",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "View a list of all jobs initiated by a particular user. The response will include all complete, cancelled, and in-progress jobs."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

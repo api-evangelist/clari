@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clari API Reference Activity API Forecast API API",
+    "version": "5.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Forecast API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a new forecast export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clari.com/{basePath}/export/forecast/:forecastId",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "forecastId",
+                "value": "",
+                "type": "path",
+                "description": "Forecast tab on which to run the export on."
+              },
+              {
+                "name": "timePeriod",
+                "value": "",
+                "type": "query",
+                "description": "Fiscal Quarter for when you'd like to run your export. Must be passed in as a string (e.g. \"YYYY_QQ\")\n\n<img src=\"https://developer.clari.com/assets/images/fiscal_quarter.png\" alt=\"fiscal quarter\" width=\"300\"/>"
+              },
+              {
+                "name": "scopeId",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the scopeId to use as the root for the hierarchy that the export will run against. We recommend to add the integration user at the top of the hierarchy and opting the integration user into forecasting."
+              },
+              {
+                "name": "typesToExport",
+                "value": "",
+                "type": "query",
+                "description": "Forecast data types you'd like to export. Must be passed in as a list.\n- **forecast** indicates the actual amount entered by the individual contributor, and is associated with the forecast call fields (i.e. Commit or Most Likely, Best Case or Upside, etc.).\n- **quota** indicates the value from the Quota field in Forecasting, and this data type is associated with Quota fields (i.e. Quota, Plan, Budget, etc.).\n- **forecast_updated** indicates whether or not the individual contributor actually went into Forecasting and updated their call(s) or number(s), and this data type is associated with forecast call fields.\n- **adjustment** indicates the adjusted call/number that a forecasting manager entered when they made a manager override to their report's call/number, and this data type is associated with forecast call fields.\n- **crm_total** indicates the crm aggregation value for an associated field and owner is desired for the fields returned in the payload.\n- **crm_closed** indicates the opportunities closed amount."
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the currency that currency fields should return in."
+              },
+              {
+                "name": "exportFormat",
+                "value": "",
+                "type": "query",
+                "description": "Format of the exported file. Some export formats can be unavailable depending the export data size and type."
+              },
+              {
+                "name": "includeHistorical",
+                "value": "",
+                "type": "query",
+                "description": "If set to true, you will receive week over week forecasts and CRM aggregations from the start of the quarter requested in timePeriod till the current week.  If false, only the current week’s forecast and CRM aggregations will be returned…"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Configure and start processing an export job by providing the ID of the Forecast Tab you would like to export data from. You will be able to retrieve the `forecastId` from the URL when viewing a Forecast Tab from your Clari account. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.\n\nTo create your request, you will need to pass your `apikey` in as a header, the `forecastId` in the request path, and al"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

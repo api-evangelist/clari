@@ -1,0 +1,664 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "rest-api",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "topics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List of Keyword Topics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-api.copilot.clari.com/topics",
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns All unique keyword topics"
+        },
+        {
+          "info": {
+            "name": "List of Topics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-api.copilot.clari.com/v2/topics",
+            "params": [
+              {
+                "name": "filterModifiedLt",
+                "value": "",
+                "type": "query",
+                "description": "If passed, filters out topics modified (updated) after passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.\n"
+              },
+              {
+                "name": "filterModifiedGt",
+                "value": "",
+                "type": "query",
+                "description": "If passed, filters out topics modified (updated) before passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.\n"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns details of all topics.\n\nYou can filter topics based on their last modified time using the following optional query parameters.\n\n### Examples\n- All topics: `/v2/topics`\n- Topics modified **before** a date: `/v2/topics?filterModifiedLt=2000-01-01T00:00:00+0000`\n- Topics modified **after** a date: `/v2/topics?filterModifiedGt=2000-01-01T00:00:00+0000`\n- Topics modified **between two dates**: `/v2/topics?filterModifiedGt=2000-01-01T00:00:00+0000&filterModifiedLt=2025-01-01T00:00:00+0000`\n\nUs"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "scorecard",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List of scorecard",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-api.copilot.clari.com/scorecard",
+            "params": [
+              {
+                "name": "skip",
+                "value": "",
+                "type": "query",
+                "description": "Skip specified number of scorecards. Defaults to 0, if not passed. Should be integer, else returns bad request error.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of scorecards returned to given number. Defaults to 50, if not passed. Should be integer, else returns bad request error.\n"
+              },
+              {
+                "name": "filterTimeGt",
+                "value": "",
+                "type": "query",
+                "description": "If passed, filters out scorecards before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n"
+              },
+              {
+                "name": "filterTimeLt",
+                "value": "",
+                "type": "query",
+                "description": "If passed, filters out scorecards after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n"
+              },
+              {
+                "name": "filterRepId",
+                "value": "",
+                "type": "query",
+                "description": "This is a single-value parameter, if passed, will filter scorecards for the given user id who is getting scored for the call\n"
+              },
+              {
+                "name": "filterScorerId",
+                "value": "",
+                "type": "query",
+                "description": "This is a single-value parameter, if passed, will filter scorecards for the given user id, who are scoring the calls\n"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "This endpoint allows listing scorecard by different parameters.\nFilter parameters have filter prefix and sort parameters have sort prefix.\nYou can fetch only 100 scorecard in page, use skip and limit to scroll through scorecards.\n"
+        },
+        {
+          "info": {
+            "name": "List of scorecard templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-api.copilot.clari.com/scorecard-template",
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "This endpoint allows listing all the scorecard template and information about them\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "call",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List calls",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-api.copilot.clari.com/calls",
+            "params": [
+              {
+                "name": "skip",
+                "value": "",
+                "type": "query",
+                "description": "Skip specified number of calls. Defaults to 0, if not passed. Should be integer, else returns bad request error.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of calls returned to given number. Defaults to 25, if not passed. Should be integer, else returns bad request error.\n"
+              },
+              {
+                "name": "filterUser",
+                "value": "",
+                "type": "query",
+                "description": "This is a multi-value parameter, if passed, will filter only calls that involve users passed. Users should be referred to by email as seen in manage users page in Copilot settings.\n"
+              },
+              {
+                "name": "filterAttendees",
+                "value": "",
+                "type": "query",
+                "description": "This is a multi-value parameter, if passed, will filter only calls that involve meeting attendees passed. Attendees should be referred to by email.\n"
+              },
+              {
+                "name": "filterTopics",
+                "value": "",
+                "type": "query",
+                "description": "This is a multi-value parameter, if passed, will filter only calls of topics passed.\n"
+              },
+              {
+                "name": "filterStatus",
+                "value": "",
+                "type": "query",
+                "description": "This is a multi-value parameter, if passed, will filter only calls of statuses passed.\n"
+              },
+              {
+                "name": "filterType",
+                "value": "",
+                "type": "query",
+                "description": "This is a multi-value parameter, if passed, will filter only calls of types passed.\n"
+              },
+              {
+                "name": "filterSourceId",
+                "value": "",
+                "type": "query",
+                "description": "If passed, will include only calls with passed source id.\n"
+              },
+              {
+                "name": "filterTimeGt",
+                "value": "",
+                "type": "query",
+                "description": "If passed, filters out calls scheduled/started(for dialer and adhoc calls) before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n"
+              },
+              {
+                "name": "filterTimeLt",
+                "value": "",
+                "type": "query",
+                "description": "If passed, filters out calls scheduled/started(for dialer and adhoc calls) after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n"
+              },
+              {
+                "name": "filterModifiedGt",
+                "value": "",
+                "type": "query",
+                "description": "If passed, filters out calls modified (status updated) before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n"
+              },
+              {
+                "name": "filterModifiedLt",
+                "value": "",
+                "type": "query",
+                "description": "If passed, filters out calls modified (status updated) after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n"
+              },
+              {
+                "name": "filterDurationGt",
+                "value": "",
+                "type": "query",
+                "description": "If passed, filters out calls shorter than passed value in seconds. If non integer is passed as value, results in bad request error.\n"
+              },
+              {
+                "name": "filterDurationLt",
+                "value": "",
+                "type": "query",
+                "description": "If passed, filters out calls longer than passed value in seconds. If non integer is passed as value, results in bad request error.\n"
+              },
+              {
+                "name": "sortTime",
+                "value": "",
+                "type": "query",
+                "description": "Sort by call scheduled/start time."
+              },
+              {
+                "name": "sortProcessed",
+                "value": "",
+                "type": "query",
+                "description": "Sort by call last processed time."
+              },
+              {
+                "name": "includePrivate",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes private calls also in response. If false, response does not include private calls. Invalid value results in error."
+              },
+              {
+                "name": "includeAudio",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours."
+              },
+              {
+                "name": "includeVideo",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours."
+              },
+              {
+                "name": "includePagination",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes pagination object in the response that shows total count. If false, query performance is much faster as it does not include the pagination object."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "This endpoint allows listing calls by different parameters.\nFilter parameters have filter prefix and sort parameters have sort prefix.\n\nYou can fetch only 100 calls in page, use skip and limit to scroll through calls.\n\nTo get transcript, deal live stage fetch call individually using call-details endpoint.\n\nNote: 'includePagination=false' will greatly improve endpoint response.\n"
+        },
+        {
+          "info": {
+            "name": "Call details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-api.copilot.clari.com/call-details",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "call id"
+              },
+              {
+                "name": "includeAudio",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours."
+              },
+              {
+                "name": "includeVideo",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns details of call with id passed as query param"
+        },
+        {
+          "info": {
+            "name": "Create call",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest-api.copilot.clari.com/create-call",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a new call in Copilot system. Call's video link can be passed in the audio_url field."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "user",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-api.copilot.clari.com/users",
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns current users in Copilot system"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "account",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest-api.copilot.clari.com/create-account",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a data for new account in Copilot system"
+        },
+        {
+          "info": {
+            "name": "Read account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-api.copilot.clari.com/get-account",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "source id of the account"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns details of account with source id passed as query param"
+        },
+        {
+          "info": {
+            "name": "Update account",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rest-api.copilot.clari.com/update-account",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a data for new account in Copilot system"
+        },
+        {
+          "info": {
+            "name": "Delete account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rest-api.copilot.clari.com/delete-account",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns details of last snapshot of the deleted account"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "contact",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest-api.copilot.clari.com/create-contact",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a data for new contact in Copilot system"
+        },
+        {
+          "info": {
+            "name": "Read contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-api.copilot.clari.com/get-contact",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "source id of the contact"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns details of contact with source id passed as query param"
+        },
+        {
+          "info": {
+            "name": "Update contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rest-api.copilot.clari.com/update-contact",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update a data for new contact in Copilot system"
+        },
+        {
+          "info": {
+            "name": "Delete contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rest-api.copilot.clari.com/delete-contact",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns details of last snapshot of deleted contact"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "deal",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create deal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest-api.copilot.clari.com/create-deal",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a data for new deal in Copilot system"
+        },
+        {
+          "info": {
+            "name": "Read deal",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-api.copilot.clari.com/get-deal",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "source id of the deal"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns details of deal with source id passed as query param"
+        },
+        {
+          "info": {
+            "name": "Update deal",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rest-api.copilot.clari.com/update-deal",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update a data for new deal in Copilot system"
+        },
+        {
+          "info": {
+            "name": "Delete deal",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rest-api.copilot.clari.com/delete-deal",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns details of last snapshot of the deleted deal"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

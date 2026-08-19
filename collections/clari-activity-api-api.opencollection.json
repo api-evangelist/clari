@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clari API Reference Activity API API",
+    "version": "5.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Activity API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a new activity export job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clari.com/{basePath}/export/activity",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This is a bulk export API.\n\nConfigure and start processing an export job by providing activityTypes, startDate, and endDate in the JSON as request body.\n\nTo create your request, you will need to pass your `apikey` in as a header, all other parameters as a JSON in the body."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

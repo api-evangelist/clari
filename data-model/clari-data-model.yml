@@ -1,0 +1,235 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/clari-copilot-api-openapi.yml (41 component schemas) and
+  openapi/clari-*-api-openapi.yml (Clari Revenue API v5.0.0)
+name: Clari data model
+description: >-
+  Entity-relationship graph derived from $ref links and id-reference fields across
+  both published Clari OpenAPIs. The two APIs model two different worlds that share
+  no join key in the published contracts: the Copilot API is a call-centric
+  conversation-intelligence graph keyed on CRM ids, and the Revenue API is a
+  job-centric export/ingest surface whose payload shapes are largely opaque (the
+  forecast and activity exports return files, not typed resources). The strongest
+  structural fact in this model is that Copilot resources are addressed by the
+  CUSTOMER'S CRM id (`crm_id`), not by a Clari-native identifier — Clari Copilot is a
+  layer over Salesforce identity rather than a system of record with its own id space.
+
+id_conventions:
+  copilot:
+    primary: crm_id
+    note: >-
+      Account, Contact and Deal are all addressed by `crm_id`, the id from the
+      customer's CRM. The schemas are literally named AccountWithoutId /
+      ContactWithoutId / DealWithoutId for the create shape, with the id-bearing
+      variant adding crm_id. There is no Clari-issued account/deal id in the public
+      contract.
+    other_ids:
+    - id (Call, User, Scorecard, ScoreCardTemplate)
+    - source_id (Call — id in the originating recording source)
+    - icaluid, calendar_id, recurring_event_id (Call — calendar identity)
+    - personId / userId (participants)
+    prefixes: none published
+  revenue:
+    primary: jobId
+    other_ids:
+    - forecastId
+    - scopeId
+    - entity
+    note: >-
+      forecastId is not returned by any API — Clari's docs instruct you to read it out
+      of the browser URL when viewing a Forecast Tab. That is a documented
+      human-in-the-loop step in an otherwise machine surface.
+
+entities:
+- name: Call
+  api: copilot
+  description: A recorded sales meeting or call, the root object of the Copilot graph.
+  operations: ['GET /calls', 'GET /call-details', 'POST /create-call']
+  relationships:
+  - type: has_many
+    target: CallUser
+    via: users
+  - type: has_many
+    target: CallParticipant
+    via: externalParticipants
+  - type: has_many
+    target: JoinedParticipant
+    via: joinedParticipants
+  - type: has_one
+    target: CallStatus
+    via: status
+  - type: has_one
+    target: CallType
+    via: type
+  - type: has_one
+    target: CallDisposition
+    via: disposition
+  - type: has_many
+    target: BotNotJoinReason
+    via: bot_not_join_reason
+  - type: has_one
+    target: Category
+    via: metrics
+- name: CallDetails
+  api: copilot
+  description: Expanded call payload returned by GET /call-details — the deep read.
+  relationships:
+  - type: has_one
+    target: ExternalTranscript
+    via: transcript
+  - type: has_many
+    target: SummaryTopics
+    via: summary topics
+  - type: has_many
+    target: SummaryActionItems
+    via: summary action items
+  - type: has_many
+    target: CompetitorSentiments
+    via: competitor sentiments
+  note: >-
+    This is the schema behind the MCP transcript-retrieval capability that was removed
+    from the Claude connector in August 2026. The REST route still returns it.
+- name: ExternalTranscript
+  api: copilot
+  relationships:
+  - type: has_many
+    target: ExternalSpeakers
+    via: external_speakers
+  - type: has_many
+    target: ExtConversationTurns
+    via: ext_conversation_turns
+- name: User
+  api: copilot
+  description: A Copilot workspace user.
+  operations: ['GET /users']
+  relationships:
+  - type: belongs_to
+    target: User
+    via: manager_id
+    note: Self-referencing management hierarchy — the only org-chart edge in the public model.
+- name: Account
+  api: copilot
+  description: A CRM account mirrored into Copilot.
+  operations: ['POST /create-account', 'GET /get-account', 'PUT /update-account', 'DELETE /delete-account']
+  relationships:
+  - type: has_many
+    target: CustomField
+    via: custom_fields
+  key: crm_id
+- name: Contact
+  api: copilot
+  operations: ['POST /create-contact', 'GET /get-contact', 'PUT /update-contact', 'DELETE /delete-contact']
+  relationships:
+  - type: belongs_to
+    target: Account
+    via: account_crm_id
+  - type: has_many
+    target: CustomField
+    via: custom_fields
+  key: crm_id
+- name: Deal
+  api: copilot
+  operations: ['POST /create-deal', 'GET /get-deal', 'PUT /update-deal', 'DELETE /delete-deal']
+  relationships:
+  - type: belongs_to
+    target: Account
+    via: account_crm_id
+  - type: belongs_to
+    target: User
+    via: owner_crm_id
+  - type: has_many
+    target: StageChangeHistory
+    via: stage_change_history
+  - type: has_many
+    target: CloseDateChangeHistory
+    via: close_date_change_history
+  - type: has_many
+    target: CustomField
+    via: custom_fields
+  key: crm_id
+  note: >-
+    stage_change_history and close_date_change_history are first-class arrays on the
+    deal, not a separate audit resource. Deal slippage is modelled in the object.
+- name: Scorecard
+  api: copilot
+  operations: ['GET /scorecard']
+  relationships:
+  - type: belongs_to
+    target: Call
+    via: call_id
+  - type: belongs_to
+    target: ScoreCardTemplate
+    via: template_id
+  - type: has_many
+    target: ScorecardQuestion
+    via: questions_score
+- name: ScoreCardTemplate
+  api: copilot
+  operations: ['GET /scorecard-template']
+  relationships:
+  - type: has_many
+    target: ScorecardTemplateQuestion
+    via: questions
+- name: Topic
+  api: copilot
+  operations: ['GET /topics', 'GET /v2/topics']
+  note: Two live generations of the same resource; Clari does not say which is canonical.
+- name: ExportJob
+  api: revenue
+  description: Asynchronous export job — the central object of the Revenue API.
+  operations: ['GET /export/jobs', 'GET /export/jobs/{jobId}', 'PATCH /export/jobs/{jobId}', 'GET /export/jobs/{jobId}/results']
+  key: jobId
+  states: [queued, running, DONE]
+  relationships:
+  - type: has_one
+    target: ExportResults
+    via: /export/jobs/{jobId}/results
+  created_by:
+  - 'POST /export/forecast/{forecastId}'
+  - 'POST /export/activity'
+  - 'POST /export/audit/events'
+- name: IngestJob
+  api: revenue
+  operations: ['GET /ingest/job/{jobId}']
+  key: jobId
+  created_by:
+  - 'POST /ingest/bulk/entity/{entity}'
+  - 'POST /ingest/entity/{entity}'
+  note: All-or-nothing batch validation — a single invalid record rejects the whole batch.
+- name: Entity
+  api: revenue
+  description: A named ingest target type (account, opportunity).
+  operations: ['POST /ingest/entity/{entity}', 'POST /ingest/bulk/entity/{entity}', 'GET /ingest/schema/{entity}/field', 'POST /ingest/schema/{entity}/field']
+  relationships:
+  - type: has_many
+    target: PicklistField
+    via: /ingest/schema/{entity}/field
+- name: Opportunity
+  api: revenue
+  operations: ['GET /opportunity']
+  note: The only synchronous typed read on the Revenue API.
+- name: AuditEvent
+  api: revenue
+  operations: ['GET /audit/events', 'POST /export/audit/events']
+  pagination: paginationToken, limit 1-1000 (default 100)
+- name: Forecast
+  api: revenue
+  operations: ['POST /export/forecast/{forecastId}']
+  key: forecastId
+  note: Export-only. There is no GET /forecast; forecast data leaves Clari as a job result file.
+
+cross_api_joins:
+  published: false
+  note: >-
+    Nothing in either contract joins a Copilot Call/Deal to a Revenue API
+    Opportunity or Forecast. The practical join key is the customer's own CRM id
+    (crm_id on the Copilot side), which the Revenue API never returns in a typed field.
+    Any agent stitching the two surfaces is doing so on inference, not on a published
+    relationship.
+
+counts:
+  entities: 17
+  copilot_component_schemas: 41
+  relationships_derived: 28
+  id_reference_fields: 20

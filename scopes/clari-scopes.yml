@@ -1,0 +1,101 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  https://mcp.clari.com/.well-known/oauth-protected-resource/mcp and
+  https://mcp.clari.com/.well-known/oauth-authorization-server/mcp (both HTTP 200,
+  fetched anonymously 2026-08-13)
+name: Clari OAuth scopes
+description: >-
+  Clari's OAuth surface exists ONLY on the MCP server. Neither published OpenAPI
+  declares an oauth2 securityScheme — the Revenue API uses an `apikey` header and the
+  Copilot API uses `X-Api-Key` + `X-Api-Password`. The scopes below are read verbatim
+  from the RFC 9728 / RFC 8414 metadata the Clari MCP gateway serves anonymously.
+  They are standard OpenID Connect scopes; Clari publishes NO product-specific
+  authorization scopes (nothing like forecast:read or calls:read), so a granted MCP
+  token is not scoped by Clari data domain at the protocol level. Access is instead
+  gated by tenant admin toggles and the user's own Clari permissions.
+applies_to: mcp
+docs: null
+docs_note: >-
+  No scopes or permissions reference page is published on developer.clari.com,
+  api-doc.copilot.clari.com or clari.com. Only the machine-readable metadata exists.
+
+authorization_server:
+  issuer: https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698
+  authorization_endpoint: https://app.clari.com/authorize
+  token_endpoint: https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698/v1/token
+  registration_endpoint: https://mcp.clari.com/okta/clients
+  jwks_uri: https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698/v1/keys
+  introspection_endpoint: https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698/v1/introspect
+  revocation_endpoint: https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698/v1/revoke
+  end_session_endpoint: https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698/v1/logout
+  device_authorization_endpoint: https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698/v1/device/authorize
+  code_challenge_methods_supported: [S256]
+  dpop_signing_alg_values_supported: [RS256, RS384, RS512, ES256, ES384, ES512]
+  grant_types_supported:
+  - authorization_code
+  - implicit
+  - refresh_token
+  - password
+  - client_credentials
+  - urn:ietf:params:oauth:grant-type:device_code
+
+protected_resource:
+  resource: https://mcp.clari.com/mcp
+  resource_name: Clari MCP Server
+  bearer_methods_supported: [header]
+
+scopes:
+- name: openid
+  description: Standard OIDC scope requesting an ID token. Required by the MCP resource.
+  required: true
+  source: protected-resource metadata (scopes_supported)
+  standard: openid-connect-core
+- name: profile
+  description: Standard OIDC scope granting basic profile claims about the authenticating Clari user.
+  required: true
+  source: protected-resource metadata (scopes_supported)
+  standard: openid-connect-core
+- name: email
+  description: Standard OIDC scope granting the user's email claim. Advertised by the authorization server; not required by the MCP resource.
+  required: false
+  source: authorization-server metadata (scopes_supported)
+  standard: openid-connect-core
+- name: address
+  description: Standard OIDC address claim scope. Advertised by the authorization server only.
+  required: false
+  source: authorization-server metadata (scopes_supported)
+  standard: openid-connect-core
+- name: phone
+  description: Standard OIDC phone claim scope. Advertised by the authorization server only.
+  required: false
+  source: authorization-server metadata (scopes_supported)
+  standard: openid-connect-core
+- name: offline_access
+  description: Requests a refresh token so an agent can maintain a long-lived MCP session.
+  required: false
+  source: authorization-server metadata (scopes_supported)
+  standard: openid-connect-core
+- name: device_sso
+  description: Okta device single-sign-on scope, used with the device authorization grant.
+  required: false
+  source: authorization-server metadata (scopes_supported)
+  standard: okta-extension
+
+token_claims_supported:
+- ver
+- jti
+- iss
+- aud
+- iat
+- exp
+- cid
+- uid
+- scp
+- sub
+
+findings:
+- Product-scoped authorization is absent. Nothing in the published metadata lets a client request read-only access to, say, calls but not deals.
+- Consent granularity is therefore all-or-nothing at the protocol layer; least-privilege has to be enforced by the Clari admin toggles and the user's own role.
+- The authorization server advertises `implicit` and `password` grants, both discouraged by OAuth 2.1. An MCP client should use authorization_code + PKCE (S256), which is supported.
+- Dynamic client registration is open at https://mcp.clari.com/okta/clients, which is what allows Claude and ChatGPT to connect without a pre-provisioned client id.

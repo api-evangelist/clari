@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clari API Reference Activity API Bulk Ingest Job Status API API",
+    "version": "5.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Bulk Ingest Job Status API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check the data upload status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clari.com/{basePath}/ingest/job/:jobId",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              },
+              {
+                "name": "partnerkey",
+                "value": "account"
+              }
+            ],
+            "params": [
+              {
+                "name": "jobId",
+                "value": "1231244212322",
+                "type": "path",
+                "description": "the job identifier of the asynchronous upload request"
+              }
+            ]
+          },
+          "docs": "Upon receiving a response from the asynchronous ingest bulk upload API, make use of the provided 'jobId' to check the status \nand result of the upload job.\n\nBASE URL: `https://api.clari.com/v2`\n\nEXAMPLE: `https://api.clari.com/v2/ingest/bulk/entity/account`\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

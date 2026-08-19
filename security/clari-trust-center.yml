@@ -1,15 +1,63 @@
-generated: '2026-07-11'
+generated: '2026-08-13'
 method: searched
 probe: true
 source: https://www.clari.com/security/
 url: https://www.clari.com/security/
+name: Clari security and compliance
+description: >-
+  Clari publishes a security page naming six certification and compliance programs,
+  a separate security addendum, and a vulnerability disclosure policy. There is no
+  dedicated trust-center portal (no trust.clari.com security portal — that hostname
+  serves the Atlassian status page) and no self-serve document request flow; the
+  security overview is a downloadable asset.
 certifications:
-- SOC 2
-- ISO 27001
-- GDPR
+- name: ISO/IEC 27001
+  scope: Information Security Management System (ISMS)
+- name: ISO/IEC 27701
+  scope: Privacy Information Management System (PIMS)
+- name: SOC 2 Type II
+  scope: Trust Services Principles
+- name: CSA
+  scope: Cloud Security Alliance
+- name: ADA
+  scope: App Defense Alliance
+- name: GDPR
+  scope: GDPR compliant
+related_documents:
+- name: Security Addendum
+  url: https://www.clari.com/security-addendum/
+  http_status: 200
+- name: Security Overview (download)
+  url: https://www.clari.com/downloads/security-overview/
+- name: Privacy Policy
+  url: https://www.clari.com/privacy/
+  http_status: 200
+- name: Vulnerability Disclosure Policy
+  url: https://www.clari.com/vulnerability-disclosure-policy/
+  http_status: 200
+  see: security/clari-vulnerability-disclosure.yml
+- name: Report a Scam
+  url: https://www.clari.com/security/report-a-scam/
+press:
+- title: Clari achieves ISO 27001 certification for information security management
+  url: https://www.clari.com/press/clari-achieves-iso-27001-certification-for-information-security-management/
+- title: Clari receives Enterprise-Ready rating from the Skyhigh CloudTrust program
+  url: https://www.clari.com/press/clari-receives-enterprise-ready-rating-from-the-skyhigh-cloudtrust-program/
 evidence:
 - source: https://www.clari.com/security/
+  http_status: 200
   keywords:
-  - soc 2
   - iso/iec 27001
+  - iso/iec 27701
+  - soc 2 type ii
+  - cloud security alliance
+  - app defense alliance
   - gdpr
+  - vulnerability disclosure policy
+gaps:
+- No security.txt (RFC 9116) on any host.
+- No self-serve trust portal for requesting SOC 2 reports; documents are obtained through sales.
+x-provenance-note: >-
+  Expanded on 2026-08-13 from three certifications (SOC 2, ISO 27001, GDPR) to the six
+  named on Clari's own security page, and cross-linked to the vulnerability disclosure
+  policy discovered in the same pass.

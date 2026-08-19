@@ -1,4 +1,14 @@
 """
+NOT PUBLISHED BY CLARI. Clari ships no GraphQL API.
+
+Probed 2026-08-13: POST https://api.clari.com/graphql and /v4/graphql both return
+HTTP 404 "no Route matched with those values". No GraphQL surface is documented
+anywhere on developer.clari.com or api-doc.copilot.clari.com.
+
+This is a SPECULATIVE schema — a shape a GraphQL layer over Clari's REST surface
+could take. It is not served, not introspected, and not a Clari contract. The
+apis.yml pointers referencing it were removed on 2026-08-13. Do not re-add them.
+
 Clari Revenue Operations Platform - Conceptual GraphQL Schema
 Derived from the Clari REST API and platform domain model.
 Developer documentation: https://developer.clari.com/

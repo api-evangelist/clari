@@ -1,0 +1,201 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  mcp/clari-mcp.yml (probed MCP surface) + openapi/clari-copilot-api-openapi.yml +
+  openapi/clari-*-api-openapi.yml (Clari Revenue API v4)
+name: Clari MCP <-> REST tool crosswalk
+description: >-
+  Binds the documented Clari MCP Server capability areas to the REST operations that
+  back them, so an agent can fall back to the published OpenAPI when the MCP surface
+  is unavailable or ungranted. IMPORTANT: Clari's tools/list is OAuth-gated, so no
+  live tool names or inputSchemas were readable. Every row below is matched by
+  DOMAIN and SEMANTICS against Clari's own release notes and newsroom copy, not
+  against a fetched tool manifest. Confidence is set accordingly — nothing here is
+  high confidence, and no tool name is invented. The `tool` column names the
+  capability area Clari documents, not a literal MCP tool identifier.
+
+surfaces:
+  openapi:
+  - file: openapi/clari-copilot-api-openapi.yml
+    server: https://rest-api.copilot.clari.com
+    operations: 20
+    gated: false
+    note: Published verbatim at https://api-doc.copilot.clari.com/spec.yaml (HTTP 200).
+  - files:
+    - openapi/clari-activity-api-api-openapi.yml
+    - openapi/clari-administrative-api-api-openapi.yml
+    - openapi/clari-audit-api-api-openapi.yml
+    - openapi/clari-bulk-export-framework-api-openapi.yml
+    - openapi/clari-bulk-ingest-job-status-api-api-openapi.yml
+    - openapi/clari-export-api-openapi.yml
+    - openapi/clari-forecast-api-api-openapi.yml
+    - openapi/clari-ingestion-api-api-openapi.yml
+    - openapi/clari-opportunity-api-api-openapi.yml
+    server: https://api.clari.com/{basePath}
+    operations: 15
+    gated: false
+    note: Clari Revenue API v5.0.0, published in the Kong developer portal at https://developer.clari.com/documentation/external_spec.
+  graphql:
+    endpoint: null
+    note: >-
+      Clari publishes no GraphQL API. POST /graphql returns Kong 404 "no Route matched
+      with those values" on api.clari.com and 401 "Credentials not provided!" on
+      rest-api.copilot.clari.com (the gateway 401s every path, matched or not), and
+      no GraphQL surface is documented anywhere on developer.clari.com.
+  mcp:
+    url: https://mcp.clari.com/mcp
+    gated: true
+    note: OAuth 2.0 / Okta. tools/list returns 401 invalid_token anonymously.
+
+crosswalk:
+- tool: accounts
+  category: crm
+  rest:
+  - get-account
+  - create-account
+  - update-account
+  - delete-account
+  binding: rest-domain
+  confidence: medium
+  note: >-
+    Copilot REST exposes full CRUD on accounts at /get-account, /create-account,
+    /update-account, /delete-account. The Copilot spec assigns no operationId, so the
+    path is the stable identifier. Documented MCP account access is read-oriented
+    today; write-back was announced for late summer 2026.
+- tool: deals / opportunities
+  category: crm
+  rest:
+  - get-deal
+  - create-deal
+  - update-deal
+  - delete-deal
+  - externalOpportunityResource
+  binding: rest-domain
+  confidence: medium
+  note: >-
+    Two distinct backing surfaces — Copilot CRM deals (/get-deal etc. on
+    rest-api.copilot.clari.com) and the Revenue API GET /opportunity
+    (externalOpportunityResource on api.clari.com/v4). An agent choosing a fallback
+    must pick by which product the tenant licenses.
+- tool: people / contacts
+  category: crm
+  rest:
+  - get-contact
+  - create-contact
+  - update-contact
+  - delete-contact
+  - '/users'
+  binding: rest-domain
+  confidence: medium
+  note: GET /users returns Copilot workspace users; /get-contact et al. cover CRM contacts.
+- tool: calls and conversation intelligence
+  category: conversation-intelligence
+  rest:
+  - '/calls'
+  - '/call-details'
+  - create-call
+  binding: rest-domain
+  confidence: medium
+  note: >-
+    GET /call-details returns the CallDetails schema including ExternalTranscript,
+    SummaryTopics, SummaryActionItems and CompetitorSentiments. The MCP surface
+    deliberately exposes summaries and key moments only — raw transcript retrieval
+    was REMOVED from the Claude connector in the August 2026 release.
+- tool: topics
+  category: conversation-intelligence
+  rest:
+  - '/topics'
+  - '/v2/topics'
+  binding: rest-domain
+  confidence: medium
+  note: Copilot call intelligence "topics and keywords via MCP" was named in the launch note.
+- tool: scorecards / coaching
+  category: conversation-intelligence
+  rest:
+  - '/scorecard'
+  - '/scorecard-template'
+  binding: rest-domain
+  confidence: low
+  note: >-
+    Coaching scorecards are part of the Copilot product the MCP server fronts, but no
+    Clari source names a scorecard tool. Listed as the REST surface an agent would
+    use, not as a claimed MCP tool.
+- tool: forecasting and deal inspection
+  category: forecasting
+  rest:
+  - externalFcwExport
+  - jobStatus
+  - externalExportDownload
+  binding: rest-domain
+  confidence: low
+  note: >-
+    Clari states forecasting and deal-inspection data arrive on MCP "through late
+    summer 2026". The REST equivalent is not a query API — it is the asynchronous
+    three-step bulk export (POST /export/forecast/{forecastId} -> poll GET
+    /export/jobs/{jobId} -> GET /export/jobs/{jobId}/results), which is a materially
+    different interaction shape from an MCP tool call. Confidence is low for that
+    reason, not because the capability is in doubt.
+- tool: cadences and activity data
+  category: engagement
+  rest:
+  - '/export/activity'
+  binding: rest-domain
+  confidence: low
+  note: >-
+    Salesloft Cadence data has no public Clari REST equivalent. The nearest published
+    operation is the Revenue API activity export (POST /export/activity), which covers
+    emails, meetings and files rather than cadence steps.
+
+mcp_only:
+- tool: team metrics
+  reason: >-
+    No public Clari or Copilot REST operation returns team-level rollup metrics; the
+    Revenue API exposes forecast exports, not aggregated team dashboards.
+- tool: natural-language query across accounts, deals and calls
+  reason: >-
+    The MCP server's stated value is plain-language querying across surfaces. There is
+    no single REST operation with that shape; it composes several.
+
+rest_only:
+- operationId: limits
+  path: GET /admin/limits
+  reason: Quota/limit introspection is an administrative REST concern with no documented MCP tool.
+- operationId: listAuditEvents
+  path: GET /audit/events
+  reason: Audit log access is not part of any documented MCP capability area.
+- operationId: exportAuditEvents
+  path: POST /export/audit/events
+  reason: Audit bulk export; no MCP equivalent documented.
+- operationId: ingestBulk
+  path: POST /ingest/bulk/entity/{entity}
+  reason: Partner data ingestion; MCP write-back was announced but is not documented as covering ingest.
+- operationId: ingestIncremental
+  path: POST /ingest/entity/{entity}
+  reason: Partner data ingestion.
+- operationId: ingestJobStatus
+  path: GET /ingest/job/{jobId}
+  reason: Ingest job polling.
+- operationId: ingestAddPicklist
+  path: POST /ingest/schema/{entity}/field
+  reason: Schema administration.
+- operationId: ingestGetPicklist
+  path: GET /ingest/schema/{entity}/field
+  reason: Schema administration.
+- operationId: updateJob
+  path: PATCH /export/jobs/{jobId}
+  reason: Export job control.
+
+coverage:
+  mcp_capability_areas_documented: 8
+  areas_bound_to_rest: 8
+  areas_mcp_only: 2
+  rest_operations_total: 35
+  rest_operations_bound: 20
+  rest_operations_unbound: 15
+  high_confidence_rows: 0
+  medium_confidence_rows: 4
+  low_confidence_rows: 3
+  note: >-
+    Zero high-confidence rows is the honest result of an OAuth-gated tools/list. Re-run
+    this crosswalk with an authenticated Clari tenant to replace semantic matching with
+    real tool names and inputSchemas.

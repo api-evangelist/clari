@@ -1,77 +1,85 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.clari.com/pricing/
 name: Clari Plans and Pricing
 description: >-
-  Clari offers a modular enterprise pricing model with no public pricing page.
-  Costs are quote-based depending on team size, selected modules, and
-  negotiation. The platform is sold as add-on modules built around a Core
-  forecasting foundation, with Copilot (conversation intelligence) and Groove
-  (sales engagement) available as supplements.
+  Clari publishes NO plans and NO prices. https://www.clari.com/pricing/ returns HTTP
+  200 and is a quote-request page: it carries the line "Priced to run revenue, not hurt
+  the bottom line", a feature grid (Out-of-the-box, RevAI, RevDB, Expert Support) and a
+  "Get a quote" form. No tier is named, no price, currency, billing period, quota,
+  overage or limit appears anywhere on the page. Every commercial term is set by
+  negotiation on an enterprise agreement.
 specificationVersion: '0.1'
 created: '2026-06-13'
-modified: '2026-06-13'
-plans:
-  - name: Clari Core
-    description: >-
-      Core revenue forecasting and pipeline management module. Includes pipeline
-      dashboards, forecast rollups, deal categorization, Salesforce integration,
-      and basic AI scoring.
-    type: Paid
-    pricingModel: Per User Per Month
-    price:
-      amount: 100
-      currency: USD
-      period: monthly
-      notes: Estimated $100–$120/user/month; $1,200–$1,500/user/year. Custom
-        quote required.
-    features:
-      - Pipeline dashboards
-      - Forecast rollups
-      - Deal categorization
-      - Salesforce integration
-      - Basic AI scoring
-      - Revenue API access
-      - Data export (async job-based)
-      - Activity intelligence
+modified: '2026-08-13'
+pricing_url: https://www.clari.com/pricing/
+pricing_model: quote-only
+public_pricing: false
+self_serve_checkout: false
+free_tier: false
+trial: not published
+plan_count: 0
+plans: []
+
+products:
+  note: >-
+    These are the product modules Clari names in its own navigation and login menu.
+    They are PRODUCTS, not priced plans — Clari attaches no price, quota or limit to
+    any of them publicly, and the login page groups customers into only three
+    products. Listed here so a reader knows what is being quoted, not what it costs.
+  licensable_products:
+  - name: Clari
+    label: Complete Revenue Platform
+    source: https://www.clari.com/pricing/ (Login menu)
   - name: Clari Copilot
-    description: >-
-      Conversation intelligence add-on module. Includes call recording, AI
-      summaries, coaching tools, deal intelligence, and competitor tracking.
-      Provides access to the Clari Copilot API.
-    type: Paid
-    pricingModel: Per User Per Month
-    price:
-      amount: 60
-      currency: USD
-      period: monthly
-      notes: Estimated $60–$100/user/month; $720–$1,200/user/year. Custom
-        quote required.
-    features:
-      - Call recording and transcription
-      - AI-generated summaries
-      - Coaching tools
-      - Deal intelligence
-      - Competitor tracking
-      - Copilot API access
-  - name: Groove (Sales Engagement)
-    description: >-
-      Sales engagement module typically bundled with Copilot. Includes email
-      cadences, activity tracking, templates, and click-to-call dialer.
-    type: Paid
-    pricingModel: Per User Per Month
-    price:
-      amount: 0
-      currency: USD
-      period: monthly
-      notes: Often bundled with Copilot; standalone pricing not publicly disclosed.
-        Custom quote required.
-    features:
-      - Email cadences
-      - Activity tracking
-      - Email templates
-      - Click-to-call dialer
-      - CRM sync
-notes:
-  - Clari has no public pricing page; all plans require a custom quote.
-  - API access is included with platform subscriptions; no separate API-only tier.
-  - Professional services implementation costs range from $10,000–$25,000.
-  - Annual renewal increases of 10–20% are common.
-  - Contact sales at clari.com for current pricing.
+    label: Conversation Intelligence
+    source: https://www.clari.com/pricing/ (Login menu)
+    api: Clari Copilot REST API
+  - name: Groove by Clari
+    label: Sales Engagement and Prospecting
+    source: https://www.clari.com/pricing/ (Login menu)
+  platform_modules:
+  - Capture — data quality and autocapture
+  - Inspect — opportunity management and inspection
+  - Groove — sales engagement and prospecting
+  - Align — buyer collaboration and mutual action plans
+  - Copilot — conversation intelligence and coaching
+  - Forecast — forecasting and pipeline management
+  - Guide — AI Action Hub for revenue strategy
+  included_capabilities_claimed:
+  - Out-of-the-box — no manual entry, instant time to value, fully secure
+  - RevAI — AI deal scoring, AI-driven forecasting, RevAI workflow boosters
+  - RevDB — seamless integrations, unlimited customizations, robust capturing
+  - Expert Support — premier success, continuous support, expert revenue insights
+  claim: >-
+    Clari states the platform is "an out-of-the-box solution with no extra platform
+    fees for integrations or continuous support" — i.e. integrations are not
+    separately metered. That is the only pricing-shaped commitment on the page.
+
+api_access:
+  separately_priced: false
+  note: >-
+    There is no API-only tier and no metered API pricing. API access is a function of
+    the platform subscription: the Revenue API token is generated in Account Settings
+    (and a CSM must grant access to the token tool), and the Copilot API keys live in
+    Workspace Settings > Integrations. The MCP server additionally requires an admin
+    toggle and, per Clari, the Salesloft Agentic add-on.
+  quotas_are_contractual: true
+  see: rate-limits/clari-rate-limits.yml
+
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - url: https://www.clari.com/pricing/
+    http_status: 200
+    finding: No named tier, no price, no currency, no billing period. "Get a quote" CTA only.
+  - url: https://www.clari.com/products/copilot/terms-of-service/
+    http_status: 200
+    finding: Copilot terms of service exists; contains no price schedule.
+
+x-provenance-note: >-
+  This file previously carried three named "plans" with per-user-per-month dollar
+  amounts, implementation cost ranges and renewal-increase percentages, none of which
+  Clari publishes and none of which was sourced. They were removed on 2026-08-13 and
+  replaced with the measured finding above. An honest plan_count of 0 is the correct
+  record for a quote-only enterprise vendor.

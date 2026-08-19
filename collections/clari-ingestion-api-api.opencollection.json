@@ -1,0 +1,184 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clari API Reference Activity API Ingestion API API",
+    "version": "5.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ingestion API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Bulk Upload entity data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clari.com/{basePath}/ingest/bulk/entity/:entity",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              },
+              {
+                "name": "partnerkey",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "entity",
+                "value": "account",
+                "type": "path",
+                "description": "the entity to upload data to"
+              },
+              {
+                "name": "mode",
+                "value": "",
+                "type": "query",
+                "description": "data upload mode"
+              },
+              {
+                "name": "isLastBatch",
+                "value": "",
+                "type": "query",
+                "description": "whether data is the last batch of initial data"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "This API allows partners to perform a bulk upload of field extensions and sub-objects to Clari's Account and Opportunity entities. It is designed for high-volume updates, enabling the ingestion of additional metadata beyond the standard CRM fields.\n\n\nHere are key details to keep in mind when using this API:\n- Upload a single JSON file (max 10MB) per request.\n- Specify the entity (account/opportunity/any sub-object entity) in the path.\n- Include both apikey and partnerkey in the request headers.\n"
+        },
+        {
+          "info": {
+            "name": "Upload entity data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clari.com/{basePath}/ingest/entity/:entity",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              },
+              {
+                "name": "partnerkey",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "entity",
+                "value": "account",
+                "type": "path",
+                "description": "the entity to upload data to"
+              },
+              {
+                "name": "mode",
+                "value": "",
+                "type": "query",
+                "description": "data upload mode"
+              },
+              {
+                "name": "isLastBatch",
+                "value": "",
+                "type": "query",
+                "description": "whether data is the last batch of initial data"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API allows partners to perform frequent, incremental updates to Clari’s Account and Opportunity entities. It supports uploading up to 100 records per request, and can be used to add or update field extensions or sub-objects associated with these entities.\n\n\nKey points to know when using this API:\n- Designed for partner integrations to sync small, regular data updates.\n- Supports up to 100 records in a single JSON payload.\n- Specify the target entity (account/opportunity/any sub-object entit"
+        },
+        {
+          "info": {
+            "name": "Get picklist | multi-picicklist values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clari.com/{basePath}/ingest/schema/:entity/field",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              },
+              {
+                "name": "partnerkey",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "entity",
+                "value": "",
+                "type": "path",
+                "description": "the entity to upload data to"
+              },
+              {
+                "name": "fieldNames",
+                "value": "",
+                "type": "query",
+                "description": "List of field names in a comma seperated format to get the values for only those fields"
+              }
+            ]
+          },
+          "docs": "This API lets us get the list of <code>picklist</code> | <code>multi-picklist</code> values which has been added to a field of an appropriate type for a particular org of a partner"
+        },
+        {
+          "info": {
+            "name": "Add picklist | multi-picicklist values",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clari.com/{basePath}/ingest/schema/:entity/field",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              },
+              {
+                "name": "partnerkey",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "entity",
+                "value": "account",
+                "type": "path",
+                "description": "the entity to upload data to"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This API lets us add <code>picklist</code> | <code>multi-picklist</code> values to a field of an appropriate type for a particular org of a partner"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

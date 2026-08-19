@@ -1,0 +1,127 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://mcp.clari.com/.well-known/oauth-protected-resource/mcp (HTTP 200, probed
+  2026-08-13) + https://community.clari.com/product-updates/august-2026-new-feature-release-notes-3009
+  + https://www.salesloft.com/company/newsroom/clari-salesloft-forecasting-execution-mcp-server
+name: Clari MCP Server
+description: >-
+  Clari ships a first-party remote MCP server that exposes live Clari + Salesloft
+  revenue context — accounts, deals, calls, cadences and (rolling out through late
+  summer 2026) Clari forecasting, deal inspection and Copilot call intelligence — to
+  any MCP client. It is listed natively in the Claude connector directory and is
+  available as a custom connector for ChatGPT, Microsoft Copilot and Google Gemini.
+  Admins must enable it per workspace (Copilot Settings > AI Features > "Copilot tools
+  for MCP"; Salesloft Settings > Artificial Intelligence > "Salesloft MCP" toggle).
+
+deployment:
+  mode: remote
+  endpoint: https://mcp.clari.com/mcp
+  auth: oauth
+  verified: probed
+
+status: published
+transport: streamable-http
+
+endpoints:
+- url: https://mcp.clari.com/mcp
+  canonical: true
+  http_status: 401
+  note: >-
+    POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} returns HTTP 401 with
+    WWW-Authenticate: Bearer resource_metadata="https://mcp.clari.com/.well-known/oauth-protected-resource/mcp",
+    error="invalid_token". The 401 challenge is itself the proof the endpoint is a
+    live MCP resource; the header names the resource metadata document.
+- url: https://api.clari.com/mcp
+  canonical: false
+  http_status: 401
+  note: >-
+    The same MCP resource is also routed on the primary API gateway host. Its
+    protected-resource metadata declares resource https://api.clari.com/mcp with the
+    identical resource_name "Clari MCP Server". Every other path on api.clari.com
+    returns Kong's "no Route matched with those values" 404, so the 401 here confirms
+    a real matched route rather than a catch-all.
+
+authorization:
+  type: oauth2
+  flow: authorization_code
+  pkce: S256
+  dpop_supported: true
+  dynamic_client_registration: https://mcp.clari.com/okta/clients
+  issuer: https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698
+  authorization_endpoint: https://app.clari.com/authorize
+  token_endpoint: https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698/v1/token
+  jwks_uri: https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698/v1/keys
+  resource_scopes:
+  - openid
+  - profile
+  metadata:
+  - well-known/clari-mcp-oauth-protected-resource.json
+  - well-known/clari-mcp-oauth-authorization-server.json
+
+tools:
+  enumerable: false
+  reason: >-
+    tools/list is OAuth-gated and returns invalid_token anonymously. Clari publishes
+    no llms.txt and no public tool reference, so the live inputSchemas cannot be read
+    without an authenticated Clari tenant. The capability areas below come from
+    Clari/Salesloft's own release notes and newsroom posts — they are documented
+    surfaces, NOT tool names, and must not be treated as an inputSchema.
+  documented_capabilities:
+  - area: accounts
+    source: https://www.salesloft.com/company/newsroom/salesloft-mcp-server-revenue-data-ai-ecosystem
+  - area: deals / opportunities
+    source: https://www.salesloft.com/company/newsroom/salesloft-mcp-server-revenue-data-ai-ecosystem
+  - area: people / contacts
+    source: https://www.salesloft.com/company/newsroom/salesloft-mcp-server-revenue-data-ai-ecosystem
+  - area: calls and conversation intelligence (summaries and key moments)
+    source: https://community.clari.com/product-updates/august-2026-new-feature-release-notes-3009
+  - area: cadences and activity data
+    source: https://www.salesloft.com/company/newsroom/clari-salesloft-forecasting-execution-mcp-server
+  - area: team metrics
+    source: https://www.salesloft.com/company/newsroom/salesloft-mcp-server-revenue-data-ai-ecosystem
+  - area: forecasting and deal inspection
+    status: rolling out through late summer 2026
+    source: https://www.salesloft.com/company/newsroom/clari-salesloft-forecasting-execution-mcp-server
+  removed:
+  - area: raw transcript retrieval
+    note: >-
+      "The transcript retrieval tool has been removed from the Salesloft MCP Server
+      for Claude" — a protocol limitation prevented returning raw transcript content.
+      Summaries and key moments remain.
+    source: https://community.clari.com/product-updates/august-2026-new-feature-release-notes-3009
+
+clients:
+- name: Claude
+  listing: native connector directory listing
+- name: ChatGPT
+  listing: custom connector (ChatGPT Business or Enterprise)
+- name: Microsoft Copilot
+  listing: announced
+- name: Google Gemini
+  listing: announced
+
+gating:
+  admin_toggle_required: true
+  notes:
+  - Copilot MCP tools — Copilot Settings > AI Features > "Copilot tools for MCP".
+  - Salesloft MCP server — Salesloft Settings > Artificial Intelligence > "Salesloft MCP".
+  - Gated behind the Salesloft Agentic add-on on the customer workspace.
+
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - url: https://mcp.clari.com/mcp
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 401
+    www_authenticate: Bearer resource_metadata="https://mcp.clari.com/.well-known/oauth-protected-resource/mcp", error="invalid_token"
+  - url: https://mcp.clari.com/.well-known/oauth-protected-resource/mcp
+    method: GET
+    http_status: 200
+  - url: https://mcp.clari.com/.well-known/oauth-authorization-server/mcp
+    method: GET
+    http_status: 200
+  - url: https://api.clari.com/mcp
+    method: POST
+    http_status: 401

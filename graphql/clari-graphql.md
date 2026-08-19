@@ -1,5 +1,19 @@
 # Clari GraphQL Schema
 
+> **NOT PUBLISHED BY CLARI — DO NOT WIRE THIS AS AN API.**
+>
+> Clari ships **no GraphQL API**. Probed 2026-08-13:
+> `POST https://api.clari.com/graphql` → HTTP 404 `{"message":"no Route matched with those values"}`;
+> `POST https://api.clari.com/v4/graphql` → HTTP 404 (same);
+> `POST https://rest-api.copilot.clari.com/graphql` → HTTP 401 (that gateway 401s every path,
+> matched or not, so it is not evidence of a route). No GraphQL surface is documented on
+> developer.clari.com or api-doc.copilot.clari.com.
+>
+> This file and `clari-schema.graphql` are a **speculative design exercise** — a shape a
+> GraphQL layer over Clari's REST surface *could* take. They describe nothing Clari serves.
+> The `type: GraphQL` pointers that referenced them were removed from `apis.yml` on
+> 2026-08-13 because they credited Clari with an API it does not ship. Do not re-add them.
+
 ## Overview
 
 This document describes a conceptual GraphQL schema for the Clari revenue operations platform. Clari provides programmatic access to pipeline data, forecasts, opportunity signals, activity intelligence, and CRM-enriched deal insights. The schema models the core domain objects available through the Clari Revenue API and Copilot API.

@@ -1,0 +1,186 @@
+generated: '2026-08-13'
+method: probed
+source: live HTTP probes of every Clari host named in apis.yml and in the OpenAPI servers[]
+name: Clari .well-known probe
+description: >-
+  Probe of the standard /.well-known/ discovery paths across every Clari host. The
+  marketing site (www.clari.com) answers HTTP 200 with the same 51KB HTML shell for
+  every unknown path, so its 200s are soft-404s and are recorded as misses, not
+  documents. The real hits are the MCP OAuth metadata documents served by the Kong
+  gateway on mcp.clari.com and api.clari.com, which advertise the Clari MCP Server
+  as an OAuth 2.0 protected resource backed by Okta (clariciam.okta.com).
+hosts:
+- host: mcp.clari.com
+  paths:
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 200
+    content_type: application/json
+    document: true
+    file: well-known/clari-mcp-oauth-protected-resource.json
+    note: >-
+      Real RFC 9728 protected-resource metadata. resource_name "Clari MCP Server",
+      resource https://mcp.clari.com/mcp, scopes_supported [openid, profile].
+  - path: /.well-known/oauth-authorization-server/mcp
+    status: 200
+    content_type: application/json
+    document: true
+    file: well-known/clari-mcp-oauth-authorization-server.json
+    note: >-
+      Real RFC 8414 authorization-server metadata. issuer
+      https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698, authorization_endpoint
+      https://app.clari.com/authorize, dynamic client registration at
+      https://mcp.clari.com/okta/clients, PKCE S256, DPoP supported.
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    document: false
+  - path: /
+    status: 404
+    document: false
+- host: api.clari.com
+  paths:
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 200
+    content_type: application/json
+    document: true
+    file: well-known/clari-api-oauth-protected-resource.json
+    note: Same MCP resource metadata served from the primary API gateway host.
+  - path: /.well-known/security.txt
+    status: 404
+    document: false
+  - path: /.well-known/openid-configuration
+    status: 404
+    document: false
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    document: false
+  - path: /.well-known/api-catalog
+    status: 404
+    document: false
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 404
+    document: false
+  - path: /.well-known/agent.json
+    status: 404
+    document: false
+  - path: /llms.txt
+    status: 404
+    document: false
+- host: www.clari.com
+  note: >-
+    Every path below returned HTTP 200 with the identical 51,604-byte marketing HTML
+    shell (confirmed: https://www.clari.com/mcp also returns 200 with <title>Error 404
+    | Clari</title>). These are soft-404s and carry no document.
+  paths:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /llms.txt
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /security.txt
+    status: 200
+    content_type: text/html
+    document: false
+- host: developer.clari.com
+  note: >-
+    Kong Developer Portal SPA. Answers 200 with the portal HTML shell for every
+    unknown path, including /openapi.json and /swagger.json. Soft-404, no document.
+  paths:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    document: false
+    note: Content-Type is application/json but the body is the portal HTML shell.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    document: false
+  - path: /llms.txt
+    status: 200
+    content_type: text/html
+    document: false
+- host: api-doc.copilot.clari.com
+  note: ReDoc documentation host. Clean 404s.
+  paths:
+  - path: /.well-known/security.txt
+    status: 404
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 404
+    document: false
+  - path: /.well-known/agent.json
+    status: 404
+    document: false
+  - path: /llms.txt
+    status: 404
+    document: false
+- host: rest-api.copilot.clari.com
+  note: >-
+    Copilot REST API host. Every path, including /.well-known/*, returns HTTP 401
+    with {"errorMessage":"Credentials not provided!"} — the gateway authenticates
+    before routing, so no anonymous discovery surface exists here.
+  paths:
+  - path: /.well-known/security.txt
+    status: 401
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 401
+    document: false
+  - path: /.well-known/agent.json
+    status: 401
+    document: false
+  - path: /llms.txt
+    status: 401
+    document: false
+- host: api.copilot.clari.com
+  note: >-
+    NXDOMAIN. This host was recorded as the Copilot baseURL in apis.yml before this
+    pass and does not resolve; the real base is https://rest-api.copilot.clari.com
+    per the servers[] block of the published Copilot OpenAPI.
+  paths:
+  - path: /
+    status: 0
+    document: false
+summary:
+  documents_found: 3
+  security_txt: false
+  openid_configuration: false
+  oauth_authorization_server: true
+  oauth_protected_resource: true
+  api_catalog: false
+  ai_plugin: false
+  agent_card: false
+  llms_txt: false

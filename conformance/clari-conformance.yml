@@ -1,0 +1,180 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/clari-*-api-openapi.yml, openapi/clari-copilot-api-openapi.yml,
+  well-known/clari-mcp-oauth-authorization-server.json,
+  well-known/clari-mcp-oauth-protected-resource.json,
+  https://www.clari.com/security/, https://www.clari.com/security-addendum/,
+  https://www.clari.com/privacy/
+name: Clari standards conformance
+description: >-
+  Which industry and cross-cutting standards the Clari API surface actually conforms
+  to, asserted from the published specs and the anonymously readable OAuth metadata.
+  Clari's HTTP APIs are plain REST with header API keys and no cross-cutting standards
+  adoption; the one place Clari conforms to real specifications is its MCP server,
+  which implements OAuth 2.0 discovery correctly (RFC 8414 + RFC 9728 + PKCE).
+standards:
+- id: openapi
+  name: OpenAPI Specification
+  conforms: true
+  version: 3.0.0 (Revenue API), 3.0.1 (Copilot API)
+  evidence: >-
+    Revenue API published in the Kong developer portal at
+    https://developer.clari.com/documentation/external_spec (info.title "Clari API
+    Reference", version 5.0.0, 15 operations). Copilot API published verbatim at
+    https://api-doc.copilot.clari.com/spec.yaml (HTTP 200, 52,659 bytes, info.title
+    "rest-api", 20 operations).
+  note: >-
+    Neither spec is OpenAPI 3.1. The Revenue API split files carry dangling $refs
+    inherited from the source document (see openapi/.refine-report.json).
+- id: oauth2
+  name: OAuth 2.0
+  conforms: true
+  scope: mcp-only
+  evidence: >-
+    https://mcp.clari.com/.well-known/oauth-authorization-server/mcp returns HTTP 200
+    with issuer https://clariciam.okta.com/oauth2/aus13shznanP7WOkp698,
+    authorization_code + refresh_token grants, PKCE S256, DPoP algs advertised.
+  caveat: >-
+    Not conformant to OAuth 2.1 practice: the server still advertises the `implicit`
+    and `password` grant types, both removed/discouraged in OAuth 2.1.
+- id: rfc8414
+  name: OAuth 2.0 Authorization Server Metadata
+  conforms: true
+  scope: mcp-only
+  evidence: /.well-known/oauth-authorization-server/mcp returns a complete, valid metadata document (HTTP 200).
+- id: rfc9728
+  name: OAuth 2.0 Protected Resource Metadata
+  conforms: true
+  scope: mcp-only
+  evidence: >-
+    /.well-known/oauth-protected-resource/mcp returns {"resource":"https://mcp.clari.com/mcp",
+    "resource_name":"Clari MCP Server",...} and the 401 challenge sets
+    WWW-Authenticate: Bearer resource_metadata="..." per the spec.
+- id: rfc7636
+  name: PKCE
+  conforms: true
+  scope: mcp-only
+  evidence: code_challenge_methods_supported ["S256"].
+- id: rfc7591
+  name: OAuth 2.0 Dynamic Client Registration
+  conforms: true
+  scope: mcp-only
+  evidence: registration_endpoint https://mcp.clari.com/okta/clients — this is what lets Claude/ChatGPT connect without a pre-provisioned client id.
+- id: oidc
+  name: OpenID Connect
+  conforms: partial
+  scope: mcp-only
+  evidence: >-
+    OIDC scopes (openid, profile, email, address, phone, offline_access) and OIDC
+    claims (ver, jti, iss, aud, iat, exp, cid, uid, scp, sub) are advertised by the
+    Okta authorization server, and jwks_uri + end_session_endpoint are present.
+  caveat: >-
+    No /.well-known/openid-configuration is served on any Clari host — every probe
+    returned 404 (api.clari.com, mcp.clari.com) or a soft-404 HTML shell
+    (www.clari.com, developer.clari.com). Discovery works only via the MCP-scoped
+    oauth-authorization-server path.
+- id: mcp
+  name: Model Context Protocol
+  conforms: true
+  evidence: >-
+    Live remote server at https://mcp.clari.com/mcp; JSON-RPC tools/list returns the
+    spec-correct 401 + resource_metadata challenge, and the response exposes
+    mcp-session-id via Access-Control-Expose-Headers. Listed natively in the Claude
+    connector directory.
+  caveat: Tool schemas are OAuth-gated and could not be verified anonymously.
+- id: rfc9457
+  name: Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    No application/problem+json anywhere. Two different proprietary envelopes:
+    {statusCode, reasonPhrase, message, errors[]} on the Revenue API and
+    {errorMessage} on the Copilot API. See errors/clari-problem-types.yml.
+- id: idempotency
+  name: Idempotency keys (draft-ietf-httpapi-idempotency-key-header)
+  conforms: false
+  evidence: >-
+    The string "idempoten" appears in neither published spec. No Idempotency-Key
+    header on any of the 12 POST/PUT/PATCH/DELETE operations.
+- id: pagination
+  name: Consistent pagination
+  conforms: partial
+  evidence: >-
+    Two incompatible schemes across one vendor: token-cursor (paginationToken + limit,
+    max 1000) on the Revenue API audit endpoint, page-based (nextPage, PaginationInfo)
+    on the Copilot list endpoints. Most Revenue API reads are not paginated at all
+    because they return job results as files.
+- id: rate-limit-headers
+  name: RateLimit header fields for HTTP (RFC 9239 / draft-ietf-httpapi-ratelimit-headers)
+  conforms: false
+  evidence: >-
+    Five operations declare 429 and none declares X-RateLimit-*, RateLimit-* or
+    Retry-After. Numeric limits are published in prose only. GET /admin/limits is the
+    only programmatic budget signal.
+- id: rfc8594
+  name: Sunset HTTP Header Field
+  conforms: false
+  evidence: >-
+    No Sunset or Deprecation header, and zero operations carry a `deprecated` flag. The
+    one announced deprecation (rest-api.trywingman.com) was prose in a spec description
+    with an end-of-support date of 2023-12-31.
+- id: rfc9116
+  name: security.txt
+  conforms: false
+  evidence: >-
+    /.well-known/security.txt returns 404 on api.clari.com and api-doc.copilot.clari.com,
+    401 on rest-api.copilot.clari.com, and an HTTP 200 marketing HTML shell (soft-404)
+    on www.clari.com and developer.clari.com. No security.txt is served.
+- id: graphql
+  name: GraphQL
+  conforms: false
+  evidence: >-
+    POST /graphql returns Kong "no Route matched with those values" 404 on
+    api.clari.com and api.clari.com/v4; 401 on rest-api.copilot.clari.com, where the
+    gateway rejects every path before routing. No GraphQL surface is documented.
+- id: asyncapi
+  name: AsyncAPI
+  conforms: false
+  applicable: false
+  evidence: >-
+    Clari publishes no webhooks, no event catalog and no streaming surface. The
+    asynchronous export/ingest model is poll-based by design — the spec instructs
+    clients to "poll status via the API periodically". Nothing to describe.
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json probed on all six Clari
+    hosts: 404 on api.clari.com and api-doc.copilot.clari.com, 401 on
+    rest-api.copilot.clari.com, HTML soft-404 (HTTP 200) on www.clari.com and
+    developer.clari.com. No agent card is served.
+- id: llmstxt
+  name: llms.txt
+  conforms: false
+  evidence: /llms.txt returns 404 or an HTML soft-404 on every Clari host.
+
+compliance_programs:
+- id: soc2
+  name: SOC 2
+  conforms: true
+  evidence: https://www.clari.com/security/ — see security/clari-trust-center.yml
+- id: iso27001
+  name: ISO/IEC 27001
+  conforms: true
+  evidence: >-
+    https://www.clari.com/security/ and
+    https://www.clari.com/press/clari-achieves-iso-27001-certification-for-information-security-management/
+- id: gdpr
+  name: GDPR
+  conforms: true
+  evidence: https://www.clari.com/security/ and https://www.clari.com/privacy/
+- id: security-addendum
+  name: Published security addendum
+  conforms: true
+  evidence: https://www.clari.com/security-addendum/
+
+summary:
+  asserted: 20
+  conformant: 10
+  partial: 2
+  non_conformant: 8

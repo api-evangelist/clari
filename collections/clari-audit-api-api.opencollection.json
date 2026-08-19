@@ -1,0 +1,114 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clari API Reference Activity API Audit API API",
+    "version": "5.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Audit API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Queue a job to export audit events as a json file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.clari.com/{basePath}/export/audit/events",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This is a bulk export API.\n\nQueue an export job to export audit events for your org filtered by parameters specified in the request body. The exported json file will contain an array of audit events (`items` field) and an array of actors (`actors` field).  The exported file can be downloaded using the `jobId` returned, once the job completes. The job status can also be queried using the `jobId`.\n\nTo create your request, you will need to pass your `apikey` in as a header, all other optional param"
+        },
+        {
+          "info": {
+            "name": "View audit events with pagination",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clari.com/{basePath}/audit/events",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Sets the number of results that are returned in the response The limit field can trigger for multiple pages to be generated.  If more than the `limit` of records is in the results  a `nextLink` is provided to facilitate the navigation. Integer between 1 and 1000. Defaults to 100"
+              },
+              {
+                "name": "actorId",
+                "value": "",
+                "type": "query",
+                "description": "The Actor ID to filter the result set"
+              },
+              {
+                "name": "impersonatingActorId",
+                "value": "",
+                "type": "query",
+                "description": "The Impersonating Actor ID to filter the result set"
+              },
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "The Session UUID to filter the result set."
+              },
+              {
+                "name": "sessionType",
+                "value": "",
+                "type": "query",
+                "description": "Filters the result based on the session type. If not presents all session types are returned."
+              },
+              {
+                "name": "dateFrom",
+                "value": "",
+                "type": "query",
+                "description": "Date from which events need to be pulled. The Internet Date/Time Format  profile of ISO 8601 (opens new window) for example date-time: `2017-05-03T16:22:18Z` for example date-only: `2017-05-03` Defaults to 30 days ago"
+              },
+              {
+                "name": "dateTo",
+                "value": "",
+                "type": "query",
+                "description": "Date until which events need to be pulled. The Internet Date/Time Format  profile of ISO 8601 (opens new window) for example date-time: `2017-05-03T16:22:18Z` for example date-only: `2017-05-03` Defaults to the current date and time"
+              },
+              {
+                "name": "event",
+                "value": "",
+                "type": "query",
+                "description": "Different categories/subcategories of events that we track."
+              }
+            ]
+          },
+          "docs": "View audit events filtered by query string parameters. This API returns a list of audit events, and a list of actors for all the events. If no items are found an empty array will returned. Additionally the response provides a `nextLink` for the next page available. Pages can be managed by the `limit` query string parameter. Use the `nextLink` to navigate to the next page if present."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

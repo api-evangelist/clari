@@ -1,0 +1,104 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, rubygems.org, crates.io, packagist.org,
+  https://api.github.com/orgs/clari/repos, https://developer.clari.com/,
+  https://api-doc.copilot.clari.com/
+name: Clari client packages
+description: >-
+  Clari publishes NO first-party client SDK on any public package registry. Both
+  published APIs — the Clari Revenue API v5 and the Clari Copilot REST API — are
+  documented as raw HTTP with header authentication and are expected to be called
+  directly. The only code Clari ships to developers is two downloadable Python
+  example scripts linked from the Copilot ReDoc page; they are samples, not a
+  distributed, versioned library, so they carry no registry metadata.
+official_package_count: 0
+packages: []
+
+samples:
+- name: copilot_calls_example.py
+  url: https://api-doc.copilot.clari.com/copilot_calls_example.py
+  http_status: 200
+  registry: none
+  official: true
+  version: null
+  published: null
+  note: >-
+    First-party Python example script linked from the Copilot API description
+    ("Here is a python script that demonstrate how to fetch calls and print csv").
+    Distributed as an unpinned static file on the docs host — no registry, no version
+    string, no publish date. A consumer cannot tell which revision they downloaded.
+- name: copilot_crm_example.py
+  url: https://api-doc.copilot.clari.com/copilot_crm_example.py
+  registry: none
+  official: true
+  version: null
+  published: null
+  note: Second first-party example script, same distribution caveat as above.
+
+registries_searched:
+- registry: npm
+  queries:
+  - clari
+  - '@clari/sdk'
+  - clari-copilot
+  - claricopilot
+  - clari-client
+  - node-clari
+  - copilot clari
+  result: no first-party package
+  note: >-
+    `clari` and `@clari/sdk` both 404. Search returns only third-party work —
+    @this-npm-test-org/connection-clari (publisher dev@amodalai.com) and
+    @intentsolutionsio/clari-skill-md-pack (publisher support@intentsolutions.io,
+    described "Coming Soon"). Neither is Clari.
+- registry: pypi
+  queries:
+  - clari
+  - clari-api
+  - clari-sdk
+  - clari-copilot
+  - claricopilot
+  - pyclari
+  result: no first-party package
+  note: >-
+    `clari` on PyPI resolves to an unrelated MIT/Toronto crystal-structure-prediction
+    package ("Fast Organic Crystal Structure Prediction with Unit Cell Flow Matching").
+    Name collision only.
+- registry: rubygems
+  queries:
+  - clari
+  result: not found
+- registry: crates.io
+  queries:
+  - clari
+  result: no first-party package
+- registry: packagist
+  queries:
+  - clari
+  result: no first-party package
+- registry: github
+  queries:
+  - https://api.github.com/orgs/clari/repos
+  result: no client library
+  note: >-
+    The verified `clari` GitHub org has 18 public repos, all internal tooling or forks
+    (rules_jvm, heroku-buildpack-otelcol, githubactions-setup-telemetry, react-*
+    component forks, box/evernote SDK forks, clari_dynamo). None is a Clari API client.
+    Most recent push to any of them: 2026-03-19 (rules_jvm).
+
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - url: https://registry.npmjs.org/clari
+    http_status: 404
+  - url: https://registry.npmjs.org/@clari/sdk
+    http_status: 404
+  - url: https://pypi.org/pypi/clari-sdk/json
+    http_status: 404
+  - url: https://rubygems.org/api/v1/gems/clari.json
+    http_status: 404
+  - url: https://api.github.com/orgs/clari/repos
+    http_status: 200
+  - url: https://api-doc.copilot.clari.com/copilot_calls_example.py
+    http_status: 200

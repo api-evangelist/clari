@@ -1,0 +1,175 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/clari-*-api-openapi.yml, openapi/clari-copilot-api-openapi.yml,
+  https://developer.clari.com/documentation/external_spec,
+  https://api-doc.copilot.clari.com/ (live probes 2026-08-13)
+name: Clari API conventions
+description: >-
+  Cross-cutting runtime semantics for the two Clari HTTP APIs. Clari runs two APIs
+  with materially different conventions on the same brand — the Revenue API v5
+  (api.clari.com/v4, Kong gateway, `apikey` header, asynchronous job-based exports)
+  and the Copilot REST API (rest-api.copilot.clari.com, dual `X-Api-Key` +
+  `X-Api-Password` headers, synchronous verb-in-path CRUD). An agent must not carry
+  assumptions from one to the other.
+
+authentication:
+  style: api-key-header
+  revenue_api:
+    header: apikey
+    issuance: Account Settings > API Token > "Generate New API Token"
+    caveats:
+    - Token value is shown once and cannot be retrieved again.
+    - Revoking a token breaks every integration using it.
+    - Deactivating a user revokes every token that user created.
+    partner_header: partnerkey
+    partner_note: >-
+      Partner/ingest endpoints additionally require a `partnerkey` header; it appears
+      seven times in the published spec.
+  copilot_api:
+    headers:
+    - X-Api-Key
+    - X-Api-Password
+    issuance: Workspace Settings > Integrations > Clari Copilot API
+    caveats:
+    - Both headers are required; sending only one returns 401.
+  mcp:
+    style: oauth2
+    note: The MCP server at https://mcp.clari.com/mcp uses OAuth 2.0 with Okta, not API keys. See mcp/clari-mcp.yml and scopes/clari-scopes.yml.
+  see: authentication/clari-authentication.yml
+
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    Neither published spec declares an Idempotency-Key header, an idempotency scope,
+    or a replay-retention window, and the string "idempoten" does not appear anywhere
+    in either document. POST /ingest/entity/{entity} and POST /ingest/bulk/entity/{entity}
+    are therefore NOT safe to blind-retry. The nearest thing Clari offers is
+    all-or-nothing batch validation on bulk ingest: "If records fail validation, the
+    entire batch is rejected and has to be retried after fixing the errors" — which
+    makes a failed batch safe to replay, but says nothing about a batch whose outcome
+    is unknown after a timeout.
+
+asynchronous_jobs:
+  applies_to: Clari Revenue API bulk export and bulk import
+  pattern: three-step
+  steps:
+  - step: 1
+    action: POST the export/import request
+    returns: a job id
+    operations: [externalFcwExport, exportAuditEvents, 'POST /export/activity', ingestBulk]
+    status_codes: [200, 202]
+  - step: 2
+    action: poll job status
+    operations: [jobStatus, ingestJobStatus]
+    terminal_status: DONE
+    note: Clari documents polling; there is no callback, webhook or event notification.
+  - step: 3
+    action: retrieve results
+    operations: [externalExportDownload]
+  control:
+    operation: updateJob
+    path: PATCH /export/jobs/{jobId}
+  note: >-
+    This is the defining convention of the Revenue API. Nothing about forecast,
+    activity or audit export is a synchronous read.
+
+pagination:
+  revenue_api:
+    style: token-cursor
+    parameters:
+    - limit
+    - paginationToken
+    response_fields:
+    - paginationToken
+    limits:
+      default: 100
+      max: 1000
+    applies_to: GET /audit/events
+  copilot_api:
+    style: page-based
+    response_fields:
+    - nextPage
+    schema: PaginationInfo
+    note: Declared on the list endpoints (/calls, /users, /topics).
+
+filtering:
+  common_parameters:
+  - startDate
+  - endDate
+  - activityTypes
+  - typesToExport
+  - scopeId
+  - includeHistorical
+  - currency
+  note: Time-window filtering on activity and audit queries uses ISO 8601 dates.
+
+field_expansion:
+  supported: false
+  note: No expand / fields / include parameter in either spec.
+
+metadata:
+  supported: false
+  note: No customer-defined metadata bag on any resource. Custom data reaches Clari through the Ingestion API and registered picklist fields instead.
+
+request_tracing:
+  request_id_response_field: request_id
+  note: >-
+    The Kong gateway on api.clari.com returns a `request_id` in its own error bodies
+    (observed: {"message":"no Route matched with those values","request_id":"..."}),
+    which is useful when escalating to support. It is a gateway field, not documented
+    in the OpenAPI, and it is NOT returned as a response header on successful calls.
+  probed: true
+
+versioning:
+  scheme: path-segment
+  revenue_api:
+    current: v4
+    server: https://api.clari.com/{basePath}
+    variable: basePath
+    default: v4
+    note: >-
+      The spec's info.version is 5.0.0 while the path segment is v4. The document
+      version and the URL version are independently numbered — do not infer the base
+      path from info.version.
+  copilot_api:
+    current: unversioned
+    server: https://rest-api.copilot.clari.com
+    note: >-
+      No version segment. One endpoint is individually versioned in-path (GET /v2/topics
+      alongside GET /topics), which is the only versioning signal on this API.
+  see: lifecycle/clari-lifecycle.yml
+
+error_envelope:
+  format: proprietary
+  rfc9457: false
+  revenue_api_shape: '{statusCode, reasonPhrase, message, errors[]}'
+  copilot_api_shape: '{errorMessage}'
+  see: errors/clari-problem-types.yml
+
+rate_limit_signaling:
+  response_headers: none
+  retry_after: false
+  status_on_exhaustion: [429, 400]
+  note: >-
+    Clari publishes numeric limits in prose but returns NO rate-limit headers —
+    no X-RateLimit-*, no RateLimit-*, no Retry-After on any of the five operations
+    that declare 429. The only programmatic budget signal is GET /admin/limits, which
+    must be polled deliberately. Quota exhaustion on export queueing surfaces as a
+    400, not a 429.
+  see: rate-limits/clari-rate-limits.yml
+
+data_formats:
+  request: application/json
+  response: application/json
+  export_formats:
+  - JSON
+  - CSV
+  dates: ISO 8601
+  currency: ISO 4217
+
+limits:
+  ingest_records_per_request: 100
+  bulk_ingest_file_size: 10MB
+  audit_events_per_page: 1000

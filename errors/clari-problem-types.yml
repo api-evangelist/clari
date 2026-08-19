@@ -1,0 +1,156 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/clari-*-api-openapi.yml (Clari Revenue API v5.0.0) and
+  openapi/clari-copilot-api-openapi.yml (Clari Copilot rest-api 1.0.0)
+name: Clari error catalog
+description: >-
+  Error surface derived from the 4xx/5xx responses declared across both published
+  Clari OpenAPIs. Clari does NOT use RFC 9457 problem+json. Every error body is
+  application/json under a proprietary envelope, and the two APIs use two DIFFERENT
+  envelopes, which is the single most important fact for an agent handling Clari
+  errors.
+format: proprietary
+rfc9457: false
+content_type: application/json
+
+envelopes:
+- api: Clari Revenue API v5
+  shape:
+    statusCode: integer HTTP status repeated in the body
+    reasonPhrase: string short reason
+    message: string human-readable detail
+    errors: array of sub-errors, each with a service-specific error code and message
+  note: >-
+    Documented inline in the spec as "For example {statusCode:400,
+    reaspnPhrase:'Bad Request'...}" — the misspelling `reaspnPhrase` appears in
+    Clari's own published description of the Opportunity API error shape and is
+    reproduced here verbatim as a documentation defect worth flagging, not a field
+    name to code against.
+- api: Clari Copilot REST API
+  shape:
+    errorMessage: string
+  note: >-
+    Observed live on an unauthenticated request to https://rest-api.copilot.clari.com/users
+    -> HTTP 401 {"errorMessage":"Credentials not provided!, see documentation:
+    https://api-doc.copilot.clari.com"}. The Copilot spec declares 400/404/500 responses
+    with an empty schema for most operations, so this envelope is probed, not declared.
+
+problem_types:
+- status: 400
+  title: Bad Request
+  apis: [revenue, copilot]
+  operations:
+  - externalFcwExport
+  - jobStatus
+  - updateJob
+  - externalExportDownload
+  - exportAuditEvents
+  - ingestBulk
+  - ingestIncremental
+  - ingestAddPicklist
+  - ingestJobStatus
+  meanings:
+  - "Job could not be queued — you may have reached your monthly export quota."
+  - "Input is not in the right format (ingest)."
+  - "The provided field type is not valid or supported (picklist)."
+  - "Unable to retrieve data — check the parameters passed in."
+  remediation: >-
+    Validate the request body against the operation schema first. If the message
+    mentions quota, call GET /admin/limits before retrying — a 400 on a queue request
+    is Clari's quota-exhaustion signal, not a 429.
+- status: 401
+  title: Unauthorized / Invalid authentication
+  apis: [revenue, copilot]
+  operations:
+  - externalFcwExport
+  - ingestBulk
+  - ingestIncremental
+  - ingestAddPicklist
+  - ingestGetPicklist
+  - ingestJobStatus
+  meanings:
+  - "Invalid authentication token."
+  - "The user associated with the api token does not have permission for this forecast."
+  - "Credentials not provided (Copilot — missing X-Api-Key / X-Api-Password)."
+  remediation: >-
+    Revenue API: regenerate the token in Account Settings > API Token. Note Clari
+    revokes every token created by a user when that user is deactivated, which
+    surfaces as a sudden 401 on a previously working integration. Copilot: send BOTH
+    X-Api-Key and X-Api-Password headers — either alone yields 401.
+- status: 403
+  title: Forbidden
+  apis: [revenue]
+  operations:
+  - jobStatus
+  - externalFcwExport
+  - ingestBulk
+  - ingestIncremental
+  meanings:
+  - "Invalid permissions to view this job."
+  - "Data ingestion has been disabled."
+  remediation: >-
+    Job-scoped 403s mean the token's user cannot see that job. Ingest 403 means the
+    tenant has ingestion switched off — a tenant configuration change, not a retry.
+- status: 404
+  title: Not Found
+  apis: [revenue, copilot]
+  operations:
+  - ingestJobStatus
+  - '/call-details'
+  - '/get-account'
+  - '/get-contact'
+  - '/get-deal'
+  - '/delete-account'
+  - '/delete-contact'
+  - '/delete-deal'
+  remediation: Confirm the id exists and belongs to the authenticated workspace.
+- status: 428
+  title: Precondition Required
+  apis: [revenue]
+  operations:
+  - ingestBulk
+  - ingestIncremental
+  meanings:
+  - "Precondition required error."
+  remediation: >-
+    A 428 on ingest means a required precondition on the entity schema has not been
+    satisfied — typically a custom field or picklist that must be registered via
+    POST /ingest/schema/{entity}/field before records referencing it are accepted.
+    Register the schema, then replay the batch.
+  note: >-
+    428 is unusual and is the one status here an agent is most likely to mishandle as
+    a generic 4xx. It is not retryable without a schema change.
+- status: 429
+  title: Too Many Requests
+  apis: [revenue]
+  operations:
+  - ingestBulk
+  - ingestIncremental
+  - ingestAddPicklist
+  - ingestGetPicklist
+  - ingestJobStatus
+  meanings:
+  - "API rate limit has been exceeded. The api limit is 100 requests per second."
+  - "Maximum concurrent request limit has been reached."
+  remediation: >-
+    Back off and retry. See rate-limits/clari-rate-limits.yml. NOTE: Clari declares NO
+    Retry-After and NO X-RateLimit-* / RateLimit-* response headers on any operation in
+    either spec, so a client has no runtime budget signal and must implement blind
+    exponential backoff.
+  retryable: true
+- status: 500
+  title: Internal Server Error
+  apis: [revenue, copilot]
+  operations: [all]
+  meanings:
+  - "There was an unexpected error."
+  - "Ingestion job internal Error."
+  retryable: true
+
+gaps:
+- No RFC 9457 application/problem+json media type anywhere.
+- No stable machine-readable error `code` enumeration is published; sub-errors carry a "service-specific error code" whose values are not documented.
+- No Retry-After or rate-limit headers declared, despite five operations declaring 429.
+- The Copilot spec declares 400 and 500 with an EMPTY response schema on 18 of 20 operations, so the error body shape there is undocumented.
+- 4XX/5XX wildcard responses are used on GET /audit/events and GET /opportunity instead of discrete statuses.

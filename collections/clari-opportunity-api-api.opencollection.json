@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clari API Reference Activity API Opportunity API API",
+    "version": "5.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Opportunity API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve opportunity data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clari.com/{basePath}/opportunity",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "oppId",
+                "value": "005Z00000038x09IAA",
+                "type": "query",
+                "description": "specific one or more Opportunity ID"
+              },
+              {
+                "name": "mode",
+                "value": "",
+                "type": "query",
+                "description": "Clari mode ID"
+              }
+            ]
+          },
+          "docs": "You can retrieve opportunity related data from Clari. To create your request, you will need to pass your `apikey` in as a header, the one or more `oppId` in the request path, and optional `mode` query parameter.\n\nEXAMPLE: `/opportunity?oppId=005Z00000038x09IAA&oppId=006Z000000EPuiyIAD&mode=OPPORTUNITY_MODE_ID`"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

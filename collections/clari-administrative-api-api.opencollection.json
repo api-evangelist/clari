@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Clari API Reference Activity API Administrative API API",
+    "version": "5.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Administrative API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "View limit information for your organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.clari.com/{basePath}/admin/limits",
+            "headers": [
+              {
+                "name": "apikey",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "List information about API limits and aggregate consumption for your organization. The response will include your monthly quota and all active and completed jobs that contribute to that quota."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

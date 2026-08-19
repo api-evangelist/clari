@@ -1,0 +1,1197 @@
+{
+  "item": [
+    {
+      "id": "bb5b5e51-7657-47f8-b2c2-696275fa9ad0",
+      "name": "Bulk Export Framework",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "df8dbcf2-602e-454c-9abf-fcf12f9b628b",
+          "name": "View the status of a given export using its jobId",
+          "request": {
+            "name": "View the status of a given export using its jobId",
+            "description": {
+              "content": "Once your export job has been successfully created, it will be initialized with `\"status\": \"STARTED\"`. You'll need to poll the status of your request until it is complete. The possible states of your export request are: \n- `SCHEDULED` - job successfully created and queued up\n- `STARTED` - job in-progress\n- `DONE` - job complete and ready to output data\n- `FAILED` - job could not complete \n- `CANCELLED` - job was scheduled but then got cancelled \n- `ABORTED` - job started running but then got cancelled \n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "export",
+                "jobs",
+                ":jobId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) The job id for the job to fetch the details for."
+                },
+                {
+                  "description": "version identifier",
+                  "type": "any",
+                  "value": "{{basePath}}",
+                  "key": "basePath"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Authentication token.",
+                "key": "apikey",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "840a5115-a6ff-45fc-8e66-1ca87bce6d92",
+              "name": "Success! See job details for the requested job ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The job id for the job to fetch the details for."
+                    },
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"jobId\": \"606e23c981a6da229d75b515\",\n  \"userId\": 1,\n  \"orgId\": 101,\n  \"title\": \"Forecast Export\",\n  \"module\": \"FORECAST\",\n  \"startTime\": 1617830857175,\n  \"endTime\": 1617830861959,\n  \"expiredTime\": 1620422861959,\n  \"version\": 1,\n  \"fileName\": \"clari_export_forecast_new_summary_2021_Q12915_20210407_212737.json\",\n  \"fileType\": \"JSON\",\n  \"status\": \"STARTED\",\n  \"viewed\": false,\n  \"cellsTruncated\": false,\n  \"rowsTruncated\": false,\n  \"downloads\": 0,\n  \"deliveryStatusMap\": {},\n  \"currency\": \"USD\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "132a5650-67cc-4463-b35b-23f8f4c4ba60",
+              "name": "The job status could not be retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The job id for the job to fetch the details for."
+                    },
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"SWW\",\n  \"namespace\": \"exports\",\n  \"errorId\": \"c16ae643-481a-11eb-a48d-a7e5677deee5\",\n  \"message\": \"Something went wrong\",\n  \"orgId\": {\n    \"value\": \"reference #/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d6fe1db6-db2b-49c1-8f26-c8d503487007",
+              "name": "Invalid permissions to view this job.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The job id for the job to fetch the details for."
+                    },
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"SWW\",\n  \"namespace\": \"exports\",\n  \"errorId\": \"c16ae643-481a-11eb-a48d-a7e5677deee5\",\n  \"message\": \"Something went wrong\",\n  \"orgId\": {\n    \"value\": \"reference #/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b35e6a2d-2eae-481b-b65d-3bfc4a8b8115",
+              "name": "There was an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The job id for the job to fetch the details for."
+                    },
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "86b86ef1-3ae4-4df2-ab85-d5759ce593c1",
+          "name": "Stop or cancel an in-progress job",
+          "request": {
+            "name": "Stop or cancel an in-progress job",
+            "description": {
+              "content": "Use this endpoint to stop or “cancel” an in-progress export job. The job will stop executing and free up space on your monthly quota. The job will still be accessible if you call the `GET /export/jobs` endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "export",
+                "jobs",
+                ":jobId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) The job id for the job to fetch the details for."
+                },
+                {
+                  "description": "version identifier",
+                  "type": "any",
+                  "value": "{{basePath}}",
+                  "key": "basePath"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Authentication token.",
+                "key": "apikey",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f55991e5-5782-49c2-a97f-cd59cab4c972",
+              "name": "Your job was successfully cancelled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The job id for the job to fetch the details for."
+                    },
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"CANCEL\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"CANCELLED\",\n  \"successful\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d48ec791-5ec7-4b4a-bde8-1e1193ffc870",
+              "name": "Unable to complete request. Please check your parameters and/or the status of your job. If the job has already completed where `STATUS` is `DONE` you will not be able to cancel it.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The job id for the job to fetch the details for."
+                    },
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"CANCEL\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"export_failed_to_cancel\",\n  \"namespace\": \"exports\",\n  \"errorId\": \"54c5a2b5-9b1c-11eb-a343-87ffa5f01191\",\n  \"message\": \"Cannot cancel the job because it already finished executing.\",\n  \"orgId\": {\n    \"value\": \"reference #/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6a689aa-b4da-4396-a20a-45438ce7e0e5",
+              "name": "There was an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The job id for the job to fetch the details for."
+                    },
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"CANCEL\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d8ab0d05-bdc8-421d-b0a8-08ed3490b265",
+          "name": "Retrieve and save forecast export content",
+          "request": {
+            "name": "Retrieve and save forecast export content",
+            "description": {
+              "content": "Once your export finishes processing and its status returns `DONE`, you will be able to retrieve your file contents using this endpoint.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "export",
+                "jobs",
+                ":jobId",
+                "results"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) The job id for the job to fetch the details for."
+                },
+                {
+                  "description": "version identifier",
+                  "type": "any",
+                  "value": "{{basePath}}",
+                  "key": "basePath"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Authentication token.",
+                "key": "apikey",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "136e9a45-a3b8-4629-8879-eab9aaf09fcb",
+              "name": "Retrieve the content of the output file of the desired export job.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs",
+                    ":jobId",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The job id for the job to fetch the details for."
+                    },
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"User\",\n  \"Email\",\n  \"CRM User ID\",\n  \"Role\",\n  \"Parent Role\",\n  \"Timeframe\",\n  \"Field\",\n  \"Week\",\n  \"Start Day\",\n  \"End Day\",\n  \"Data Type\",\n  \"Data Value\",\n  \"Jain\",\n  \"name@s-clari.com\",\n  \"005110000069tRpAAI\",\n  \"Sales Rep - East\",\n  \"CEO\",\n  \"July FY 2023\",\n  \"Monthly Commit\",\n  \"0\",\n  \"06/30/2023\",\n  \"06/30/2023\",\n  \"Forecast Value\",\n  \"Jain\",\n  \"name@s-clari.com\",\n  \"005110000069tRpAAI\",\n  \"Sales Rep - East\",\n  \"CEO\",\n  \"July FY 2023\",\n  \"Monthly Commit\",\n  \"0\",\n  \"06/30/2023\",\n  \"06/30/2023\",\n  \"Forecast Updated\",\n  \"No\",\n  \"Clari QA10\",\n  \"manager@s-clari.com\",\n  \"005d0000001rfYSAAY\",\n  \"CEO\",\n  \"\",\n  \"July FY 2023\",\n  \"Monthly Commit\",\n  \"0\",\n  \"06/30/2023\",\n  \"06/30/2023\",\n  \"Forecast Value\",\n  \"$3,000,190.00\",\n  \"Clari QA10\",\n  \"manager@s-clari.com\",\n  \"005d0000001rfYSAAY\",\n  \"CEO\",\n  \"\",\n  \"July FY 2023\",\n  \"Monthly Commit\",\n  \"0\",\n  \"06/30/2023\",\n  \"06/30/2023\",\n  \"Forecast Updated\",\n  \"No\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "27a03559-d9b3-4c06-aa58-06444b37f75e",
+              "name": "Unable to retrieve data. Please ensure you have passed in a valid `jobId`. Note that you will only be able to retrieve output for successfully completed jobs. Specifically, the job's status must be `DONE` in order to retrieve its output.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs",
+                    ":jobId",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The job id for the job to fetch the details for."
+                    },
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"invalid_jobId\",\n  \"namespace\": \"exports\",\n  \"errorId\": \"54c5a2b5-9b1c-11eb-a343-87ffa5f01191\",\n  \"message\": \"Cannot retrieve data for job because it has not finished executing.\",\n  \"orgId\": {\n    \"value\": \"reference #/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1dac20e1-9bb8-4ab8-bcee-055233b7290c",
+              "name": "There was an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs",
+                    ":jobId",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The job id for the job to fetch the details for."
+                    },
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6fa76cc4-b300-47f8-84f2-d1bed75fd8c6",
+          "name": "View all jobs initiated from a particular user",
+          "request": {
+            "name": "View all jobs initiated from a particular user",
+            "description": {
+              "content": "View a list of all jobs initiated by a particular user. The response will include all complete, cancelled, and in-progress jobs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "export",
+                "jobs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "version identifier",
+                  "type": "any",
+                  "value": "{{basePath}}",
+                  "key": "basePath"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Authentication token.",
+                "key": "apikey",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "98e9e08b-9731-4371-875d-ef1c695c2d06",
+              "name": "Success! See job details for all export jobs initiated by the authentication token passed in your parameter.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"jobId\": \"6073683781a6da229df71e00,\",\n    \"userId\": \"1,\",\n    \"orgId\": \"1,\",\n    \"title\": \"Forecast Export,\",\n    \"module\": \"FORECAST,\",\n    \"startTime\": \"123456789,\",\n    \"endTime\": \"123456799,\",\n    \"expiredTime\": \"133333333,\",\n    \"version\": \"1,\",\n    \"fileName\": \"clari_export_default-view_20180118_004234.json,\",\n    \"fileType\": \"JSON,\",\n    \"status\": \"STARTED,\",\n    \"viewed\": \"true,\",\n    \"cellsTruncated\": \"false,\",\n    \"rowsTruncated\": \"false,\",\n    \"downloads\": \"0,\",\n    \"currency\": \"USD\"\n  },\n  {\n    \"jobId\": \"6073680cac043e61f93bac07,\",\n    \"userId\": \"1,\",\n    \"orgId\": \"1,\",\n    \"title\": \"Forecast Export,\",\n    \"module\": \"FORECAST,\",\n    \"startTime\": \"133456789,\",\n    \"endTime\": \"133456799,\",\n    \"expiredTime\": \"143333333,\",\n    \"version\": \"1,\",\n    \"fileName\": \"clari_export_default-view_20180118_004234.json,\",\n    \"fileType\": \"JSON,\",\n    \"status\": \"STARTED,\",\n    \"viewed\": \"true,\",\n    \"cellsTruncated\": \"false,\",\n    \"rowsTruncated\": \"false,\",\n    \"downloads\": \"2,\",\n    \"currency\": \"USD\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "70473f80-c2ed-4387-b626-2238d1d51bd2",
+              "name": "The job status could not be retrieved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"SWW\",\n  \"namespace\": \"exports\",\n  \"errorId\": \"c16ae643-481a-11eb-a48d-a7e5677deee5\",\n  \"message\": \"Something went wrong\",\n  \"orgId\": {\n    \"value\": \"reference #/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9531f64d-2ee3-4051-b696-7b93ceaff73b",
+              "name": "Invalid permissions to view this job.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"SWW\",\n  \"namespace\": \"exports\",\n  \"errorId\": \"c16ae643-481a-11eb-a48d-a7e5677deee5\",\n  \"message\": \"Something went wrong\",\n  \"orgId\": {\n    \"value\": \"reference #/paths/~1export~1activity/post/responses/500/content/application~1json/schema/properties/orgId not found in the OpenAPI spec\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3406e7cb-66bc-4f49-85e5-f0e052a68493",
+              "name": "There was an unexpected error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "export",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "version identifier",
+                      "type": "any",
+                      "value": "{{basePath}}",
+                      "key": "basePath"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "apikey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Authentication token.",
+                    "key": "apikey",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "version identifier",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "v4",
+      "key": "basePath"
+    },
+    {
+      "type": "string",
+      "value": "https://api.clari.com/{{basePath}}",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apikey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d9a6d49a-82a6-4d81-9967-cc6da6c46cc8",
+    "name": "Clari API Reference Activity API Bulk Export Framework API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Clari API Reference\nClari is the heartbeat of your revenue organization and holds your most important revenue data. Clari APIs enable customers to retrieve revenue data out of the Clari platform and push missing revenue-critical data into the platform.\n\n## Authentication\n\nClari APIs use tokens to authenticate requests. You can create and manage your tokens in Account Settings under \"API Token\". Please reach out to your CSM if you don't see a token generation tool as you may not have been given access.\n### Creating an authentication token\nFollow the steps below to generate a token:\n- Go to user avatar\n- Navigate to Settings\n- Navigate to the API Token tab and click \"Generate New API Token\"\n- Enter a Token Name and click \"Generate New Token\". Few things to note about tokens:\n  - After generating a token, make sure to keep it in a secure location as you won't be able to access it again. This is your key to accessing Clari data for your organization.\n  - If you revoke a token, any active integration that is using that token will break.\n  - When deactivating a user, any tokens created by the user will be revoked (and thus break any active integration).\n\n## Bulk data exports\n\nClari supports bulk data exports. Bulk exports run asynchronously in a\nthree step process. First, the bulk export is requested using a `POST` API call.\nMultiple products support bulk exports. In the documentation below, the `POST` API\nis described in respective product sections. The `POST` API call queues the bulk export job to run it asynchronously, and returns\na job ID. To monitor the export's status and be notified of its completion, you\nshould poll status via the API periodically. When the export completes, the status\nwill be set to `DONE` and you can then retrieve the output of the export.\n\n## Bulk data imports\n\nClari also supports bulk data imports. Customers or partners can import their Account\nor Opportunity fields in bulk to create a complete picture of revenue in Clari. Bulk imports also run\nasynchronously in a three step process. In the documentation below, the `/bulk` API is described\nin respective product sections. The `/bulk` API call queues the bulk import job to run it asynchronously, and returns\na job ID. To monitor the import's status and be notified of its completion, you\nshould poll status via the API periodically. When the import completes, the status\nwill be set to `DONE`. If records fail validation, the entire batch is rejected and has to be retried\nafter fixing the errors. The errors can be retrieved from the results API.\n\n\n## Forecasting APIs\n\nRevenue teams use Clari Forecasting to track their attainment to date\nagainst goals and forecast their revenue numbers for the month, quarter and\nyear. This data is captured by revenue leaders, managers, and sales reps --\nit provides a clear view of the entire team's forecast and their submission\nstatus.\n\nClari's Forecasting APIs enable you to pull your forecasting data out of Clari, merge\nit with data sitting in your own data warehouse, and build custom reports. Forecasting\nsupports both a REST API as well as a bulk export API.\n\n### Creating and accessing Forecast exports\n\n\n  You can export any Forecast Tab with our Forecasting APIs. To do so, retrieve the `forecastId` from the URL when viewing a Forecast Tab and provide the ID when using the Export API. If you don't already have a Forecast Tab configured for the data you're trying to export, please work with your CSM to get that configured first.\n\n  <img src=\"https://developer.clari.com/assets/images/forecastid.png\" alt=\"forecast id\" width=\"400\"/>\n\n\nFor details on Forecast Tabs and what data is available with Forecast Exports see guides below:\n\n- [Forecasting Building Blocks](https://clari.my.site.com/customer/s/article/Forecast-Building-Blocks)\n- [How to Read the Forecast Export](https://clari.my.site.com/customer/s/article/How-to-Read-the-Forecast-Export)\n- [How to Read the Export API Output](https://clari.my.site.com/customer/s/article/How-to-Read-Claris-Export-API-Output)\n\n\n## Audit APIs\n\nThe Audit API allows its users to audit events happening in their Clari instances. Call the Audit API to understand who is making changes in your Clari instance and when these changes happened.\n\n## Data Ingestion API\n\nThis API is for Clari's integration partners - such as technology platforms or revenue tools, looking to build a direct data integration with Clari. It enables partners to send data that can be surfaced in Clari's Accounts and Opportunities views for mutual customers who have turned on the integration.\n\n## Activity API\n\nActivity Export API allows its users to pull sales activity data like emails, meetings and files.\nWith this powerful sales activity data available on demand through an API call, customers can create powerful custom reports in the reporting tool of their choice and analyze Accounts and Opportunity engagement across different activity types.\n\n## Questions?\n\n\nContact Support:\n Name: us here! We're always happy to help with any questions.\n Email: support@clari.com",
+      "type": "text/plain"
+    }
+  }
+}

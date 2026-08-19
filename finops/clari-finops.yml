@@ -1,13 +1,20 @@
+generated: '2026-08-13'
+method: derived
+source: https://www.clari.com/pricing/, plans/clari-plans-pricing.yml, openapi/clari-administrative-api-api-openapi.yml
 name: Clari FinOps
 description: >-
-  FinOps Framework FOCUS-aligned cost and usage tracking for Clari platform and
-  API consumption. Clari is sold as a modular per-user SaaS platform with no
-  consumption-based API pricing; API access is bundled within platform
-  subscriptions. Cost tracking focuses on seat licenses, module adoption, and
-  implementation services.
+  FinOps Framework FOCUS-aligned cost and usage tracking model for Clari platform and
+  API consumption. Clari is sold as a modular subscription with no consumption-based
+  API pricing; API access is bundled within platform subscriptions. IMPORTANT: Clari
+  publishes NO prices — https://www.clari.com/pricing/ names no tier and no amount,
+  only a "Get a quote" form. Every column below is a cost-tracking SHAPE for a
+  customer's own billing data, not a Clari price list. Any dollar figure a reader
+  needs must come from their own contract.
+public_pricing: false
+prices_published_by_provider: false
 specificationVersion: '1.0'
 created: '2026-06-13'
-modified: '2026-06-13'
+modified: '2026-08-13'
 provider: Clari
 website: https://www.clari.com/
 billingModel: Per User Per Month (Subscription)
@@ -26,13 +33,13 @@ columns:
     dataType: Decimal
     description: Per-user per-month list price before negotiated discounts.
     notes:
-      core: 100–120 USD/user/month
-      copilot: 60–100 USD/user/month
-      groove: Bundled or custom
+      published: false
+      note: Clari publishes no list price for any product. List price is contract-specific.
   - columnName: ContractedUnitPrice
     dataType: Decimal
     description: Negotiated per-user price after discount. Clari pricing is
-      highly negotiable; discounts of 20–40% are achievable.
+      quote-based, so the negotiated unit price is the only price that exists. No
+      discount benchmark is published by Clari.
   - columnName: ProviderName
     dataType: String
     value: Clari
@@ -40,10 +47,14 @@ columns:
     dataType: String
     description: Clari product module being consumed.
     allowedValues:
-      - Clari Core
+      - Clari
       - Clari Copilot
-      - Groove
+      - Groove by Clari
       - Professional Services
+    note: >-
+      The first three are the products Clari itself separates in its login menu at
+      https://www.clari.com/pricing/. "Clari Core" is not a Clari-published product
+      name and was removed on 2026-08-13.
   - columnName: ResourceId
     dataType: String
     description: Seat or license identifier for cost allocation per user or team.
@@ -62,29 +73,28 @@ costOptimizationGuidance:
       seats for users not accessing Clari within 30 days to avoid paying for
       unused licenses.
   - category: Module Consolidation
-    description: Evaluate whether all licensed modules (Core, Copilot, Groove) are
-      actively used. Consolidate to only necessary modules at renewal.
+    description: Evaluate whether all licensed products (Clari, Clari Copilot, Groove by
+      Clari) are actively used. Consolidate to only necessary ones at renewal.
   - category: Negotiation Leverage
     description: Clari pricing is heavily negotiable. Use competitive alternatives
-      (Gong, Salesforce, Outreach) as leverage. Discounts of 20–40% on list
-      price are common for multi-year commitments.
+      (Gong, Salesforce, Outreach) as leverage. Clari publishes no list price and no
+      discount schedule, so benchmark against your own prior contract, not a public rate.
   - category: Renewal Management
-    description: Anticipate 10–20% annual renewal increases. Begin renegotiation
-      90 days before contract expiration to avoid auto-renewal at higher rates.
+    description: Read the uplift and auto-renewal terms in your own agreement — Clari
+      publishes no renewal-increase schedule. Begin renegotiation well before expiration.
   - category: API Quota Monitoring
-    description: Use GET /admin/limits to monitor export quota consumption. Avoid
-      excessive automated export jobs that could exhaust the 1000/month
-      organization quota and require support engagement to increase.
+    description: Use GET /admin/limits to monitor export quota consumption. The
+      organization's rolling-30-day export quota and concurrent-job limit are
+      tenant-specific and unpublished — /admin/limits is the only way to read yours.
+      Cancelling an in-progress job via PATCH /export/jobs/{jobId} frees quota back up.
   - category: Implementation Cost Control
-    description: Budget $10,000–$25,000 for professional services implementation.
-      Leverage Clari community resources and self-serve documentation to reduce
-      reliance on paid professional services.
+    description: Scope professional services against your own statement of work — Clari
+      publishes no implementation price. Leverage the Clari community and self-serve
+      documentation to reduce reliance on paid services.
 budgetAllocationRecommendations:
-  - item: Annual Core licenses (per user)
-    estimatedRange: $1,200–$1,500/user/year
-  - item: Annual Copilot licenses (per user)
-    estimatedRange: $720–$1,200/user/year
-  - item: Implementation (one-time)
-    estimatedRange: $10,000–$25,000
-  - item: Annual renewal increase
-    estimatedRange: 10–20% of prior year contract value
+  note: >-
+    Removed on 2026-08-13. This section previously carried per-user and implementation
+    dollar ranges that Clari does not publish and that were not sourced. Clari's pricing
+    page names no amount; budget figures must come from the customer's own quote or
+    contract. See plans/clari-plans-pricing.yml.
+  items: []
