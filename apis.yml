@@ -11,6 +11,18 @@ description: Clari is an enterprise revenue orchestration platform that publishe
   protected via Okta and listed natively in the Claude connector directory, which exposes
   live Clari + Salesloft revenue context to AI agents. Both HTTP APIs authenticate with
   header API keys, support no idempotency keys, and return no rate-limit headers.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: enterprise
   onboarding: self-serve
