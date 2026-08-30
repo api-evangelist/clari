@@ -1,0 +1,159 @@
+openapi: 3.2.0
+info:
+  title: rest-api Topics API
+  version: 1.0.0
+  description: "Refer to our website to know more about [Clari Copilot](https://www.clari.com/products/copilot/).\n\n**To learn how to use the Clari Copilot API, please follow this <a href=\"https://community.clari.com/product-q-a-6/how-to-use-copilot-apis-2258\" target=\"_blank\">integration guide (link)</a>.**<br/> It explains how you get your API key, gives context on how the endpoints work together, and provides example code.\n\n# Authentication\n\nYou need to pass both API key and password in specified headers to authenticate with Clari Copilot API.\n\nExample curl command fetching users:\n\n<blockquote>\n  <code>\n    curl -H \"X-Api-Key:&lt;your_api_key&gt;\" -H \"X-Api-Password:&lt;your_api_password&gt;\" \"https://rest-api.copilot.clari.com/users\"\n  </code>\n</blockquote>\n\nYou'll find API key and secret in workspace settings > integrations > Clari Copilot API\n\n<img src=\"/assets/workspace-settings.png\" width=150 /><img src=\"/assets/integrations.png\" width=200 /><img src=\"/assets/apikey.png\" width=200 />\n\n<SecurityDefinitions />\n\n# Rate limit\n\nDefault rate limit is 10 per second.\n\nAlso 100k requests per week is also imposed. Week starts every Sunday 0 GMT.\n\n# Example\n\nHere is a python script that demonstrate how to fetch calls and print csv: <a href=\"./copilot_calls_example.py\" download>Calls example</a>\n\nHere is a python script that demonstrate how to use CRM endpoints: <a href=\"./copilot_crm_example.py\" download>CRM example</a>\n\n# Deprecation\n\nThis api's old domain https://rest-api.trywingman.com is deprecated and will be supported till end of 2023 to allow existing clients to migrate.\n"
+  contact:
+    name: Support
+    email: copilot-support@clari.com
+    url: https://api-doc.copilot.clari.com
+  x-logo:
+    url: /logo.png
+servers:
+- url: https://rest-api.copilot.clari.com
+tags:
+- name: topics
+  description: Topics in Copilot
+paths:
+  /topics:
+    get:
+      tags:
+      - topics
+      summary: List of Keyword Topics
+      description: Returns All unique keyword topics
+      responses:
+        200:
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicsResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+      security:
+      - api_key: []
+        api_password: []
+  /v2/topics:
+    get:
+      tags:
+      - topics
+      summary: List of Topics
+      description: 'Returns details of all topics.
+
+
+        You can filter topics based on their last modified time using the following optional query parameters.
+
+
+        ### Examples
+
+        - All topics: `/v2/topics`
+
+        - Topics modified **before** a date: `/v2/topics?filterModifiedLt=2000-01-01T00:00:00+0000`
+
+        - Topics modified **after** a date: `/v2/topics?filterModifiedGt=2000-01-01T00:00:00+0000`
+
+        - Topics modified **between two dates**: `/v2/topics?filterModifiedGt=2000-01-01T00:00:00+0000&filterModifiedLt=2025-01-01T00:00:00+0000`
+
+
+        Use an ISO 8601 formatted datetime string (e.g., 2020-01-01T00:00:00+0000). Ensure the value is URL-encoded when used in a query string.
+
+        '
+      parameters:
+      - name: filterModifiedLt
+        in: query
+        description: 'If passed, filters out topics modified (updated) after passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.
+
+          '
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: filterModifiedGt
+        in: query
+        description: 'If passed, filters out topics modified (updated) before passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.
+
+          '
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: A list of topics matching the filter criteria.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V2TopicsResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+      security:
+      - api_key: []
+        api_password: []
+components:
+  schemas:
+    V2TopicsResponse:
+      title: List of Topics
+      type: object
+      properties:
+        topics:
+          type: array
+          items:
+            type: object
+            properties:
+              topic_id:
+                type: string
+              topic_name:
+                type: string
+              type:
+                type: string
+              team_ids:
+                type: array
+                items:
+                  type: string
+              custom_topic:
+                type: object
+                properties:
+                  description:
+                    type: string
+                  status:
+                    type: string
+              keyword_topic:
+                type: object
+                properties:
+                  trackers:
+                    type: array
+                    items:
+                      type: string
+    TopicsResponse:
+      title: List of topics
+      type: object
+      properties:
+        topics:
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    api_password:
+      type: apiKey
+      name: X-Api-Password
+      in: header
+x-tagGroups:
+- name: General
+  tags:
+  - call
+  - user
+  - topics
+  - scorecard
+- name: CRM Objects
+  tags:
+  - contact
+  - account
+  - deal

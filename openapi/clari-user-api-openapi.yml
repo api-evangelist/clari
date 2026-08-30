@@ -1,0 +1,88 @@
+openapi: 3.2.0
+info:
+  title: rest-api User API
+  version: 1.0.0
+  description: "Refer to our website to know more about [Clari Copilot](https://www.clari.com/products/copilot/).\n\n**To learn how to use the Clari Copilot API, please follow this <a href=\"https://community.clari.com/product-q-a-6/how-to-use-copilot-apis-2258\" target=\"_blank\">integration guide (link)</a>.**<br/> It explains how you get your API key, gives context on how the endpoints work together, and provides example code.\n\n# Authentication\n\nYou need to pass both API key and password in specified headers to authenticate with Clari Copilot API.\n\nExample curl command fetching users:\n\n<blockquote>\n  <code>\n    curl -H \"X-Api-Key:&lt;your_api_key&gt;\" -H \"X-Api-Password:&lt;your_api_password&gt;\" \"https://rest-api.copilot.clari.com/users\"\n  </code>\n</blockquote>\n\nYou'll find API key and secret in workspace settings > integrations > Clari Copilot API\n\n<img src=\"/assets/workspace-settings.png\" width=150 /><img src=\"/assets/integrations.png\" width=200 /><img src=\"/assets/apikey.png\" width=200 />\n\n<SecurityDefinitions />\n\n# Rate limit\n\nDefault rate limit is 10 per second.\n\nAlso 100k requests per week is also imposed. Week starts every Sunday 0 GMT.\n\n# Example\n\nHere is a python script that demonstrate how to fetch calls and print csv: <a href=\"./copilot_calls_example.py\" download>Calls example</a>\n\nHere is a python script that demonstrate how to use CRM endpoints: <a href=\"./copilot_crm_example.py\" download>CRM example</a>\n\n# Deprecation\n\nThis api's old domain https://rest-api.trywingman.com is deprecated and will be supported till end of 2023 to allow existing clients to migrate.\n"
+  contact:
+    name: Support
+    email: copilot-support@clari.com
+    url: https://api-doc.copilot.clari.com
+  x-logo:
+    url: /logo.png
+servers:
+- url: https://rest-api.copilot.clari.com
+tags:
+- name: user
+  description: Users in Copilot
+paths:
+  /users:
+    get:
+      tags:
+      - user
+      summary: List users
+      description: Returns current users in Copilot system
+      responses:
+        200:
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+      security:
+      - api_key: []
+        api_password: []
+components:
+  schemas:
+    UsersResponse:
+      title: List of users
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    User:
+      title: User object
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+          enum:
+          - REP
+          - MANAGER
+          - OBSERVER
+        is_recording:
+          type: boolean
+        manager_id:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    api_password:
+      type: apiKey
+      name: X-Api-Password
+      in: header
+x-tagGroups:
+- name: General
+  tags:
+  - call
+  - user
+  - topics
+  - scorecard
+- name: CRM Objects
+  tags:
+  - contact
+  - account
+  - deal

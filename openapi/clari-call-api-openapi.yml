@@ -1,0 +1,860 @@
+openapi: 3.2.0
+info:
+  title: rest-api Call API
+  version: 1.0.0
+  description: "Refer to our website to know more about [Clari Copilot](https://www.clari.com/products/copilot/).\n\n**To learn how to use the Clari Copilot API, please follow this <a href=\"https://community.clari.com/product-q-a-6/how-to-use-copilot-apis-2258\" target=\"_blank\">integration guide (link)</a>.**<br/> It explains how you get your API key, gives context on how the endpoints work together, and provides example code.\n\n# Authentication\n\nYou need to pass both API key and password in specified headers to authenticate with Clari Copilot API.\n\nExample curl command fetching users:\n\n<blockquote>\n  <code>\n    curl -H \"X-Api-Key:&lt;your_api_key&gt;\" -H \"X-Api-Password:&lt;your_api_password&gt;\" \"https://rest-api.copilot.clari.com/users\"\n  </code>\n</blockquote>\n\nYou'll find API key and secret in workspace settings > integrations > Clari Copilot API\n\n<img src=\"/assets/workspace-settings.png\" width=150 /><img src=\"/assets/integrations.png\" width=200 /><img src=\"/assets/apikey.png\" width=200 />\n\n<SecurityDefinitions />\n\n# Rate limit\n\nDefault rate limit is 10 per second.\n\nAlso 100k requests per week is also imposed. Week starts every Sunday 0 GMT.\n\n# Example\n\nHere is a python script that demonstrate how to fetch calls and print csv: <a href=\"./copilot_calls_example.py\" download>Calls example</a>\n\nHere is a python script that demonstrate how to use CRM endpoints: <a href=\"./copilot_crm_example.py\" download>CRM example</a>\n\n# Deprecation\n\nThis api's old domain https://rest-api.trywingman.com is deprecated and will be supported till end of 2023 to allow existing clients to migrate.\n"
+  contact:
+    name: Support
+    email: copilot-support@clari.com
+    url: https://api-doc.copilot.clari.com
+  x-logo:
+    url: /logo.png
+servers:
+- url: https://rest-api.copilot.clari.com
+tags:
+- name: call
+  description: Calls in Copilot
+paths:
+  /calls:
+    get:
+      tags:
+      - call
+      summary: List calls
+      description: 'This endpoint allows listing calls by different parameters.
+
+        Filter parameters have filter prefix and sort parameters have sort prefix.
+
+
+        You can fetch only 100 calls in page, use skip and limit to scroll through calls.
+
+
+        To get transcript, deal live stage fetch call individually using call-details endpoint.
+
+
+        Note: ''includePagination=false'' will greatly improve endpoint response.
+
+        '
+      parameters:
+      - name: skip
+        in: query
+        description: 'Skip specified number of calls. Defaults to 0, if not passed. Should be integer, else returns bad request error.
+
+          '
+        schema:
+          default: 0
+          type: integer
+          minimum: 0
+          maximum: 10000
+      - name: limit
+        in: query
+        description: 'Limits the number of calls returned to given number. Defaults to 25, if not passed. Should be integer, else returns bad request error.
+
+          '
+        schema:
+          default: 25
+          type: integer
+          minimum: 1
+          maximum: 100
+      - name: filterUser
+        in: query
+        description: 'This is a multi-value parameter, if passed, will filter only calls that involve users passed. Users should be referred to by email as seen in manage users page in Copilot settings.
+
+          '
+        schema:
+          type: array
+          items:
+            type: string
+      - name: filterAttendees
+        in: query
+        description: 'This is a multi-value parameter, if passed, will filter only calls that involve meeting attendees passed. Attendees should be referred to by email.
+
+          '
+        schema:
+          type: array
+          items:
+            type: string
+      - name: filterTopics
+        in: query
+        description: 'This is a multi-value parameter, if passed, will filter only calls of topics passed.
+
+          '
+        schema:
+          type: array
+          items:
+            type: string
+      - name: filterStatus
+        in: query
+        description: 'This is a multi-value parameter, if passed, will filter only calls of statuses passed.
+
+          '
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallStatus'
+      - name: filterType
+        in: query
+        description: 'This is a multi-value parameter, if passed, will filter only calls of types passed.
+
+          '
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallType'
+      - name: filterSourceId
+        in: query
+        description: 'If passed, will include only calls with passed source id.
+
+          '
+        schema:
+          type: array
+          items:
+            type: string
+      - name: filterTimeGt
+        in: query
+        description: 'If passed, filters out calls scheduled/started(for dialer and adhoc calls) before passed time.
+
+          Use ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.
+
+          '
+        schema:
+          type: string
+          format: date-time
+      - name: filterTimeLt
+        in: query
+        description: 'If passed, filters out calls scheduled/started(for dialer and adhoc calls) after passed time.
+
+          Use ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.
+
+          '
+        schema:
+          type: string
+          format: date-time
+      - name: filterModifiedGt
+        in: query
+        description: 'If passed, filters out calls modified (status updated) before passed time.
+
+          Use ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.
+
+          '
+        schema:
+          type: string
+          format: date-time
+      - name: filterModifiedLt
+        in: query
+        description: 'If passed, filters out calls modified (status updated) after passed time.
+
+          Use ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.
+
+          '
+        schema:
+          type: string
+          format: date-time
+      - name: filterDurationGt
+        in: query
+        description: 'If passed, filters out calls shorter than passed value in seconds. If non integer is passed as value, results in bad request error.
+
+          '
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 7200
+      - name: filterDurationLt
+        in: query
+        description: 'If passed, filters out calls longer than passed value in seconds. If non integer is passed as value, results in bad request error.
+
+          '
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 7200
+      - name: sortTime
+        in: query
+        description: Sort by call scheduled/start time.
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+      - name: sortProcessed
+        in: query
+        description: Sort by call last processed time.
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+      - name: includePrivate
+        in: query
+        description: If true, includes private calls also in response. If false, response does not include private calls. Invalid value results in error.
+        schema:
+          enum:
+          - 'true'
+          - 'false'
+          - 0
+          - 1
+          type: string
+          default: 'false'
+      - name: includeAudio
+        in: query
+        description: If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours.
+        schema:
+          enum:
+          - true
+          - false
+          type: boolean
+          default: false
+      - name: includeVideo
+        in: query
+        description: If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours.
+        schema:
+          enum:
+          - true
+          - false
+          type: boolean
+          default: false
+      - name: includePagination
+        in: query
+        description: If true, includes pagination object in the response that shows total count. If false, query performance is much faster as it does not include the pagination object.
+        schema:
+          enum:
+          - true
+          - false
+          type: boolean
+          default: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallsResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+      security:
+      - api_key: []
+        api_password: []
+  /call-details:
+    get:
+      tags:
+      - call
+      summary: Call details
+      description: Returns details of call with id passed as query param
+      parameters:
+      - name: id
+        in: query
+        description: call id
+        required: true
+        schema:
+          type: string
+      - name: includeAudio
+        in: query
+        description: If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours.
+        schema:
+          enum:
+          - true
+          - false
+          type: boolean
+          default: false
+      - name: includeVideo
+        in: query
+        description: If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours.
+        schema:
+          enum:
+          - true
+          - false
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallDetailsResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+        500:
+          $ref: '#/components/responses/500'
+      security:
+      - api_key: []
+        api_password: []
+  /create-call:
+    post:
+      tags:
+      - call
+      summary: Create call
+      description: Creates a new call in Copilot system. Call's video link can be passed in the audio_url field.
+      x-codeSamples:
+      - lang: cURL
+        source: "curl -XPOST -H \"X-Api-Key:<your_api_key>\" -H \"X-Api-Password:<your_api_password>\" \\\n  \"https://rest-api.copilot.clari.com/create-call?source_id=abcd1234&title=My%20test%20call&type=RECORDING&call_time=2020-01-01T00:00:00.000Z&user_emails=abc@xyz.com&user_emails=def@xyz.com&other_phone=&other_email=a@pqr.com&other_name=Mr.%20a&audio_url=http://myhost.com/paht/to/recording&header_key=optional_key&header_value=optional_value\"\n"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - source_id
+              - call_time
+              - type
+              - audio_url
+              properties:
+                source_id:
+                  description: 'Id of call in source system to de duplicate
+
+                    '
+                  type: string
+                force_overwrite_old_call:
+                  description: 'Flag to overwrite old call with same source id incase it already exists in system. Default false.
+
+                    '
+                  type: boolean
+                stereo_to_mono:
+                  description: 'Flag to process only a single channel if the audio/video file has stereo audio with same data in both channels.
+
+                    '
+                  type: boolean
+                title:
+                  description: 'Title of call in Copilot system. Optional: if ignored, title will be user_name / {other_name/email/phone}
+
+                    '
+                  type: string
+                type:
+                  description: 'Type of call to be created.
+
+                    '
+                  type: string
+                  $ref: '#/components/schemas/APICallType'
+                call_time:
+                  description: 'Start time of call.
+
+                    '
+                  type: string
+                  format: date-time
+                user_emails:
+                  description: 'Array of email ids of user this call belongs to. "no recording user" error will be thrown if there are no recording users in (user_emails U source_user_ids)
+
+                    '
+                  type: array
+                  items:
+                    type: string
+                source_user_ids:
+                  description: 'Array of ids of users in source this call belongs to. Users need to be updated with that id in Copilot system for right association, talk to Copilot support to know more.
+
+                    '
+                  type: array
+                  items:
+                    type: string
+                other_phone:
+                  description: 'Array of phone of external participants. Number of phone, email, name should be same.
+
+                    '
+                  type: array
+                  items:
+                    type: string
+                other_email:
+                  description: 'Array of email of external participants. Number of phone, email, name should be same.
+
+                    '
+                  type: array
+                  items:
+                    type: string
+                other_name:
+                  description: 'Array of name of external participants. Number of phone, email, name should be same.
+
+                    '
+                  type: array
+                  items:
+                    type: string
+                audio_url:
+                  description: 'Url to access call audio or video.
+
+                    '
+                  type: string
+                audio_format:
+                  description: 'Format of call audio or video. Optional: if ignored, will be infered from audio_url extension.
+
+                    '
+                  type: string
+                header_key:
+                  description: 'Array of key of header necessary to access audio.
+
+                    '
+                  type: array
+                  items:
+                    type: string
+                header_value:
+                  description: 'Array of value of header necessary to access audio.
+
+                    '
+                  type: array
+                  items:
+                    type: string
+                external_transcript:
+                  description: 'Transcript. Optional: if ignored, Copilot will transcribe the call.
+
+                    '
+                  type: object
+                  required: false
+                  $ref: '#/components/schemas/ExternalTranscript'
+      responses:
+        200:
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCallResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+      security:
+      - api_key: []
+        api_password: []
+components:
+  schemas:
+    BotNotJoinReason:
+      type: string
+      enum:
+      - IGNORED_DUE_TO_WHITELIST
+      - CONSENT_REVOKED
+      - IGNORED_BY_USER
+      - IGNORED_CALL_TYPE_IGNORED_BY_CUSTOMER
+      - IGNORED_NO_USER_HAS_ACCEPTED_INVITE
+      - RECORDING_PERMISSION_DENIED
+      - IGNORED_NON_MEETING
+      - IGNORED_NOT_CONFIRMED
+      - IGNORED_NOT_EXTERNAL_MEETING
+      - IGNORED_NOT_ORGANIZER
+      - IGNORED
+    CompetitorSentiments:
+      type: object
+      properties:
+        competitor_name:
+          type: string
+        sentiment:
+          type: string
+        reasoning:
+          type: string
+        personId:
+          type: string
+        turn_start_time:
+          type: string
+    CallDetails:
+      title: Call details
+      allOf:
+      - $ref: '#/components/schemas/Call'
+      - type: object
+        properties:
+          deal_stage_live:
+            type: string
+          transcript:
+            type: array
+            items:
+              type: object
+              properties:
+                text:
+                  type: string
+                start:
+                  type: number
+                end:
+                  type: number
+                personId:
+                  type: integer
+                annotations:
+                  type: array
+                  items:
+                    anyOf:
+                    - title: Tracker annotation
+                      type: object
+                      properties:
+                        tracker:
+                          type: string
+                        phrase:
+                          type: string
+                        category:
+                          type: string
+                    - title: AI annotation
+                      type: object
+                      properties:
+                        label:
+                          type: string
+                        phrase:
+                          type: string
+          summary:
+            type: object
+            properties:
+              full_summary:
+                type: string
+              topics_discussed:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SummaryTopics'
+              key_action_items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SummaryActionItems'
+          competitor_sentiments:
+            type: array
+            items:
+              $ref: '#/components/schemas/CompetitorSentiments'
+    ExtConversationTurns:
+      title: External Conversation Turns
+      type: object
+      properties:
+        person_id:
+          type: string
+          description: 'Unique id of participant. Participant with this id should also be a part of external_speakers.
+
+            '
+        text:
+          type: string
+          description: 'Text included for turn.
+
+            '
+        start:
+          type: number
+          description: 'Turn start time in seconds.
+
+            '
+        end:
+          type: number
+          description: 'Turn end time in seconds.
+
+            '
+    CallDetailsResponse:
+      title: Call details response
+      type: object
+      properties:
+        call:
+          $ref: '#/components/schemas/CallDetails'
+    SummaryActionItems:
+      type: object
+      properties:
+        action_item:
+          type: string
+        speaker_name:
+          type: string
+        start_timestamp:
+          type: string
+        end_timestamp:
+          type: string
+    CallsResponse:
+      title: List of calls
+      type: object
+      properties:
+        calls:
+          type: array
+          items:
+            $ref: '#/components/schemas/Call'
+        pagination:
+          $ref: '#/components/schemas/PaginationInfo'
+    CreateCallResponse:
+      title: Create call response
+      type: object
+      properties:
+        call_id:
+          type: string
+        error:
+          type: string
+    ExternalSpeakers:
+      title: External Speakers
+      type: object
+      properties:
+        person_id:
+          type: string
+          description: 'Unique id of participant.
+
+            '
+        name:
+          type: string
+          description: 'Name of the participant.
+
+            '
+        email_id:
+          type: string
+          description: 'Email of the participant.
+
+            '
+    CallParticipant:
+      title: Participant invited
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        personId:
+          type: integer
+    ExternalTranscript:
+      title: External Transcript
+      type: object
+      properties:
+        external_speakers:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExternalSpeakers'
+        ext_conversation_turns:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExtConversationTurns'
+    CallDisposition:
+      type: string
+      enum:
+      - UNKNOWN_CALL_DISPOSITION
+      - CALL_CONNECTED_WITH_PROSPECT
+      - CALL_DID_NOT_CONNECT_WITH_PROSPECT
+      - CALL_NOBODY_JOINED
+      - CALL_BOTJOIN_DENIED
+    CallUser:
+      title: User in call
+      type: object
+      properties:
+        userId:
+          type: string
+        userEmail:
+          type: string
+        isOrganizer:
+          type: boolean
+        personId:
+          type: integer
+    CallType:
+      type: string
+      enum:
+      - ZOOM
+      - GOOGLE_MEET
+      - FRESHCALLER
+      - AIRCALL_RECORDING
+      - RINGCENTRAL
+      - GOTO_MEETING
+      - OUTREACH
+      - HUBSPOT
+      - BLUE_JEANS
+      - SALESLOFT
+      - MS_TEAMS
+      - DIALPAD
+      - FRONTSPIN
+      - TALKDESK
+    Call:
+      title: Call object
+      type: object
+      properties:
+        id:
+          type: string
+        source_id:
+          type: string
+        title:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallUser'
+        externalParticipants:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallParticipant'
+        joinedParticipants:
+          type: array
+          items:
+            $ref: '#/components/schemas/JoinedParticipant'
+        status:
+          $ref: '#/components/schemas/CallStatus'
+        bot_not_join_reason:
+          type: array
+          items:
+            $ref: '#/components/schemas/BotNotJoinReason'
+        type:
+          $ref: '#/components/schemas/CallType'
+        time:
+          type: string
+          format: date-time
+        icaluid:
+          type: string
+        calendar_id:
+          type: string
+        recurring_event_id:
+          type: string
+        original_start_time:
+          type: string
+          format: date-time
+        last_modified_time:
+          type: string
+          format: date-time
+        audio_url:
+          type: string
+        video_url:
+          type: string
+        disposition:
+          $ref: '#/components/schemas/CallDisposition'
+        deal_name:
+          type: string
+        deal_value:
+          type: string
+        deal_close_date:
+          type: string
+          format: date-time
+        deal_stage_before_call:
+          type: string
+        account_name:
+          type: string
+        contact_names:
+          type: array
+          items:
+            type: string
+        crm_info:
+          type: object
+          properties:
+            source_crm:
+              type: string
+            deal_id:
+              type: string
+            account_id:
+              type: string
+            contact_ids:
+              type: array
+              items:
+                type: string
+        bookmark_timestamps:
+          type: array
+          items:
+            type: string
+            format: date-time
+        metrics:
+          type: object
+          properties:
+            talk_listen_ratio:
+              type: number
+            num_questions_asked:
+              type: integer
+            num_questions_asked_by_reps:
+              type: integer
+            call_duration:
+              type: integer
+            total_speak_duration:
+              type: number
+            longest_monologue_duration:
+              type: number
+            longest_monologue_start_time:
+              type: number
+            engaging_questions:
+              type: integer
+            categories:
+              type: array
+              items:
+                $ref: '#/components/schemas/Category'
+        call_review_page_url:
+          type: string
+    PaginationInfo:
+      title: Pagination info
+      type: object
+      properties:
+        matched:
+          type: integer
+        hasMore:
+          type: boolean
+        nextPageSkip:
+          type: integer
+    SummaryTopics:
+      type: object
+      properties:
+        name:
+          type: string
+        start_timestamp:
+          type: string
+        end_timestamp:
+          type: string
+        summary:
+          type: string
+    JoinedParticipant:
+      title: Participant joined
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        personId:
+          type: integer
+    APICallType:
+      type: string
+      enum:
+      - RECORDING
+      - VENDASTA
+      - KNOWLARITY
+      - CALL_HIPPO
+      - RINGOVER
+    CallStatus:
+      type: string
+      enum:
+      - SCHEDULED
+      - INITIATED
+      - INPROGRESS
+      - WAITING_IN_QUEUE
+      - PROCESSING
+      - PROCESSED
+      - ERROR_IN_TRANSCRIBE
+      - ERROR_IN_PROCESSING
+      - ERROR_IN_RECORDING
+      - UNABLE_TO_JOIN
+      - CALL_DID_NOT_HAPPEN
+      - IGNORED_BY_USER
+      - BOTJOIN_DISABLED
+      - POST_PROCESSING_DONE
+      - NO_DATA_INCALL
+      - NOBODY_JOINED_CALL
+      - BOTJOIN_DENIED
+    Category:
+      properties:
+        name:
+          type: string
+        occurences:
+          type: integer
+        phrases_matched:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+              user_id:
+                type: string
+              name:
+                type: string
+              time:
+                type: float
+        ai_detected:
+          type: boolean
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    api_password:
+      type: apiKey
+      name: X-Api-Password
+      in: header
+x-tagGroups:
+- name: General
+  tags:
+  - call
+  - user
+  - topics
+  - scorecard
+- name: CRM Objects
+  tags:
+  - contact
+  - account
+  - deal
