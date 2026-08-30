@@ -329,6 +329,8 @@ apis:
   humanURL: https://api-doc.copilot.clari.com/
   baseURL: https://rest-api.copilot.clari.com
   tags:
+  - Account
+  tags_raw:
   - account
   properties:
   - type: OpenAPI
@@ -343,6 +345,8 @@ apis:
   humanURL: https://api-doc.copilot.clari.com/
   baseURL: https://rest-api.copilot.clari.com
   tags:
+  - Call
+  tags_raw:
   - call
   properties:
   - type: OpenAPI
@@ -357,6 +361,8 @@ apis:
   humanURL: https://api-doc.copilot.clari.com/
   baseURL: https://rest-api.copilot.clari.com
   tags:
+  - Contact
+  tags_raw:
   - contact
   properties:
   - type: OpenAPI
@@ -385,6 +391,8 @@ apis:
   humanURL: https://api-doc.copilot.clari.com/
   baseURL: https://rest-api.copilot.clari.com
   tags:
+  - Scorecard
+  tags_raw:
   - scorecard
   properties:
   - type: OpenAPI
@@ -399,6 +407,8 @@ apis:
   humanURL: https://api-doc.copilot.clari.com/
   baseURL: https://rest-api.copilot.clari.com
   tags:
+  - Topics
+  tags_raw:
   - topics
   properties:
   - type: OpenAPI
@@ -413,6 +423,8 @@ apis:
   humanURL: https://api-doc.copilot.clari.com/
   baseURL: https://rest-api.copilot.clari.com
   tags:
+  - User
+  tags_raw:
   - user
   properties:
   - type: OpenAPI
