@@ -377,6 +377,8 @@ apis:
   humanURL: https://api-doc.copilot.clari.com/
   baseURL: https://rest-api.copilot.clari.com
   tags:
+  - Deal
+  tags_raw:
   - deal
   properties:
   - type: OpenAPI
