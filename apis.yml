@@ -61,11 +61,12 @@ tags:
 apis:
 - aid: clari:clari-mcp-server
   name: Clari MCP Server
-  description: Clari's first-party remote Model Context Protocol server. It exposes live Clari + Salesloft
-    revenue context — accounts, deals, people, calls and conversation intelligence, cadences and activity,
-    team metrics, and (rolling out through late summer 2026) forecasting and deal inspection — to any
-    MCP client. Listed natively in the Claude connector directory and available as a custom connector
-    for ChatGPT, Microsoft Copilot and Google Gemini. OAuth 2.0 via Okta; tools/list is auth-gated.
+  description: >-
+    Clari's first-party remote Model Context Protocol server. It exposes live Clari + Salesloft revenue
+    context — accounts, deals, people, calls and conversation intelligence, cadences and activity, team
+    metrics, and (rolling out through late summer 2026) forecasting and deal inspection — to any MCP client.
+    Listed natively in the Claude connector directory and available as a custom connector for ChatGPT,
+    Microsoft Copilot and Google Gemini. OAuth 2.0 via Okta; tools/list is auth-gated.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://community.clari.com/product-updates/august-2026-new-feature-release-notes-3009
   baseURL: https://mcp.clari.com/mcp
@@ -189,8 +190,8 @@ apis:
     url: examples/clari-activity-export-example.json
 - aid: clari:clari-bulk-ingest-job-status-api-api
   name: Clari Bulk Ingest Job Status API
-  description: The Bulk Ingest Job Status API API from Clari — 1 operation(s) for bulk ingest job status
-    api.
+  description: >-
+    The Bulk Ingest Job Status API API from Clari — 1 operation(s) for bulk ingest job status api.
   humanURL: https://developer.clari.com/
   baseURL: https://api.clari.com/v4
   tags:
@@ -200,32 +201,6 @@ apis:
     url: openapi/clari-bulk-ingest-job-status-api-api-openapi.yml
   - type: Overlay
     url: overlays/clari-bulk-ingest-job-status-api-api-overlay.yaml
-  - type: Documentation
-    url: https://developer.clari.com/documentation/external_spec
-  - type: JSONSchema
-    url: json-schema/clari-export-job-schema.json
-  - type: JSONSchema
-    url: json-schema/clari-forecast-export-request-schema.json
-  - type: JSONSchema
-    url: json-schema/clari-ingestion-request-schema.json
-  - type: Examples
-    url: examples/clari-forecast-export-example.json
-  - type: Examples
-    url: examples/clari-job-status-example.json
-  - type: Examples
-    url: examples/clari-activity-export-example.json
-- aid: clari:clari-export-api
-  name: Clari Export API
-  description: The Export API from Clari — 1 operation(s) for export.
-  humanURL: https://developer.clari.com/
-  baseURL: https://api.clari.com/v4
-  tags:
-  - Export
-  properties:
-  - type: OpenAPI
-    url: openapi/clari-export-api-openapi.yml
-  - type: Overlay
-    url: overlays/clari-export-api-overlay.yaml
   - type: Documentation
     url: https://developer.clari.com/documentation/external_spec
   - type: JSONSchema
@@ -435,6 +410,8 @@ apis:
   - type: APIReference
     url: https://api-doc.copilot.clari.com/
 common:
+- type: Overlay
+  url: overlays/clari-export-api-overlay.yaml
 - type: Overlay
   url: overlays/clari-copilot-api-overlay.yaml
 - type: AgentSkill
