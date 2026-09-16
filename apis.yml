@@ -1,16 +1,14 @@
 name: Clari
-description: Clari is an enterprise revenue orchestration platform that publishes three
-  machine surfaces. The Clari Revenue API v5 (api.clari.com/v4) is an asynchronous,
-  job-based export and ingest surface — queue a forecast, activity or audit export, poll
-  until the job reads DONE, then download the results — plus a partner Ingestion API for
-  pushing third-party data into Clari accounts and opportunities. The Clari Copilot REST
-  API (rest-api.copilot.clari.com) is a synchronous conversation-intelligence and CRM
-  surface covering calls, transcripts, AI summaries, action items, competitor sentiment,
-  coaching scorecards, and CRUD over accounts, contacts and deals keyed on the customer's
-  own CRM id. Clari also runs a first-party remote MCP server at mcp.clari.com/mcp, OAuth
-  protected via Okta and listed natively in the Claude connector directory, which exposes
-  live Clari + Salesloft revenue context to AI agents. Both HTTP APIs authenticate with
-  header API keys, support no idempotency keys, and return no rate-limit headers.
+description: Clari is an enterprise revenue orchestration platform that publishes three machine surfaces.
+  The Clari Revenue API v5 (api.clari.com/v4) is an asynchronous, job-based export and ingest surface
+  — queue a forecast, activity or audit export, poll until the job reads DONE, then download the results
+  — plus a partner Ingestion API for pushing third-party data into Clari accounts and opportunities. The
+  Clari Copilot REST API (rest-api.copilot.clari.com) is a synchronous conversation-intelligence and CRM
+  surface covering calls, transcripts, AI summaries, action items, competitor sentiment, coaching scorecards,
+  and CRUD over accounts, contacts and deals keyed on the customer's own CRM id. Clari also runs a first-party
+  remote MCP server at mcp.clari.com/mcp, OAuth protected via Okta and listed natively in the Claude connector
+  directory, which exposes live Clari + Salesloft revenue context to AI agents. Both HTTP APIs authenticate
+  with header API keys, support no idempotency keys, and return no rate-limit headers.
 deliveryModel:
   model: saas
   open_source: false
@@ -41,7 +39,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/clari.png
 url: https://raw.githubusercontent.com/api-evangelist/clari/refs/heads/main/apis.yml
 created: '2026-06-13'
-modified: '2026-08-13'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 type: Index
 tags:
@@ -63,12 +61,11 @@ tags:
 apis:
 - aid: clari:clari-mcp-server
   name: Clari MCP Server
-  description: >-
-    Clari's first-party remote Model Context Protocol server. It exposes live Clari + Salesloft revenue
-    context — accounts, deals, people, calls and conversation intelligence, cadences and activity, team
-    metrics, and (rolling out through late summer 2026) forecasting and deal inspection — to any MCP client.
-    Listed natively in the Claude connector directory and available as a custom connector for ChatGPT,
-    Microsoft Copilot and Google Gemini. OAuth 2.0 via Okta; tools/list is auth-gated.
+  description: Clari's first-party remote Model Context Protocol server. It exposes live Clari + Salesloft
+    revenue context — accounts, deals, people, calls and conversation intelligence, cadences and activity,
+    team metrics, and (rolling out through late summer 2026) forecasting and deal inspection — to any
+    MCP client. Listed natively in the Claude connector directory and available as a custom connector
+    for ChatGPT, Microsoft Copilot and Google Gemini. OAuth 2.0 via Okta; tools/list is auth-gated.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://community.clari.com/product-updates/august-2026-new-feature-release-notes-3009
   baseURL: https://mcp.clari.com/mcp
@@ -87,7 +84,7 @@ apis:
   - type: Documentation
     url: https://community.clari.com/product-updates/august-2026-new-feature-release-notes-3009
 - aid: clari:clari-activity-api-api
-  name: Clari Activity API API
+  name: Clari Activity API
   description: The Activity API API from Clari — 1 operation(s) for activity api.
   humanURL: https://developer.clari.com/
   baseURL: https://api.clari.com/v4
@@ -113,7 +110,7 @@ apis:
   - type: Examples
     url: examples/clari-activity-export-example.json
 - aid: clari:clari-administrative-api-api
-  name: Clari Administrative API API
+  name: Clari Administrative API
   description: The Administrative API API from Clari — 1 operation(s) for administrative api.
   humanURL: https://developer.clari.com/
   baseURL: https://api.clari.com/v4
@@ -139,7 +136,7 @@ apis:
   - type: Examples
     url: examples/clari-activity-export-example.json
 - aid: clari:clari-audit-api-api
-  name: Clari Audit API API
+  name: Clari Audit API
   description: The Audit API API from Clari — 2 operation(s) for audit api.
   humanURL: https://developer.clari.com/
   baseURL: https://api.clari.com/v4
@@ -191,9 +188,9 @@ apis:
   - type: Examples
     url: examples/clari-activity-export-example.json
 - aid: clari:clari-bulk-ingest-job-status-api-api
-  name: Clari Bulk Ingest Job Status API API
-  description: >-
-    The Bulk Ingest Job Status API API from Clari — 1 operation(s) for bulk ingest job status api.
+  name: Clari Bulk Ingest Job Status API
+  description: The Bulk Ingest Job Status API API from Clari — 1 operation(s) for bulk ingest job status
+    api.
   humanURL: https://developer.clari.com/
   baseURL: https://api.clari.com/v4
   tags:
@@ -244,7 +241,7 @@ apis:
   - type: Examples
     url: examples/clari-activity-export-example.json
 - aid: clari:clari-forecast-api-api
-  name: Clari Forecast API API
+  name: Clari Forecast API
   description: The Forecast API API from Clari — 1 operation(s) for forecast api.
   humanURL: https://developer.clari.com/
   baseURL: https://api.clari.com/v4
@@ -272,7 +269,7 @@ apis:
   - type: Examples
     url: examples/clari-activity-export-example.json
 - aid: clari:clari-ingestion-api-api
-  name: Clari Ingestion API API
+  name: Clari Ingestion API
   description: The Ingestion API API from Clari — 3 operation(s) for ingestion api.
   humanURL: https://developer.clari.com/
   baseURL: https://api.clari.com/v4
@@ -300,7 +297,7 @@ apis:
   - type: Examples
     url: examples/clari-activity-export-example.json
 - aid: clari:clari-opportunity-api-api
-  name: Clari Opportunity API API
+  name: Clari Opportunity API
   description: The Opportunity API API from Clari — 1 operation(s) for opportunity api.
   humanURL: https://developer.clari.com/
   baseURL: https://api.clari.com/v4
