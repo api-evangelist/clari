@@ -367,7 +367,7 @@ apis:
   humanURL: https://api-doc.copilot.clari.com/
   baseURL: https://rest-api.copilot.clari.com
   tags:
-  - Scorecard
+  - Scorecards
   tags_raw:
   - scorecard
   properties:
@@ -383,7 +383,7 @@ apis:
   humanURL: https://api-doc.copilot.clari.com/
   baseURL: https://rest-api.copilot.clari.com
   tags:
-  - Topics
+  - Topic
   tags_raw:
   - topics
   properties:
