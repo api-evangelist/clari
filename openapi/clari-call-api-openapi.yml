@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: rest-api Call API
   version: 1.0.0
-  description: "Refer to our website to know more about [Clari Copilot](https://www.clari.com/products/copilot/).\n\n**To learn how to use the Clari Copilot API, please follow this <a href=\"https://community.clari.com/product-q-a-6/how-to-use-copilot-apis-2258\" target=\"_blank\">integration guide (link)</a>.**<br/> It explains how you get your API key, gives context on how the endpoints work together, and provides example code.\n\n# Authentication\n\nYou need to pass both API key and password in specified headers to authenticate with Clari Copilot API.\n\nExample curl command fetching users:\n\n<blockquote>\n  <code>\n    curl -H \"X-Api-Key:&lt;your_api_key&gt;\" -H \"X-Api-Password:&lt;your_api_password&gt;\" \"https://rest-api.copilot.clari.com/users\"\n  </code>\n</blockquote>\n\nYou'll find API key and secret in workspace settings > integrations > Clari Copilot API\n\n<img src=\"/assets/workspace-settings.png\" width=150 /><img src=\"/assets/integrations.png\" width=200 /><img src=\"/assets/apikey.png\" width=200 />\n\n<SecurityDefinitions />\n\n# Rate limit\n\nDefault rate limit is 10 per second.\n\nAlso 100k requests per week is also imposed. Week starts every Sunday 0 GMT.\n\n# Example\n\nHere is a python script that demonstrate how to fetch calls and print csv: <a href=\"./copilot_calls_example.py\" download>Calls example</a>\n\nHere is a python script that demonstrate how to use CRM endpoints: <a href=\"./copilot_crm_example.py\" download>CRM example</a>\n\n# Deprecation\n\nThis api's old domain https://rest-api.trywingman.com is deprecated and will be supported till end of 2023 to allow existing clients to migrate.\n"
+  description: Refer to our website to know more about Clari Copilot.
   contact:
     name: Support
     email: copilot-support@clari.com
@@ -12,13 +12,13 @@ info:
 servers:
 - url: https://rest-api.copilot.clari.com
 tags:
-- name: call
+- name: Call
   description: Calls in Copilot
 paths:
   /calls:
     get:
       tags:
-      - call
+      - Call
       summary: List calls
       description: 'This endpoint allows listing calls by different parameters.
 
@@ -31,9 +31,7 @@ paths:
         To get transcript, deal live stage fetch call individually using call-details endpoint.
 
 
-        Note: ''includePagination=false'' will greatly improve endpoint response.
-
-        '
+        Note: ''includePagination=false'' will greatly improve endpoint response.'
       parameters:
       - name: skip
         in: query
@@ -235,10 +233,12 @@ paths:
       security:
       - api_key: []
         api_password: []
+      operationId: getCalls
+      x-operation-id-source: derived
   /call-details:
     get:
       tags:
-      - call
+      - Call
       summary: Call details
       description: Returns details of call with id passed as query param
       parameters:
@@ -286,10 +286,12 @@ paths:
       security:
       - api_key: []
         api_password: []
+      operationId: getCallDetails
+      x-operation-id-source: derived
   /create-call:
     post:
       tags:
-      - call
+      - Call
       summary: Create call
       description: Creates a new call in Copilot system. Call's video link can be passed in the audio_url field.
       x-codeSamples:
@@ -418,35 +420,31 @@ paths:
       security:
       - api_key: []
         api_password: []
+      operationId: postCreateCall
+      x-operation-id-source: derived
 components:
   schemas:
-    BotNotJoinReason:
-      type: string
-      enum:
-      - IGNORED_DUE_TO_WHITELIST
-      - CONSENT_REVOKED
-      - IGNORED_BY_USER
-      - IGNORED_CALL_TYPE_IGNORED_BY_CUSTOMER
-      - IGNORED_NO_USER_HAS_ACCEPTED_INVITE
-      - RECORDING_PERMISSION_DENIED
-      - IGNORED_NON_MEETING
-      - IGNORED_NOT_CONFIRMED
-      - IGNORED_NOT_EXTERNAL_MEETING
-      - IGNORED_NOT_ORGANIZER
-      - IGNORED
-    CompetitorSentiments:
-      type: object
+    Category:
       properties:
-        competitor_name:
+        name:
           type: string
-        sentiment:
-          type: string
-        reasoning:
-          type: string
-        personId:
-          type: string
-        turn_start_time:
-          type: string
+        occurences:
+          type: integer
+        phrases_matched:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+              user_id:
+                type: string
+              name:
+                type: string
+              time:
+                type: float
+        ai_detected:
+          type: boolean
     CallDetails:
       title: Call details
       allOf:
@@ -505,6 +503,85 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/CompetitorSentiments'
+    SummaryTopics:
+      type: object
+      properties:
+        name:
+          type: string
+        start_timestamp:
+          type: string
+        end_timestamp:
+          type: string
+        summary:
+          type: string
+    SummaryActionItems:
+      type: object
+      properties:
+        action_item:
+          type: string
+        speaker_name:
+          type: string
+        start_timestamp:
+          type: string
+        end_timestamp:
+          type: string
+    ExternalTranscript:
+      title: External Transcript
+      type: object
+      properties:
+        external_speakers:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExternalSpeakers'
+        ext_conversation_turns:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExtConversationTurns'
+    CallStatus:
+      type: string
+      enum:
+      - SCHEDULED
+      - INITIATED
+      - INPROGRESS
+      - WAITING_IN_QUEUE
+      - PROCESSING
+      - PROCESSED
+      - ERROR_IN_TRANSCRIBE
+      - ERROR_IN_PROCESSING
+      - ERROR_IN_RECORDING
+      - UNABLE_TO_JOIN
+      - CALL_DID_NOT_HAPPEN
+      - IGNORED_BY_USER
+      - BOTJOIN_DISABLED
+      - POST_PROCESSING_DONE
+      - NO_DATA_INCALL
+      - NOBODY_JOINED_CALL
+      - BOTJOIN_DENIED
+    CompetitorSentiments:
+      type: object
+      properties:
+        competitor_name:
+          type: string
+        sentiment:
+          type: string
+        reasoning:
+          type: string
+        personId:
+          type: string
+        turn_start_time:
+          type: string
+    CallsResponse:
+      title: List of calls
+      type: object
+      properties:
+        calls:
+          type: array
+          items:
+            $ref: '#/components/schemas/Call'
+        pagination:
+          $ref: '#/components/schemas/PaginationInfo'
     ExtConversationTurns:
       title: External Conversation Turns
       type: object
@@ -529,106 +606,6 @@ components:
           description: 'Turn end time in seconds.
 
             '
-    CallDetailsResponse:
-      title: Call details response
-      type: object
-      properties:
-        call:
-          $ref: '#/components/schemas/CallDetails'
-    SummaryActionItems:
-      type: object
-      properties:
-        action_item:
-          type: string
-        speaker_name:
-          type: string
-        start_timestamp:
-          type: string
-        end_timestamp:
-          type: string
-    CallsResponse:
-      title: List of calls
-      type: object
-      properties:
-        calls:
-          type: array
-          items:
-            $ref: '#/components/schemas/Call'
-        pagination:
-          $ref: '#/components/schemas/PaginationInfo'
-    CreateCallResponse:
-      title: Create call response
-      type: object
-      properties:
-        call_id:
-          type: string
-        error:
-          type: string
-    ExternalSpeakers:
-      title: External Speakers
-      type: object
-      properties:
-        person_id:
-          type: string
-          description: 'Unique id of participant.
-
-            '
-        name:
-          type: string
-          description: 'Name of the participant.
-
-            '
-        email_id:
-          type: string
-          description: 'Email of the participant.
-
-            '
-    CallParticipant:
-      title: Participant invited
-      type: object
-      properties:
-        name:
-          type: string
-        email:
-          type: string
-        phone:
-          type: string
-        personId:
-          type: integer
-    ExternalTranscript:
-      title: External Transcript
-      type: object
-      properties:
-        external_speakers:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/ExternalSpeakers'
-        ext_conversation_turns:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/ExtConversationTurns'
-    CallDisposition:
-      type: string
-      enum:
-      - UNKNOWN_CALL_DISPOSITION
-      - CALL_CONNECTED_WITH_PROSPECT
-      - CALL_DID_NOT_CONNECT_WITH_PROSPECT
-      - CALL_NOBODY_JOINED
-      - CALL_BOTJOIN_DENIED
-    CallUser:
-      title: User in call
-      type: object
-      properties:
-        userId:
-          type: string
-        userEmail:
-          type: string
-        isOrganizer:
-          type: boolean
-        personId:
-          type: integer
     CallType:
       type: string
       enum:
@@ -755,6 +732,47 @@ components:
                 $ref: '#/components/schemas/Category'
         call_review_page_url:
           type: string
+    BotNotJoinReason:
+      type: string
+      enum:
+      - IGNORED_DUE_TO_WHITELIST
+      - CONSENT_REVOKED
+      - IGNORED_BY_USER
+      - IGNORED_CALL_TYPE_IGNORED_BY_CUSTOMER
+      - IGNORED_NO_USER_HAS_ACCEPTED_INVITE
+      - RECORDING_PERMISSION_DENIED
+      - IGNORED_NON_MEETING
+      - IGNORED_NOT_CONFIRMED
+      - IGNORED_NOT_EXTERNAL_MEETING
+      - IGNORED_NOT_ORGANIZER
+      - IGNORED
+    ExternalSpeakers:
+      title: External Speakers
+      type: object
+      properties:
+        person_id:
+          type: string
+          description: 'Unique id of participant.
+
+            '
+        name:
+          type: string
+          description: 'Name of the participant.
+
+            '
+        email_id:
+          type: string
+          description: 'Email of the participant.
+
+            '
+    CreateCallResponse:
+      title: Create call response
+      type: object
+      properties:
+        call_id:
+          type: string
+        error:
+          type: string
     PaginationInfo:
       title: Pagination info
       type: object
@@ -765,17 +783,52 @@ components:
           type: boolean
         nextPageSkip:
           type: integer
-    SummaryTopics:
+    APICallType:
+      type: string
+      enum:
+      - RECORDING
+      - VENDASTA
+      - KNOWLARITY
+      - CALL_HIPPO
+      - RINGOVER
+    CallDetailsResponse:
+      title: Call details response
+      type: object
+      properties:
+        call:
+          $ref: '#/components/schemas/CallDetails'
+    CallUser:
+      title: User in call
+      type: object
+      properties:
+        userId:
+          type: string
+        userEmail:
+          type: string
+        isOrganizer:
+          type: boolean
+        personId:
+          type: integer
+    CallParticipant:
+      title: Participant invited
       type: object
       properties:
         name:
           type: string
-        start_timestamp:
+        email:
           type: string
-        end_timestamp:
+        phone:
           type: string
-        summary:
-          type: string
+        personId:
+          type: integer
+    CallDisposition:
+      type: string
+      enum:
+      - UNKNOWN_CALL_DISPOSITION
+      - CALL_CONNECTED_WITH_PROSPECT
+      - CALL_DID_NOT_CONNECT_WITH_PROSPECT
+      - CALL_NOBODY_JOINED
+      - CALL_BOTJOIN_DENIED
     JoinedParticipant:
       title: Participant joined
       type: object
@@ -788,55 +841,6 @@ components:
           type: string
         personId:
           type: integer
-    APICallType:
-      type: string
-      enum:
-      - RECORDING
-      - VENDASTA
-      - KNOWLARITY
-      - CALL_HIPPO
-      - RINGOVER
-    CallStatus:
-      type: string
-      enum:
-      - SCHEDULED
-      - INITIATED
-      - INPROGRESS
-      - WAITING_IN_QUEUE
-      - PROCESSING
-      - PROCESSED
-      - ERROR_IN_TRANSCRIBE
-      - ERROR_IN_PROCESSING
-      - ERROR_IN_RECORDING
-      - UNABLE_TO_JOIN
-      - CALL_DID_NOT_HAPPEN
-      - IGNORED_BY_USER
-      - BOTJOIN_DISABLED
-      - POST_PROCESSING_DONE
-      - NO_DATA_INCALL
-      - NOBODY_JOINED_CALL
-      - BOTJOIN_DENIED
-    Category:
-      properties:
-        name:
-          type: string
-        occurences:
-          type: integer
-        phrases_matched:
-          type: array
-          items:
-            type: object
-            properties:
-              text:
-                type: string
-              user_id:
-                type: string
-              name:
-                type: string
-              time:
-                type: float
-        ai_detected:
-          type: boolean
   securitySchemes:
     api_key:
       type: apiKey
