@@ -120,32 +120,26 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PaginationInfo:
-      title: Pagination info
+    ScorecardTemplateResponse:
+      title: List of all Scorecard template
       type: object
       properties:
-        matched:
-          type: integer
-        hasMore:
-          type: boolean
-        nextPageSkip:
-          type: integer
-    ScoreCardTemplate:
-      title: scorecard template object
-      type: object
-      properties:
-        id:
-          type: string
-        customer_id:
-          type: string
-        name:
-          type: string
-        type:
-          type: string
-        questions:
+        scoreCardTemplates:
           type: array
           items:
-            $ref: '#/components/schemas/ScorecardTemplateQuestion'
+            $ref: '#/components/schemas/ScoreCardTemplate'
+    ScorecardQuestion:
+      title: Questions in a scorecard
+      type: object
+      properties:
+        score:
+          type: integer
+        skill:
+          type: string
+        label:
+          type: string
+        order:
+          type: string
     Scorecard:
       title: scorecard object
       type: object
@@ -171,18 +165,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ScorecardQuestion'
-    ScorecardQuestion:
-      title: Questions in a scorecard
+    PaginationInfo:
+      title: Pagination info
       type: object
       properties:
-        score:
+        matched:
           type: integer
-        skill:
-          type: string
-        label:
-          type: string
-        order:
-          type: string
+        hasMore:
+          type: boolean
+        nextPageSkip:
+          type: integer
     ScorecardsResponse:
       title: List of Scorecards
       type: object
@@ -203,14 +195,22 @@ components:
           type: string
         order:
           type: string
-    ScorecardTemplateResponse:
-      title: List of all Scorecard template
+    ScoreCardTemplate:
+      title: scorecard template object
       type: object
       properties:
-        scoreCardTemplates:
+        id:
+          type: string
+        customer_id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        questions:
           type: array
           items:
-            $ref: '#/components/schemas/ScoreCardTemplate'
+            $ref: '#/components/schemas/ScorecardTemplateQuestion'
   securitySchemes:
     api_key:
       type: apiKey

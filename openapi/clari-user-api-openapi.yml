@@ -39,6 +39,14 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UsersResponse:
+      title: List of users
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
     User:
       title: User object
       type: object
@@ -59,14 +67,6 @@ components:
           type: boolean
         manager_id:
           type: string
-    UsersResponse:
-      title: List of users
-      type: object
-      properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
   securitySchemes:
     api_key:
       type: apiKey

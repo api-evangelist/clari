@@ -142,6 +142,24 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Deal:
+      title: Deal object
+      type: object
+      allOf:
+      - type: object
+        properties:
+          id:
+            description: Id in Copilot system
+            type: string
+      - $ref: '#/components/schemas/DealWithoutId'
+    CustomField:
+      title: Custom key value field for any document
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
     DealWithoutId:
       title: Deal object
       type: object
@@ -204,17 +222,6 @@ components:
         deal_reason:
           description: Reason of the deal
           type: string
-    StageChangeHistory:
-      title: Stage change history object
-      type: object
-      properties:
-        stage:
-          type: string
-        prev_stage:
-          type: string
-        date_changed:
-          type: string
-          format: date-time
     CloseDateChangeHistory:
       title: Stage change history object
       type: object
@@ -228,24 +235,17 @@ components:
         date_changed:
           type: string
           format: date-time
-    CustomField:
-      title: Custom key value field for any document
+    StageChangeHistory:
+      title: Stage change history object
       type: object
       properties:
-        key:
+        stage:
           type: string
-        value:
+        prev_stage:
           type: string
-    Deal:
-      title: Deal object
-      type: object
-      allOf:
-      - type: object
-        properties:
-          id:
-            description: Id in Copilot system
-            type: string
-      - $ref: '#/components/schemas/DealWithoutId'
+        date_changed:
+          type: string
+          format: date-time
   securitySchemes:
     api_key:
       type: apiKey

@@ -424,85 +424,28 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Category:
+    CallParticipant:
+      title: Participant invited
+      type: object
       properties:
         name:
           type: string
-        occurences:
+        email:
+          type: string
+        phone:
+          type: string
+        personId:
           type: integer
-        phrases_matched:
-          type: array
-          items:
-            type: object
-            properties:
-              text:
-                type: string
-              user_id:
-                type: string
-              name:
-                type: string
-              time:
-                type: float
-        ai_detected:
+    PaginationInfo:
+      title: Pagination info
+      type: object
+      properties:
+        matched:
+          type: integer
+        hasMore:
           type: boolean
-    CallDetails:
-      title: Call details
-      allOf:
-      - $ref: '#/components/schemas/Call'
-      - type: object
-        properties:
-          deal_stage_live:
-            type: string
-          transcript:
-            type: array
-            items:
-              type: object
-              properties:
-                text:
-                  type: string
-                start:
-                  type: number
-                end:
-                  type: number
-                personId:
-                  type: integer
-                annotations:
-                  type: array
-                  items:
-                    anyOf:
-                    - title: Tracker annotation
-                      type: object
-                      properties:
-                        tracker:
-                          type: string
-                        phrase:
-                          type: string
-                        category:
-                          type: string
-                    - title: AI annotation
-                      type: object
-                      properties:
-                        label:
-                          type: string
-                        phrase:
-                          type: string
-          summary:
-            type: object
-            properties:
-              full_summary:
-                type: string
-              topics_discussed:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SummaryTopics'
-              key_action_items:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SummaryActionItems'
-          competitor_sentiments:
-            type: array
-            items:
-              $ref: '#/components/schemas/CompetitorSentiments'
+        nextPageSkip:
+          type: integer
     SummaryTopics:
       type: object
       properties:
@@ -514,115 +457,6 @@ components:
           type: string
         summary:
           type: string
-    SummaryActionItems:
-      type: object
-      properties:
-        action_item:
-          type: string
-        speaker_name:
-          type: string
-        start_timestamp:
-          type: string
-        end_timestamp:
-          type: string
-    ExternalTranscript:
-      title: External Transcript
-      type: object
-      properties:
-        external_speakers:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/ExternalSpeakers'
-        ext_conversation_turns:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/ExtConversationTurns'
-    CallStatus:
-      type: string
-      enum:
-      - SCHEDULED
-      - INITIATED
-      - INPROGRESS
-      - WAITING_IN_QUEUE
-      - PROCESSING
-      - PROCESSED
-      - ERROR_IN_TRANSCRIBE
-      - ERROR_IN_PROCESSING
-      - ERROR_IN_RECORDING
-      - UNABLE_TO_JOIN
-      - CALL_DID_NOT_HAPPEN
-      - IGNORED_BY_USER
-      - BOTJOIN_DISABLED
-      - POST_PROCESSING_DONE
-      - NO_DATA_INCALL
-      - NOBODY_JOINED_CALL
-      - BOTJOIN_DENIED
-    CompetitorSentiments:
-      type: object
-      properties:
-        competitor_name:
-          type: string
-        sentiment:
-          type: string
-        reasoning:
-          type: string
-        personId:
-          type: string
-        turn_start_time:
-          type: string
-    CallsResponse:
-      title: List of calls
-      type: object
-      properties:
-        calls:
-          type: array
-          items:
-            $ref: '#/components/schemas/Call'
-        pagination:
-          $ref: '#/components/schemas/PaginationInfo'
-    ExtConversationTurns:
-      title: External Conversation Turns
-      type: object
-      properties:
-        person_id:
-          type: string
-          description: 'Unique id of participant. Participant with this id should also be a part of external_speakers.
-
-            '
-        text:
-          type: string
-          description: 'Text included for turn.
-
-            '
-        start:
-          type: number
-          description: 'Turn start time in seconds.
-
-            '
-        end:
-          type: number
-          description: 'Turn end time in seconds.
-
-            '
-    CallType:
-      type: string
-      enum:
-      - ZOOM
-      - GOOGLE_MEET
-      - FRESHCALLER
-      - AIRCALL_RECORDING
-      - RINGCENTRAL
-      - GOTO_MEETING
-      - OUTREACH
-      - HUBSPOT
-      - BLUE_JEANS
-      - SALESLOFT
-      - MS_TEAMS
-      - DIALPAD
-      - FRONTSPIN
-      - TALKDESK
     Call:
       title: Call object
       type: object
@@ -732,6 +566,95 @@ components:
                 $ref: '#/components/schemas/Category'
         call_review_page_url:
           type: string
+    CreateCallResponse:
+      title: Create call response
+      type: object
+      properties:
+        call_id:
+          type: string
+        error:
+          type: string
+    APICallType:
+      type: string
+      enum:
+      - RECORDING
+      - VENDASTA
+      - KNOWLARITY
+      - CALL_HIPPO
+      - RINGOVER
+    CallUser:
+      title: User in call
+      type: object
+      properties:
+        userId:
+          type: string
+        userEmail:
+          type: string
+        isOrganizer:
+          type: boolean
+        personId:
+          type: integer
+    ExternalTranscript:
+      title: External Transcript
+      type: object
+      properties:
+        external_speakers:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExternalSpeakers'
+        ext_conversation_turns:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExtConversationTurns'
+    ExtConversationTurns:
+      title: External Conversation Turns
+      type: object
+      properties:
+        person_id:
+          type: string
+          description: 'Unique id of participant. Participant with this id should also be a part of external_speakers.
+
+            '
+        text:
+          type: string
+          description: 'Text included for turn.
+
+            '
+        start:
+          type: number
+          description: 'Turn start time in seconds.
+
+            '
+        end:
+          type: number
+          description: 'Turn end time in seconds.
+
+            '
+    CallsResponse:
+      title: List of calls
+      type: object
+      properties:
+        calls:
+          type: array
+          items:
+            $ref: '#/components/schemas/Call'
+        pagination:
+          $ref: '#/components/schemas/PaginationInfo'
+    CompetitorSentiments:
+      type: object
+      properties:
+        competitor_name:
+          type: string
+        sentiment:
+          type: string
+        reasoning:
+          type: string
+        personId:
+          type: string
+        turn_start_time:
+          type: string
     BotNotJoinReason:
       type: string
       enum:
@@ -746,6 +669,35 @@ components:
       - IGNORED_NOT_EXTERNAL_MEETING
       - IGNORED_NOT_ORGANIZER
       - IGNORED
+    Category:
+      properties:
+        name:
+          type: string
+        occurences:
+          type: integer
+        phrases_matched:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+              user_id:
+                type: string
+              name:
+                type: string
+              time:
+                type: float
+        ai_detected:
+          type: boolean
+    CallDisposition:
+      type: string
+      enum:
+      - UNKNOWN_CALL_DISPOSITION
+      - CALL_CONNECTED_WITH_PROSPECT
+      - CALL_DID_NOT_CONNECT_WITH_PROSPECT
+      - CALL_NOBODY_JOINED
+      - CALL_BOTJOIN_DENIED
     ExternalSpeakers:
       title: External Speakers
       type: object
@@ -765,70 +717,43 @@ components:
           description: 'Email of the participant.
 
             '
-    CreateCallResponse:
-      title: Create call response
-      type: object
-      properties:
-        call_id:
-          type: string
-        error:
-          type: string
-    PaginationInfo:
-      title: Pagination info
-      type: object
-      properties:
-        matched:
-          type: integer
-        hasMore:
-          type: boolean
-        nextPageSkip:
-          type: integer
-    APICallType:
+    CallStatus:
       type: string
       enum:
-      - RECORDING
-      - VENDASTA
-      - KNOWLARITY
-      - CALL_HIPPO
-      - RINGOVER
+      - SCHEDULED
+      - INITIATED
+      - INPROGRESS
+      - WAITING_IN_QUEUE
+      - PROCESSING
+      - PROCESSED
+      - ERROR_IN_TRANSCRIBE
+      - ERROR_IN_PROCESSING
+      - ERROR_IN_RECORDING
+      - UNABLE_TO_JOIN
+      - CALL_DID_NOT_HAPPEN
+      - IGNORED_BY_USER
+      - BOTJOIN_DISABLED
+      - POST_PROCESSING_DONE
+      - NO_DATA_INCALL
+      - NOBODY_JOINED_CALL
+      - BOTJOIN_DENIED
     CallDetailsResponse:
       title: Call details response
       type: object
       properties:
         call:
           $ref: '#/components/schemas/CallDetails'
-    CallUser:
-      title: User in call
+    SummaryActionItems:
       type: object
       properties:
-        userId:
+        action_item:
           type: string
-        userEmail:
+        speaker_name:
           type: string
-        isOrganizer:
-          type: boolean
-        personId:
-          type: integer
-    CallParticipant:
-      title: Participant invited
-      type: object
-      properties:
-        name:
+        start_timestamp:
           type: string
-        email:
+        end_timestamp:
           type: string
-        phone:
-          type: string
-        personId:
-          type: integer
-    CallDisposition:
-      type: string
-      enum:
-      - UNKNOWN_CALL_DISPOSITION
-      - CALL_CONNECTED_WITH_PROSPECT
-      - CALL_DID_NOT_CONNECT_WITH_PROSPECT
-      - CALL_NOBODY_JOINED
-      - CALL_BOTJOIN_DENIED
     JoinedParticipant:
       title: Participant joined
       type: object
@@ -841,6 +766,81 @@ components:
           type: string
         personId:
           type: integer
+    CallDetails:
+      title: Call details
+      allOf:
+      - $ref: '#/components/schemas/Call'
+      - type: object
+        properties:
+          deal_stage_live:
+            type: string
+          transcript:
+            type: array
+            items:
+              type: object
+              properties:
+                text:
+                  type: string
+                start:
+                  type: number
+                end:
+                  type: number
+                personId:
+                  type: integer
+                annotations:
+                  type: array
+                  items:
+                    anyOf:
+                    - title: Tracker annotation
+                      type: object
+                      properties:
+                        tracker:
+                          type: string
+                        phrase:
+                          type: string
+                        category:
+                          type: string
+                    - title: AI annotation
+                      type: object
+                      properties:
+                        label:
+                          type: string
+                        phrase:
+                          type: string
+          summary:
+            type: object
+            properties:
+              full_summary:
+                type: string
+              topics_discussed:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SummaryTopics'
+              key_action_items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SummaryActionItems'
+          competitor_sentiments:
+            type: array
+            items:
+              $ref: '#/components/schemas/CompetitorSentiments'
+    CallType:
+      type: string
+      enum:
+      - ZOOM
+      - GOOGLE_MEET
+      - FRESHCALLER
+      - AIRCALL_RECORDING
+      - RINGCENTRAL
+      - GOTO_MEETING
+      - OUTREACH
+      - HUBSPOT
+      - BLUE_JEANS
+      - SALESLOFT
+      - MS_TEAMS
+      - DIALPAD
+      - FRONTSPIN
+      - TALKDESK
   securitySchemes:
     api_key:
       type: apiKey

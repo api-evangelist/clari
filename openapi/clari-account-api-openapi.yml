@@ -150,6 +150,16 @@ components:
           type: string
         value:
           type: string
+    Account:
+      title: Account object
+      type: object
+      allOf:
+      - type: object
+        properties:
+          id:
+            description: Id of account in Copilot
+            type: string
+      - $ref: '#/components/schemas/AccountWithoutId'
     AccountWithoutId:
       title: Account object
       type: object
@@ -191,16 +201,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CustomField'
-    Account:
-      title: Account object
-      type: object
-      allOf:
-      - type: object
-        properties:
-          id:
-            description: Id of account in Copilot
-            type: string
-      - $ref: '#/components/schemas/AccountWithoutId'
   securitySchemes:
     api_key:
       type: apiKey
