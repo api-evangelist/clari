@@ -120,26 +120,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ScorecardTemplateResponse:
-      title: List of all Scorecard template
+    PaginationInfo:
+      title: Pagination info
       type: object
       properties:
-        scoreCardTemplates:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScoreCardTemplate'
-    ScorecardQuestion:
-      title: Questions in a scorecard
-      type: object
-      properties:
-        score:
+        matched:
           type: integer
-        skill:
-          type: string
-        label:
-          type: string
-        order:
-          type: string
+        hasMore:
+          type: boolean
+        nextPageSkip:
+          type: integer
     Scorecard:
       title: scorecard object
       type: object
@@ -165,16 +155,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ScorecardQuestion'
-    PaginationInfo:
-      title: Pagination info
+    ScorecardQuestion:
+      title: Questions in a scorecard
       type: object
       properties:
-        matched:
+        score:
           type: integer
-        hasMore:
-          type: boolean
-        nextPageSkip:
-          type: integer
+        skill:
+          type: string
+        label:
+          type: string
+        order:
+          type: string
     ScorecardsResponse:
       title: List of Scorecards
       type: object
@@ -185,16 +177,6 @@ components:
             $ref: '#/components/schemas/Scorecard'
         pagination:
           $ref: '#/components/schemas/PaginationInfo'
-    ScorecardTemplateQuestion:
-      title: Questions in a scorecard
-      type: object
-      properties:
-        skill:
-          type: string
-        label:
-          type: string
-        order:
-          type: string
     ScoreCardTemplate:
       title: scorecard template object
       type: object
@@ -211,6 +193,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ScorecardTemplateQuestion'
+    ScorecardTemplateResponse:
+      title: List of all Scorecard template
+      type: object
+      properties:
+        scoreCardTemplates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScoreCardTemplate'
+    ScorecardTemplateQuestion:
+      title: Questions in a scorecard
+      type: object
+      properties:
+        skill:
+          type: string
+        label:
+          type: string
+        order:
+          type: string
   securitySchemes:
     api_key:
       type: apiKey
