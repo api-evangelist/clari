@@ -1,0 +1,51 @@
+slug: clari
+provider: Clari
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Deal
+  spec_file: clari-deal-api-openapi.yml
+  capability_id: BC-410.30
+  capability_id_l1: BC-410
+  capability_name: Opportunity & Pipeline Management
+  confidence: 0.85
+  evidence: 'POST /create-deal Create deal; schemas: Deal, CloseDateChangeHistory, StageChangeHistory'
+  reason: CRUD over sales deals with close date and stage change history is opportunity/deal lifecycle
+    management.
+- tag: Opportunity API
+  spec_file: clari-opportunity-api-api-openapi.yml
+  capability_id: BC-410.30
+  capability_id_l1: BC-410
+  capability_name: Opportunity & Pipeline Management
+  confidence: 0.8
+  evidence: GET /opportunity externalOpportunityResource Retrieve opportunity data
+  reason: Retrieval of sales opportunity data maps to opportunity and pipeline management.
+- tag: Account
+  spec_file: clari-account-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.72
+  evidence: 'POST /create-account  postCreateAccount  Create account; schemas: Account, AccountWithoutId,
+    CustomField'
+  reason: CRUD over customer account records in a revenue/CRM platform — account master data. Could equally
+    be read as Sales Account Management, hence moderate confidence on the L2.
+- tag: Contact
+  spec_file: clari-contact-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.7
+  evidence: 'POST /create-contact  postCreateContact  Create contact; schemas: Contact, ContactWithoutId,
+    CustomField'
+  reason: CRUD over contact records in a revenue platform — customer/contact master data management.

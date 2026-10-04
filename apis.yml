@@ -410,6 +410,9 @@ apis:
   - type: APIReference
     url: https://api-doc.copilot.clari.com/
 common:
+- type: CapabilityMap
+  url: capabilities/clari-capability-edges.yml
+  name: Clari Business Capability Map
 - type: Overlay
   url: overlays/clari-export-api-overlay.yaml
 - type: Overlay
