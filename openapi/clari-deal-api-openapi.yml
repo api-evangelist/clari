@@ -204,16 +204,25 @@ components:
         deal_reason:
           description: Reason of the deal
           type: string
-    Deal:
-      title: Deal object
+    CustomField:
+      title: Custom key value field for any document
       type: object
-      allOf:
-      - type: object
-        properties:
-          id:
-            description: Id in Copilot system
-            type: string
-      - $ref: '#/components/schemas/DealWithoutId'
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    StageChangeHistory:
+      title: Stage change history object
+      type: object
+      properties:
+        stage:
+          type: string
+        prev_stage:
+          type: string
+        date_changed:
+          type: string
+          format: date-time
     CloseDateChangeHistory:
       title: Stage change history object
       type: object
@@ -227,25 +236,16 @@ components:
         date_changed:
           type: string
           format: date-time
-    StageChangeHistory:
-      title: Stage change history object
+    Deal:
+      title: Deal object
       type: object
-      properties:
-        stage:
-          type: string
-        prev_stage:
-          type: string
-        date_changed:
-          type: string
-          format: date-time
-    CustomField:
-      title: Custom key value field for any document
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
+      allOf:
+      - type: object
+        properties:
+          id:
+            description: Id in Copilot system
+            type: string
+      - $ref: '#/components/schemas/DealWithoutId'
   securitySchemes:
     api_key:
       type: apiKey

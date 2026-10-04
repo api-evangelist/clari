@@ -142,14 +142,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CustomField:
-      title: Custom key value field for any document
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
     Contact:
       title: Contact object
       type: object
@@ -203,6 +195,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CustomField'
+    CustomField:
+      title: Custom key value field for any document
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
   securitySchemes:
     api_key:
       type: apiKey

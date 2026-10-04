@@ -130,43 +130,6 @@ components:
           type: boolean
         nextPageSkip:
           type: integer
-    Scorecard:
-      title: scorecard object
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-        rep:
-          type: string
-        scorer:
-          type: string
-        template_id:
-          type: string
-        call_id:
-          type: string
-        total_score:
-          type: number
-        remark:
-          type: string
-          description: Additional remarks or comments on the scorecard
-        questions_score:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScorecardQuestion'
-    ScorecardQuestion:
-      title: Questions in a scorecard
-      type: object
-      properties:
-        score:
-          type: integer
-        skill:
-          type: string
-        label:
-          type: string
-        order:
-          type: string
     ScorecardsResponse:
       title: List of Scorecards
       type: object
@@ -193,14 +156,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ScorecardTemplateQuestion'
-    ScorecardTemplateResponse:
-      title: List of all Scorecard template
+    ScorecardQuestion:
+      title: Questions in a scorecard
       type: object
       properties:
-        scoreCardTemplates:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScoreCardTemplate'
+        score:
+          type: integer
+        skill:
+          type: string
+        label:
+          type: string
+        order:
+          type: string
     ScorecardTemplateQuestion:
       title: Questions in a scorecard
       type: object
@@ -211,6 +178,39 @@ components:
           type: string
         order:
           type: string
+    ScorecardTemplateResponse:
+      title: List of all Scorecard template
+      type: object
+      properties:
+        scoreCardTemplates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScoreCardTemplate'
+    Scorecard:
+      title: scorecard object
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        rep:
+          type: string
+        scorer:
+          type: string
+        template_id:
+          type: string
+        call_id:
+          type: string
+        total_score:
+          type: number
+        remark:
+          type: string
+          description: Additional remarks or comments on the scorecard
+        questions_score:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScorecardQuestion'
   securitySchemes:
     api_key:
       type: apiKey
