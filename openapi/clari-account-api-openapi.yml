@@ -152,6 +152,14 @@ components:
             description: Id of account in Copilot
             type: string
       - $ref: '#/components/schemas/AccountWithoutId'
+    CustomField:
+      title: Custom key value field for any document
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
     AccountWithoutId:
       title: Account object
       type: object
@@ -193,14 +201,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CustomField'
-    CustomField:
-      title: Custom key value field for any document
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
   securitySchemes:
     api_key:
       type: apiKey

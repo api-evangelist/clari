@@ -120,26 +120,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PaginationInfo:
-      title: Pagination info
-      type: object
-      properties:
-        matched:
-          type: integer
-        hasMore:
-          type: boolean
-        nextPageSkip:
-          type: integer
-    ScorecardsResponse:
-      title: List of Scorecards
-      type: object
-      properties:
-        scorecards:
-          type: array
-          items:
-            $ref: '#/components/schemas/Scorecard'
-        pagination:
-          $ref: '#/components/schemas/PaginationInfo'
     ScoreCardTemplate:
       title: scorecard template object
       type: object
@@ -168,6 +148,24 @@ components:
           type: string
         order:
           type: string
+    ScorecardTemplateResponse:
+      title: List of all Scorecard template
+      type: object
+      properties:
+        scoreCardTemplates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScoreCardTemplate'
+    ScorecardsResponse:
+      title: List of Scorecards
+      type: object
+      properties:
+        scorecards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Scorecard'
+        pagination:
+          $ref: '#/components/schemas/PaginationInfo'
     ScorecardTemplateQuestion:
       title: Questions in a scorecard
       type: object
@@ -178,14 +176,16 @@ components:
           type: string
         order:
           type: string
-    ScorecardTemplateResponse:
-      title: List of all Scorecard template
+    PaginationInfo:
+      title: Pagination info
       type: object
       properties:
-        scoreCardTemplates:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScoreCardTemplate'
+        matched:
+          type: integer
+        hasMore:
+          type: boolean
+        nextPageSkip:
+          type: integer
     Scorecard:
       title: scorecard object
       type: object

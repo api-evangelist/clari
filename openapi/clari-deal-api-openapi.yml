@@ -142,6 +142,37 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Deal:
+      title: Deal object
+      type: object
+      allOf:
+      - type: object
+        properties:
+          id:
+            description: Id in Copilot system
+            type: string
+      - $ref: '#/components/schemas/DealWithoutId'
+    CustomField:
+      title: Custom key value field for any document
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    CloseDateChangeHistory:
+      title: Stage change history object
+      type: object
+      properties:
+        close_date:
+          type: string
+          format: date-time
+        prev_close_date:
+          type: string
+          format: date-time
+        date_changed:
+          type: string
+          format: date-time
     DealWithoutId:
       title: Deal object
       type: object
@@ -204,14 +235,6 @@ components:
         deal_reason:
           description: Reason of the deal
           type: string
-    CustomField:
-      title: Custom key value field for any document
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
     StageChangeHistory:
       title: Stage change history object
       type: object
@@ -223,29 +246,6 @@ components:
         date_changed:
           type: string
           format: date-time
-    CloseDateChangeHistory:
-      title: Stage change history object
-      type: object
-      properties:
-        close_date:
-          type: string
-          format: date-time
-        prev_close_date:
-          type: string
-          format: date-time
-        date_changed:
-          type: string
-          format: date-time
-    Deal:
-      title: Deal object
-      type: object
-      allOf:
-      - type: object
-        properties:
-          id:
-            description: Id in Copilot system
-            type: string
-      - $ref: '#/components/schemas/DealWithoutId'
   securitySchemes:
     api_key:
       type: apiKey
