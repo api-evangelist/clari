@@ -6,6 +6,7 @@ source:
 - https://composio.dev/toolkits/clari
 - https://monid.ai/tools/clari
 checked:
+- google-workspace/integrations/google-workspace-integration-edges.yml
 - https://aws.amazon.com/marketplace/
 - https://composio.dev/toolkits/clari
 - https://fivetran.com/docs-sitemap.xml
@@ -13,6 +14,9 @@ checked:
 - https://monid.ai/tools/clari
 - https://n8n.io/integrations/clari/
 - https://zapier.com/apps/clari/integrations
+- microsoft-teams/integrations/microsoft-teams-integration-edges.yml
+- slack/integrations/slack-integration-edges.yml
+- zoom/integrations/zoom-integration-edges.yml
 summary: null
 marketplace_apps: []
 edges:
@@ -57,4 +61,74 @@ edges:
     builder: Fivetran
   detected_by: sweep-data-integration.py
   first_seen: '2026-10-18'
+- partner_name: Google Workspace (own)
+  partner: google-workspace
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://workspace.google.com/marketplace/app/clari/1026767857296
+  mirror_of: google-workspace/integrations/google-workspace-integration-edges.yml
+  apps:
+  - Clari
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Google Workspace app
+- partner_name: Microsoft Teams (own)
+  partner: microsoft-teams
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://appsource.microsoft.com/en-us/product/office/WA200006608
+  mirror_of: microsoft-teams/integrations/microsoft-teams-integration-edges.yml
+  apps:
+  - Clari
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Microsoft Teams app
+  publisher_verified:
+  - Microsoft 365 Certified
+- partner_name: Slack (own)
+  partner: slack
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://slack.com/marketplace/AJFDGUF54-clari-copilot
+  mirror_of: slack/integrations/slack-integration-edges.yml
+  apps:
+  - Clari Copilot
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Slack app
+- partner_name: Zoom (own)
+  partner: zoom
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.zoom.us/apps/0VQoXxnGQe6erTvVJr3RWA
+  mirror_of: zoom/integrations/zoom-integration-edges.yml
+  apps:
+  - Clari Copilot
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Zoom app
 templates: []
