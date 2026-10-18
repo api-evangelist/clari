@@ -39,7 +39,7 @@
     - connectors/applications/clari
     vendor_link: https://www.clari.com/
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: clari-google-workspace-own
   label: Google Workspace (own)
