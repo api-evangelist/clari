@@ -410,6 +410,8 @@ apis:
   - type: APIReference
     url: https://api-doc.copilot.clari.com/
 common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/clari/overview
 - type: CapabilityMap
   url: capabilities/clari-capability-edges.yml
   name: Clari Business Capability Map
