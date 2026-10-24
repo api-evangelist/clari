@@ -1,0 +1,417 @@
+{
+  "info": {
+    "_postman_id": "d4a92cdc-ad17-40a0-a0c0-621e98b79755",
+    "name": "rest-api Topics API",
+    "description": "Refer to our website to know more about Clari Copilot.\n\nContact Support:\n Name: Support\n Email: copilot-support@clari.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:01:50.000Z",
+    "updatedAt": "2026-10-22T02:01:51.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-d4a92cdc-ad17-40a0-a0c0-621e98b79755"
+  },
+  "item": [
+    {
+      "name": "topics",
+      "item": [
+        {
+          "name": "List of Keyword Topics",
+          "id": "37899b80-fc3e-41e7-97ee-27f8f1fd02a8",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/topics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "topics"
+              ]
+            },
+            "description": "Returns All unique keyword topics"
+          },
+          "response": [
+            {
+              "id": "d4858e18-21ab-466d-9649-ccde75fd4d16",
+              "name": "200 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/topics",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "topics"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"topics\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-10-22T02:01:51.000Z",
+              "updatedAt": "2026-10-22T02:01:51.000Z",
+              "uid": "35240-d4858e18-21ab-466d-9649-ccde75fd4d16"
+            },
+            {
+              "id": "85bb30e1-c7ff-4a93-8b23-718dd583e13b",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/topics",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "topics"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:51.000Z",
+              "updatedAt": "2026-10-22T02:01:51.000Z",
+              "uid": "35240-85bb30e1-c7ff-4a93-8b23-718dd583e13b"
+            },
+            {
+              "id": "31b6c06d-1f07-4060-b47d-3b70ed699c75",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/topics",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "topics"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:51.000Z",
+              "updatedAt": "2026-10-22T02:01:51.000Z",
+              "uid": "35240-31b6c06d-1f07-4060-b47d-3b70ed699c75"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:51.000Z",
+          "updatedAt": "2026-10-22T02:01:51.000Z",
+          "uid": "35240-37899b80-fc3e-41e7-97ee-27f8f1fd02a8"
+        }
+      ],
+      "id": "67146c97-7318-4c68-86a5-44d9a168d8fe",
+      "createdAt": "2026-10-22T02:01:51.000Z",
+      "updatedAt": "2026-10-22T02:01:51.000Z",
+      "uid": "35240-67146c97-7318-4c68-86a5-44d9a168d8fe"
+    },
+    {
+      "name": "v2",
+      "item": [
+        {
+          "name": "topics",
+          "item": [
+            {
+              "name": "List of Topics",
+              "id": "89a4ff26-bd47-46b2-9d6d-48d2363af083",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "X-Api-Key",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v2/topics?filterModifiedLt=<dateTime>&filterModifiedGt=<dateTime>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "topics"
+                  ],
+                  "query": [
+                    {
+                      "description": "If passed, filters out topics modified (updated) after passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.\n",
+                      "key": "filterModifiedLt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out topics modified (updated) before passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.\n",
+                      "key": "filterModifiedGt",
+                      "value": "<dateTime>"
+                    }
+                  ]
+                },
+                "description": "Returns details of all topics.\n\nYou can filter topics based on their last modified time using the following optional query parameters.\n\n### Examples\n- All topics: `/v2/topics`\n- Topics modified **before** a date: `/v2/topics?filterModifiedLt=2000-01-01T00:00:00+0000`\n- Topics modified **after** a date: `/v2/topics?filterModifiedGt=2000-01-01T00:00:00+0000`\n- Topics modified **between two dates**: `/v2/topics?filterModifiedGt=2000-01-01T00:00:00+0000&filterModifiedLt=2025-01-01T00:00:00+0000`\n\nUse an ISO 8601 formatted datetime string (e.g., 2020-01-01T00:00:00+0000). Ensure the value is URL-encoded when used in a query string."
+              },
+              "response": [
+                {
+                  "id": "0348b5bb-4a50-4348-b83c-5a27883ab18e",
+                  "name": "A list of topics matching the filter criteria.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Api-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/topics?filterModifiedLt=<dateTime>&filterModifiedGt=<dateTime>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "topics"
+                      ],
+                      "query": [
+                        {
+                          "description": "If passed, filters out topics modified (updated) after passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.\n",
+                          "key": "filterModifiedLt",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "If passed, filters out topics modified (updated) before passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.\n",
+                          "key": "filterModifiedGt",
+                          "value": "<dateTime>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"topics\": [\n    {\n      \"topic_id\": \"<string>\",\n      \"topic_name\": \"<string>\",\n      \"type\": \"<string>\",\n      \"team_ids\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"custom_topic\": {\n        \"description\": \"<string>\",\n        \"status\": \"<string>\"\n      },\n      \"keyword_topic\": {\n        \"trackers\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"topic_id\": \"<string>\",\n      \"topic_name\": \"<string>\",\n      \"type\": \"<string>\",\n      \"team_ids\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"custom_topic\": {\n        \"description\": \"<string>\",\n        \"status\": \"<string>\"\n      },\n      \"keyword_topic\": {\n        \"trackers\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ]\n}",
+                  "createdAt": "2026-10-22T02:01:51.000Z",
+                  "updatedAt": "2026-10-22T02:01:51.000Z",
+                  "uid": "35240-0348b5bb-4a50-4348-b83c-5a27883ab18e"
+                },
+                {
+                  "id": "cea03c7f-f1e8-4e06-b888-6217e836829c",
+                  "name": "400 response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Api-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/topics?filterModifiedLt=<dateTime>&filterModifiedGt=<dateTime>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "topics"
+                      ],
+                      "query": [
+                        {
+                          "description": "If passed, filters out topics modified (updated) after passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.\n",
+                          "key": "filterModifiedLt",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "If passed, filters out topics modified (updated) before passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.\n",
+                          "key": "filterModifiedGt",
+                          "value": "<dateTime>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:01:51.000Z",
+                  "updatedAt": "2026-10-22T02:01:51.000Z",
+                  "uid": "35240-cea03c7f-f1e8-4e06-b888-6217e836829c"
+                },
+                {
+                  "id": "f15df5ee-d476-41c3-aeee-beb899df2927",
+                  "name": "500 response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Api-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v2/topics?filterModifiedLt=<dateTime>&filterModifiedGt=<dateTime>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "topics"
+                      ],
+                      "query": [
+                        {
+                          "description": "If passed, filters out topics modified (updated) after passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.\n",
+                          "key": "filterModifiedLt",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "If passed, filters out topics modified (updated) before passed time.  Use ISO date-time format, eg: 2020-01-01T00:00:00Z.  If invalid value is passed, results in bad request error.\n",
+                          "key": "filterModifiedGt",
+                          "value": "<dateTime>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:01:51.000Z",
+                  "updatedAt": "2026-10-22T02:01:51.000Z",
+                  "uid": "35240-f15df5ee-d476-41c3-aeee-beb899df2927"
+                }
+              ],
+              "createdAt": "2026-10-22T02:01:51.000Z",
+              "updatedAt": "2026-10-22T02:01:51.000Z",
+              "uid": "35240-89a4ff26-bd47-46b2-9d6d-48d2363af083"
+            }
+          ],
+          "id": "f5a8ce42-775f-4e76-8e9e-0c163fc1450c",
+          "createdAt": "2026-10-22T02:01:51.000Z",
+          "updatedAt": "2026-10-22T02:01:51.000Z",
+          "uid": "35240-f5a8ce42-775f-4e76-8e9e-0c163fc1450c"
+        }
+      ],
+      "id": "ba6eef2b-1e98-4e76-bf37-1adaa12378d2",
+      "createdAt": "2026-10-22T02:01:51.000Z",
+      "updatedAt": "2026-10-22T02:01:51.000Z",
+      "uid": "35240-ba6eef2b-1e98-4e76-bf37-1adaa12378d2"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://rest-api.copilot.clari.com"
+    }
+  ]
+}

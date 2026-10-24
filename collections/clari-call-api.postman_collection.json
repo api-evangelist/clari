@@ -1,0 +1,1145 @@
+{
+  "info": {
+    "_postman_id": "b8f9c184-d47f-4162-8350-2af085019de4",
+    "name": "rest-api Call API",
+    "description": "Refer to our website to know more about Clari Copilot.\n\nContact Support:\n Name: Support\n Email: copilot-support@clari.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:01:28.000Z",
+    "updatedAt": "2026-10-22T02:01:28.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b8f9c184-d47f-4162-8350-2af085019de4"
+  },
+  "item": [
+    {
+      "name": "calls",
+      "item": [
+        {
+          "name": "List calls",
+          "id": "e76a750d-559c-4018-a32c-a1a88ec1eb08",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/calls?skip=0&limit=25&filterUser=<string>&filterUser=<string>&filterAttendees=<string>&filterAttendees=<string>&filterTopics=<string>&filterTopics=<string>&filterStatus=BOTJOIN_DISABLED&filterStatus=CALL_DID_NOT_HAPPEN&filterType=TALKDESK&filterType=TALKDESK&filterSourceId=<string>&filterSourceId=<string>&filterTimeGt=<dateTime>&filterTimeLt=<dateTime>&filterModifiedGt=<dateTime>&filterModifiedLt=<dateTime>&filterDurationGt=<integer>&filterDurationLt=<integer>&sortTime=asc&sortProcessed=asc&includePrivate=false&includeAudio=false&includeVideo=false&includePagination=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "calls"
+              ],
+              "query": [
+                {
+                  "description": "Skip specified number of calls. Defaults to 0, if not passed. Should be integer, else returns bad request error.\n",
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "description": "Limits the number of calls returned to given number. Defaults to 25, if not passed. Should be integer, else returns bad request error.\n",
+                  "key": "limit",
+                  "value": "25"
+                },
+                {
+                  "description": "This is a multi-value parameter, if passed, will filter only calls that involve users passed. Users should be referred to by email as seen in manage users page in Copilot settings.\n",
+                  "key": "filterUser",
+                  "value": "<string>"
+                },
+                {
+                  "description": "This is a multi-value parameter, if passed, will filter only calls that involve users passed. Users should be referred to by email as seen in manage users page in Copilot settings.\n",
+                  "key": "filterUser",
+                  "value": "<string>"
+                },
+                {
+                  "description": "This is a multi-value parameter, if passed, will filter only calls that involve meeting attendees passed. Attendees should be referred to by email.\n",
+                  "key": "filterAttendees",
+                  "value": "<string>"
+                },
+                {
+                  "description": "This is a multi-value parameter, if passed, will filter only calls that involve meeting attendees passed. Attendees should be referred to by email.\n",
+                  "key": "filterAttendees",
+                  "value": "<string>"
+                },
+                {
+                  "description": "This is a multi-value parameter, if passed, will filter only calls of topics passed.\n",
+                  "key": "filterTopics",
+                  "value": "<string>"
+                },
+                {
+                  "description": "This is a multi-value parameter, if passed, will filter only calls of topics passed.\n",
+                  "key": "filterTopics",
+                  "value": "<string>"
+                },
+                {
+                  "description": "This is a multi-value parameter, if passed, will filter only calls of statuses passed.\n",
+                  "key": "filterStatus",
+                  "value": "BOTJOIN_DISABLED"
+                },
+                {
+                  "description": "This is a multi-value parameter, if passed, will filter only calls of statuses passed.\n",
+                  "key": "filterStatus",
+                  "value": "CALL_DID_NOT_HAPPEN"
+                },
+                {
+                  "description": "This is a multi-value parameter, if passed, will filter only calls of types passed.\n",
+                  "key": "filterType",
+                  "value": "TALKDESK"
+                },
+                {
+                  "description": "This is a multi-value parameter, if passed, will filter only calls of types passed.\n",
+                  "key": "filterType",
+                  "value": "TALKDESK"
+                },
+                {
+                  "description": "If passed, will include only calls with passed source id.\n",
+                  "key": "filterSourceId",
+                  "value": "<string>"
+                },
+                {
+                  "description": "If passed, will include only calls with passed source id.\n",
+                  "key": "filterSourceId",
+                  "value": "<string>"
+                },
+                {
+                  "description": "If passed, filters out calls scheduled/started(for dialer and adhoc calls) before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                  "key": "filterTimeGt",
+                  "value": "<dateTime>"
+                },
+                {
+                  "description": "If passed, filters out calls scheduled/started(for dialer and adhoc calls) after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                  "key": "filterTimeLt",
+                  "value": "<dateTime>"
+                },
+                {
+                  "description": "If passed, filters out calls modified (status updated) before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                  "key": "filterModifiedGt",
+                  "value": "<dateTime>"
+                },
+                {
+                  "description": "If passed, filters out calls modified (status updated) after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                  "key": "filterModifiedLt",
+                  "value": "<dateTime>"
+                },
+                {
+                  "description": "If passed, filters out calls shorter than passed value in seconds. If non integer is passed as value, results in bad request error.\n",
+                  "key": "filterDurationGt",
+                  "value": "<integer>"
+                },
+                {
+                  "description": "If passed, filters out calls longer than passed value in seconds. If non integer is passed as value, results in bad request error.\n",
+                  "key": "filterDurationLt",
+                  "value": "<integer>"
+                },
+                {
+                  "description": "Sort by call scheduled/start time.",
+                  "key": "sortTime",
+                  "value": "asc"
+                },
+                {
+                  "description": "Sort by call last processed time.",
+                  "key": "sortProcessed",
+                  "value": "asc"
+                },
+                {
+                  "description": "If true, includes private calls also in response. If false, response does not include private calls. Invalid value results in error.",
+                  "key": "includePrivate",
+                  "value": "false"
+                },
+                {
+                  "description": "If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours.",
+                  "key": "includeAudio",
+                  "value": "false"
+                },
+                {
+                  "description": "If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours.",
+                  "key": "includeVideo",
+                  "value": "false"
+                },
+                {
+                  "description": "If true, includes pagination object in the response that shows total count. If false, query performance is much faster as it does not include the pagination object.",
+                  "key": "includePagination",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "This endpoint allows listing calls by different parameters.\nFilter parameters have filter prefix and sort parameters have sort prefix.\n\nYou can fetch only 100 calls in page, use skip and limit to scroll through calls.\n\nTo get transcript, deal live stage fetch call individually using call-details endpoint.\n\nNote: 'includePagination=false' will greatly improve endpoint response."
+          },
+          "response": [
+            {
+              "id": "33ea2a8a-5561-495c-8db5-adaa6d01206d",
+              "name": "OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/calls?skip=0&limit=25&filterUser=<string>&filterAttendees=<string>&filterTopics=<string>&filterStatus=CALL_DID_NOT_HAPPEN&filterType=TALKDESK&filterSourceId=<string>&filterTimeGt=<dateTime>&filterTimeLt=<dateTime>&filterModifiedGt=<dateTime>&filterModifiedLt=<dateTime>&filterDurationGt=<integer>&filterDurationLt=<integer>&sortTime=asc&sortProcessed=asc&includePrivate=false&includeAudio=false&includeVideo=false&includePagination=true",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "calls"
+                  ],
+                  "query": [
+                    {
+                      "description": "Skip specified number of calls. Defaults to 0, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "skip",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Limits the number of calls returned to given number. Defaults to 25, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls that involve users passed. Users should be referred to by email as seen in manage users page in Copilot settings.\n",
+                      "key": "filterUser",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls that involve meeting attendees passed. Attendees should be referred to by email.\n",
+                      "key": "filterAttendees",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls of topics passed.\n",
+                      "key": "filterTopics",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls of statuses passed.\n",
+                      "key": "filterStatus",
+                      "value": "CALL_DID_NOT_HAPPEN"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls of types passed.\n",
+                      "key": "filterType",
+                      "value": "TALKDESK"
+                    },
+                    {
+                      "description": "If passed, will include only calls with passed source id.\n",
+                      "key": "filterSourceId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "If passed, filters out calls scheduled/started(for dialer and adhoc calls) before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeGt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls scheduled/started(for dialer and adhoc calls) after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeLt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls modified (status updated) before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterModifiedGt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls modified (status updated) after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterModifiedLt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls shorter than passed value in seconds. If non integer is passed as value, results in bad request error.\n",
+                      "key": "filterDurationGt",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "If passed, filters out calls longer than passed value in seconds. If non integer is passed as value, results in bad request error.\n",
+                      "key": "filterDurationLt",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Sort by call scheduled/start time.",
+                      "key": "sortTime",
+                      "value": "asc"
+                    },
+                    {
+                      "description": "Sort by call last processed time.",
+                      "key": "sortProcessed",
+                      "value": "asc"
+                    },
+                    {
+                      "description": "If true, includes private calls also in response. If false, response does not include private calls. Invalid value results in error.",
+                      "key": "includePrivate",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours.",
+                      "key": "includeAudio",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours.",
+                      "key": "includeVideo",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes pagination object in the response that shows total count. If false, query performance is much faster as it does not include the pagination object.",
+                      "key": "includePagination",
+                      "value": "true"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"calls\": [\n    {\n      \"id\": \"<string>\",\n      \"source_id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"users\": [\n        {\n          \"userId\": \"<string>\",\n          \"userEmail\": \"<string>\",\n          \"isOrganizer\": \"<boolean>\",\n          \"personId\": \"<integer>\"\n        },\n        {\n          \"userId\": \"<string>\",\n          \"userEmail\": \"<string>\",\n          \"isOrganizer\": \"<boolean>\",\n          \"personId\": \"<integer>\"\n        }\n      ],\n      \"externalParticipants\": [\n        {\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"phone\": \"<string>\",\n          \"personId\": \"<integer>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"phone\": \"<string>\",\n          \"personId\": \"<integer>\"\n        }\n      ],\n      \"joinedParticipants\": [\n        {\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"phone\": \"<string>\",\n          \"personId\": \"<integer>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"phone\": \"<string>\",\n          \"personId\": \"<integer>\"\n        }\n      ],\n      \"status\": \"NO_DATA_INCALL\",\n      \"bot_not_join_reason\": [\n        \"IGNORED_NON_MEETING\",\n        \"IGNORED_NOT_CONFIRMED\"\n      ],\n      \"type\": \"GOOGLE_MEET\",\n      \"time\": \"<dateTime>\",\n      \"icaluid\": \"<string>\",\n      \"calendar_id\": \"<string>\",\n      \"recurring_event_id\": \"<string>\",\n      \"original_start_time\": \"<dateTime>\",\n      \"last_modified_time\": \"<dateTime>\",\n      \"audio_url\": \"<string>\",\n      \"video_url\": \"<string>\",\n      \"disposition\": \"CALL_BOTJOIN_DENIED\",\n      \"deal_name\": \"<string>\",\n      \"deal_value\": \"<string>\",\n      \"deal_close_date\": \"<dateTime>\",\n      \"deal_stage_before_call\": \"<string>\",\n      \"account_name\": \"<string>\",\n      \"contact_names\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"crm_info\": {\n        \"source_crm\": \"<string>\",\n        \"deal_id\": \"<string>\",\n        \"account_id\": \"<string>\",\n        \"contact_ids\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"bookmark_timestamps\": [\n        \"<dateTime>\",\n        \"<dateTime>\"\n      ],\n      \"metrics\": {\n        \"talk_listen_ratio\": \"<number>\",\n        \"num_questions_asked\": \"<integer>\",\n        \"num_questions_asked_by_reps\": \"<integer>\",\n        \"call_duration\": \"<integer>\",\n        \"total_speak_duration\": \"<number>\",\n        \"longest_monologue_duration\": \"<number>\",\n        \"longest_monologue_start_time\": \"<number>\",\n        \"engaging_questions\": \"<integer>\",\n        \"categories\": [\n          {\n            \"name\": \"<string>\",\n            \"occurences\": \"<integer>\",\n            \"phrases_matched\": [\n              {\n                \"text\": \"<string>\",\n                \"user_id\": \"<string>\",\n                \"name\": \"<string>\",\n                \"time\": \"<float>\"\n              },\n              {\n                \"text\": \"<string>\",\n                \"user_id\": \"<string>\",\n                \"name\": \"<string>\",\n                \"time\": \"<float>\"\n              }\n            ],\n            \"ai_detected\": \"<boolean>\"\n          },\n          {\n            \"name\": \"<string>\",\n            \"occurences\": \"<integer>\",\n            \"phrases_matched\": [\n              {\n                \"text\": \"<string>\",\n                \"user_id\": \"<string>\",\n                \"name\": \"<string>\",\n                \"time\": \"<float>\"\n              },\n              {\n                \"text\": \"<string>\",\n                \"user_id\": \"<string>\",\n                \"name\": \"<string>\",\n                \"time\": \"<float>\"\n              }\n            ],\n            \"ai_detected\": \"<boolean>\"\n          }\n        ]\n      },\n      \"call_review_page_url\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"source_id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"users\": [\n        {\n          \"userId\": \"<string>\",\n          \"userEmail\": \"<string>\",\n          \"isOrganizer\": \"<boolean>\",\n          \"personId\": \"<integer>\"\n        },\n        {\n          \"userId\": \"<string>\",\n          \"userEmail\": \"<string>\",\n          \"isOrganizer\": \"<boolean>\",\n          \"personId\": \"<integer>\"\n        }\n      ],\n      \"externalParticipants\": [\n        {\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"phone\": \"<string>\",\n          \"personId\": \"<integer>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"phone\": \"<string>\",\n          \"personId\": \"<integer>\"\n        }\n      ],\n      \"joinedParticipants\": [\n        {\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"phone\": \"<string>\",\n          \"personId\": \"<integer>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"email\": \"<string>\",\n          \"phone\": \"<string>\",\n          \"personId\": \"<integer>\"\n        }\n      ],\n      \"status\": \"PROCESSING\",\n      \"bot_not_join_reason\": [\n        \"IGNORED_NOT_EXTERNAL_MEETING\",\n        \"IGNORED_NO_USER_HAS_ACCEPTED_INVITE\"\n      ],\n      \"type\": \"MS_TEAMS\",\n      \"time\": \"<dateTime>\",\n      \"icaluid\": \"<string>\",\n      \"calendar_id\": \"<string>\",\n      \"recurring_event_id\": \"<string>\",\n      \"original_start_time\": \"<dateTime>\",\n      \"last_modified_time\": \"<dateTime>\",\n      \"audio_url\": \"<string>\",\n      \"video_url\": \"<string>\",\n      \"disposition\": \"CALL_DID_NOT_CONNECT_WITH_PROSPECT\",\n      \"deal_name\": \"<string>\",\n      \"deal_value\": \"<string>\",\n      \"deal_close_date\": \"<dateTime>\",\n      \"deal_stage_before_call\": \"<string>\",\n      \"account_name\": \"<string>\",\n      \"contact_names\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"crm_info\": {\n        \"source_crm\": \"<string>\",\n        \"deal_id\": \"<string>\",\n        \"account_id\": \"<string>\",\n        \"contact_ids\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"bookmark_timestamps\": [\n        \"<dateTime>\",\n        \"<dateTime>\"\n      ],\n      \"metrics\": {\n        \"talk_listen_ratio\": \"<number>\",\n        \"num_questions_asked\": \"<integer>\",\n        \"num_questions_asked_by_reps\": \"<integer>\",\n        \"call_duration\": \"<integer>\",\n        \"total_speak_duration\": \"<number>\",\n        \"longest_monologue_duration\": \"<number>\",\n        \"longest_monologue_start_time\": \"<number>\",\n        \"engaging_questions\": \"<integer>\",\n        \"categories\": [\n          {\n            \"name\": \"<string>\",\n            \"occurences\": \"<integer>\",\n            \"phrases_matched\": [\n              {\n                \"text\": \"<string>\",\n                \"user_id\": \"<string>\",\n                \"name\": \"<string>\",\n                \"time\": \"<float>\"\n              },\n              {\n                \"text\": \"<string>\",\n                \"user_id\": \"<string>\",\n                \"name\": \"<string>\",\n                \"time\": \"<float>\"\n              }\n            ],\n            \"ai_detected\": \"<boolean>\"\n          },\n          {\n            \"name\": \"<string>\",\n            \"occurences\": \"<integer>\",\n            \"phrases_matched\": [\n              {\n                \"text\": \"<string>\",\n                \"user_id\": \"<string>\",\n                \"name\": \"<string>\",\n                \"time\": \"<float>\"\n              },\n              {\n                \"text\": \"<string>\",\n                \"user_id\": \"<string>\",\n                \"name\": \"<string>\",\n                \"time\": \"<float>\"\n              }\n            ],\n            \"ai_detected\": \"<boolean>\"\n          }\n        ]\n      },\n      \"call_review_page_url\": \"<string>\"\n    }\n  ],\n  \"pagination\": {\n    \"matched\": \"<integer>\",\n    \"hasMore\": \"<boolean>\",\n    \"nextPageSkip\": \"<integer>\"\n  }\n}",
+              "createdAt": "2026-10-22T02:01:29.000Z",
+              "updatedAt": "2026-10-22T02:01:29.000Z",
+              "uid": "35240-33ea2a8a-5561-495c-8db5-adaa6d01206d"
+            },
+            {
+              "id": "ae834774-a95b-4421-811c-1c1fcc0758ec",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/calls?skip=0&limit=25&filterUser=<string>&filterAttendees=<string>&filterTopics=<string>&filterStatus=CALL_DID_NOT_HAPPEN&filterType=TALKDESK&filterSourceId=<string>&filterTimeGt=<dateTime>&filterTimeLt=<dateTime>&filterModifiedGt=<dateTime>&filterModifiedLt=<dateTime>&filterDurationGt=<integer>&filterDurationLt=<integer>&sortTime=asc&sortProcessed=asc&includePrivate=false&includeAudio=false&includeVideo=false&includePagination=true",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "calls"
+                  ],
+                  "query": [
+                    {
+                      "description": "Skip specified number of calls. Defaults to 0, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "skip",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Limits the number of calls returned to given number. Defaults to 25, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls that involve users passed. Users should be referred to by email as seen in manage users page in Copilot settings.\n",
+                      "key": "filterUser",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls that involve meeting attendees passed. Attendees should be referred to by email.\n",
+                      "key": "filterAttendees",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls of topics passed.\n",
+                      "key": "filterTopics",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls of statuses passed.\n",
+                      "key": "filterStatus",
+                      "value": "CALL_DID_NOT_HAPPEN"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls of types passed.\n",
+                      "key": "filterType",
+                      "value": "TALKDESK"
+                    },
+                    {
+                      "description": "If passed, will include only calls with passed source id.\n",
+                      "key": "filterSourceId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "If passed, filters out calls scheduled/started(for dialer and adhoc calls) before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeGt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls scheduled/started(for dialer and adhoc calls) after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeLt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls modified (status updated) before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterModifiedGt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls modified (status updated) after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterModifiedLt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls shorter than passed value in seconds. If non integer is passed as value, results in bad request error.\n",
+                      "key": "filterDurationGt",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "If passed, filters out calls longer than passed value in seconds. If non integer is passed as value, results in bad request error.\n",
+                      "key": "filterDurationLt",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Sort by call scheduled/start time.",
+                      "key": "sortTime",
+                      "value": "asc"
+                    },
+                    {
+                      "description": "Sort by call last processed time.",
+                      "key": "sortProcessed",
+                      "value": "asc"
+                    },
+                    {
+                      "description": "If true, includes private calls also in response. If false, response does not include private calls. Invalid value results in error.",
+                      "key": "includePrivate",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours.",
+                      "key": "includeAudio",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours.",
+                      "key": "includeVideo",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes pagination object in the response that shows total count. If false, query performance is much faster as it does not include the pagination object.",
+                      "key": "includePagination",
+                      "value": "true"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:29.000Z",
+              "updatedAt": "2026-10-22T02:01:29.000Z",
+              "uid": "35240-ae834774-a95b-4421-811c-1c1fcc0758ec"
+            },
+            {
+              "id": "048c4bba-cca6-4643-9bb4-028af61224c8",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/calls?skip=0&limit=25&filterUser=<string>&filterAttendees=<string>&filterTopics=<string>&filterStatus=CALL_DID_NOT_HAPPEN&filterType=TALKDESK&filterSourceId=<string>&filterTimeGt=<dateTime>&filterTimeLt=<dateTime>&filterModifiedGt=<dateTime>&filterModifiedLt=<dateTime>&filterDurationGt=<integer>&filterDurationLt=<integer>&sortTime=asc&sortProcessed=asc&includePrivate=false&includeAudio=false&includeVideo=false&includePagination=true",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "calls"
+                  ],
+                  "query": [
+                    {
+                      "description": "Skip specified number of calls. Defaults to 0, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "skip",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Limits the number of calls returned to given number. Defaults to 25, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls that involve users passed. Users should be referred to by email as seen in manage users page in Copilot settings.\n",
+                      "key": "filterUser",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls that involve meeting attendees passed. Attendees should be referred to by email.\n",
+                      "key": "filterAttendees",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls of topics passed.\n",
+                      "key": "filterTopics",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls of statuses passed.\n",
+                      "key": "filterStatus",
+                      "value": "CALL_DID_NOT_HAPPEN"
+                    },
+                    {
+                      "description": "This is a multi-value parameter, if passed, will filter only calls of types passed.\n",
+                      "key": "filterType",
+                      "value": "TALKDESK"
+                    },
+                    {
+                      "description": "If passed, will include only calls with passed source id.\n",
+                      "key": "filterSourceId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "If passed, filters out calls scheduled/started(for dialer and adhoc calls) before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeGt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls scheduled/started(for dialer and adhoc calls) after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeLt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls modified (status updated) before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterModifiedGt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls modified (status updated) after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterModifiedLt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out calls shorter than passed value in seconds. If non integer is passed as value, results in bad request error.\n",
+                      "key": "filterDurationGt",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "If passed, filters out calls longer than passed value in seconds. If non integer is passed as value, results in bad request error.\n",
+                      "key": "filterDurationLt",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Sort by call scheduled/start time.",
+                      "key": "sortTime",
+                      "value": "asc"
+                    },
+                    {
+                      "description": "Sort by call last processed time.",
+                      "key": "sortProcessed",
+                      "value": "asc"
+                    },
+                    {
+                      "description": "If true, includes private calls also in response. If false, response does not include private calls. Invalid value results in error.",
+                      "key": "includePrivate",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours.",
+                      "key": "includeAudio",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours.",
+                      "key": "includeVideo",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes pagination object in the response that shows total count. If false, query performance is much faster as it does not include the pagination object.",
+                      "key": "includePagination",
+                      "value": "true"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:29.000Z",
+              "updatedAt": "2026-10-22T02:01:29.000Z",
+              "uid": "35240-048c4bba-cca6-4643-9bb4-028af61224c8"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:29.000Z",
+          "updatedAt": "2026-10-22T02:01:29.000Z",
+          "uid": "35240-e76a750d-559c-4018-a32c-a1a88ec1eb08"
+        }
+      ],
+      "id": "07417315-ed06-40ed-bb44-610736d8cf0c",
+      "createdAt": "2026-10-22T02:01:29.000Z",
+      "updatedAt": "2026-10-22T02:01:29.000Z",
+      "uid": "35240-07417315-ed06-40ed-bb44-610736d8cf0c"
+    },
+    {
+      "name": "call-details",
+      "item": [
+        {
+          "name": "Call details",
+          "id": "2d179b5d-c57c-4526-9e32-64b376bf4bde",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/call-details?id=<string>&includeAudio=false&includeVideo=false",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "call-details"
+              ],
+              "query": [
+                {
+                  "description": "(Required) call id",
+                  "key": "id",
+                  "value": "<string>"
+                },
+                {
+                  "description": "If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours.",
+                  "key": "includeAudio",
+                  "value": "false"
+                },
+                {
+                  "description": "If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours.",
+                  "key": "includeVideo",
+                  "value": "false"
+                }
+              ]
+            },
+            "description": "Returns details of call with id passed as query param"
+          },
+          "response": [
+            {
+              "id": "d7caee38-8b4e-4dae-ae05-43e0e76af21f",
+              "name": "200 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/call-details?id=<string>&includeAudio=false&includeVideo=false",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "call-details"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) call id",
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours.",
+                      "key": "includeAudio",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours.",
+                      "key": "includeVideo",
+                      "value": "false"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"call\": {\n    \"id\": \"<string>\",\n    \"source_id\": \"<string>\",\n    \"title\": \"<string>\",\n    \"users\": [\n      {\n        \"userId\": \"<string>\",\n        \"userEmail\": \"<string>\",\n        \"isOrganizer\": \"<boolean>\",\n        \"personId\": \"<integer>\"\n      },\n      {\n        \"userId\": \"<string>\",\n        \"userEmail\": \"<string>\",\n        \"isOrganizer\": \"<boolean>\",\n        \"personId\": \"<integer>\"\n      }\n    ],\n    \"externalParticipants\": [\n      {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\",\n        \"phone\": \"<string>\",\n        \"personId\": \"<integer>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\",\n        \"phone\": \"<string>\",\n        \"personId\": \"<integer>\"\n      }\n    ],\n    \"joinedParticipants\": [\n      {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\",\n        \"phone\": \"<string>\",\n        \"personId\": \"<integer>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\",\n        \"phone\": \"<string>\",\n        \"personId\": \"<integer>\"\n      }\n    ],\n    \"status\": \"WAITING_IN_QUEUE\",\n    \"bot_not_join_reason\": [\n      \"IGNORED_NOT_EXTERNAL_MEETING\",\n      \"IGNORED_NON_MEETING\"\n    ],\n    \"type\": \"GOTO_MEETING\",\n    \"time\": \"<dateTime>\",\n    \"icaluid\": \"<string>\",\n    \"calendar_id\": \"<string>\",\n    \"recurring_event_id\": \"<string>\",\n    \"original_start_time\": \"<dateTime>\",\n    \"last_modified_time\": \"<dateTime>\",\n    \"audio_url\": \"<string>\",\n    \"video_url\": \"<string>\",\n    \"disposition\": \"UNKNOWN_CALL_DISPOSITION\",\n    \"deal_name\": \"<string>\",\n    \"deal_value\": \"<string>\",\n    \"deal_close_date\": \"<dateTime>\",\n    \"deal_stage_before_call\": \"<string>\",\n    \"account_name\": \"<string>\",\n    \"contact_names\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"crm_info\": {\n      \"source_crm\": \"<string>\",\n      \"deal_id\": \"<string>\",\n      \"account_id\": \"<string>\",\n      \"contact_ids\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"bookmark_timestamps\": [\n      \"<dateTime>\",\n      \"<dateTime>\"\n    ],\n    \"metrics\": {\n      \"talk_listen_ratio\": \"<number>\",\n      \"num_questions_asked\": \"<integer>\",\n      \"num_questions_asked_by_reps\": \"<integer>\",\n      \"call_duration\": \"<integer>\",\n      \"total_speak_duration\": \"<number>\",\n      \"longest_monologue_duration\": \"<number>\",\n      \"longest_monologue_start_time\": \"<number>\",\n      \"engaging_questions\": \"<integer>\",\n      \"categories\": [\n        {\n          \"name\": \"<string>\",\n          \"occurences\": \"<integer>\",\n          \"phrases_matched\": [\n            {\n              \"text\": \"<string>\",\n              \"user_id\": \"<string>\",\n              \"name\": \"<string>\",\n              \"time\": \"<float>\"\n            },\n            {\n              \"text\": \"<string>\",\n              \"user_id\": \"<string>\",\n              \"name\": \"<string>\",\n              \"time\": \"<float>\"\n            }\n          ],\n          \"ai_detected\": \"<boolean>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"occurences\": \"<integer>\",\n          \"phrases_matched\": [\n            {\n              \"text\": \"<string>\",\n              \"user_id\": \"<string>\",\n              \"name\": \"<string>\",\n              \"time\": \"<float>\"\n            },\n            {\n              \"text\": \"<string>\",\n              \"user_id\": \"<string>\",\n              \"name\": \"<string>\",\n              \"time\": \"<float>\"\n            }\n          ],\n          \"ai_detected\": \"<boolean>\"\n        }\n      ]\n    },\n    \"call_review_page_url\": \"<string>\",\n    \"deal_stage_live\": \"<string>\",\n    \"transcript\": [\n      {\n        \"text\": \"<string>\",\n        \"start\": \"<number>\",\n        \"end\": \"<number>\",\n        \"personId\": \"<integer>\",\n        \"annotations\": [\n          {\n            \"tracker\": \"<string>\",\n            \"phrase\": \"<string>\",\n            \"category\": \"<string>\"\n          },\n          {\n            \"tracker\": \"<string>\",\n            \"phrase\": \"<string>\",\n            \"category\": \"<string>\"\n          }\n        ]\n      },\n      {\n        \"text\": \"<string>\",\n        \"start\": \"<number>\",\n        \"end\": \"<number>\",\n        \"personId\": \"<integer>\",\n        \"annotations\": [\n          {\n            \"tracker\": \"<string>\",\n            \"phrase\": \"<string>\",\n            \"category\": \"<string>\"\n          },\n          {\n            \"tracker\": \"<string>\",\n            \"phrase\": \"<string>\",\n            \"category\": \"<string>\"\n          }\n        ]\n      }\n    ],\n    \"summary\": {\n      \"full_summary\": \"<string>\",\n      \"topics_discussed\": [\n        {\n          \"name\": \"<string>\",\n          \"start_timestamp\": \"<string>\",\n          \"end_timestamp\": \"<string>\",\n          \"summary\": \"<string>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"start_timestamp\": \"<string>\",\n          \"end_timestamp\": \"<string>\",\n          \"summary\": \"<string>\"\n        }\n      ],\n      \"key_action_items\": [\n        {\n          \"action_item\": \"<string>\",\n          \"speaker_name\": \"<string>\",\n          \"start_timestamp\": \"<string>\",\n          \"end_timestamp\": \"<string>\"\n        },\n        {\n          \"action_item\": \"<string>\",\n          \"speaker_name\": \"<string>\",\n          \"start_timestamp\": \"<string>\",\n          \"end_timestamp\": \"<string>\"\n        }\n      ]\n    },\n    \"competitor_sentiments\": [\n      {\n        \"competitor_name\": \"<string>\",\n        \"sentiment\": \"<string>\",\n        \"reasoning\": \"<string>\",\n        \"personId\": \"<string>\",\n        \"turn_start_time\": \"<string>\"\n      },\n      {\n        \"competitor_name\": \"<string>\",\n        \"sentiment\": \"<string>\",\n        \"reasoning\": \"<string>\",\n        \"personId\": \"<string>\",\n        \"turn_start_time\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "createdAt": "2026-10-22T02:01:29.000Z",
+              "updatedAt": "2026-10-22T02:01:29.000Z",
+              "uid": "35240-d7caee38-8b4e-4dae-ae05-43e0e76af21f"
+            },
+            {
+              "id": "e8b33356-927c-4283-a9e2-086671abc29c",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/call-details?id=<string>&includeAudio=false&includeVideo=false",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "call-details"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) call id",
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours.",
+                      "key": "includeAudio",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours.",
+                      "key": "includeVideo",
+                      "value": "false"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:29.000Z",
+              "updatedAt": "2026-10-22T02:01:29.000Z",
+              "uid": "35240-e8b33356-927c-4283-a9e2-086671abc29c"
+            },
+            {
+              "id": "2dbad863-b056-4bb0-906d-3b2f978e5070",
+              "name": "Not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/call-details?id=<string>&includeAudio=false&includeVideo=false",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "call-details"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) call id",
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours.",
+                      "key": "includeAudio",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours.",
+                      "key": "includeVideo",
+                      "value": "false"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{}",
+              "createdAt": "2026-10-22T02:01:29.000Z",
+              "updatedAt": "2026-10-22T02:01:29.000Z",
+              "uid": "35240-2dbad863-b056-4bb0-906d-3b2f978e5070"
+            },
+            {
+              "id": "3fe8722d-7a86-49f3-95c0-ee4a88278c28",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/call-details?id=<string>&includeAudio=false&includeVideo=false",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "call-details"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) call id",
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "If true, includes signed url for audio. If false, response does not include audio url. The signed url is valid for the next 4 hours.",
+                      "key": "includeAudio",
+                      "value": "false"
+                    },
+                    {
+                      "description": "If true, includes signed url for video. If false, response does not include video url. The signed url is valid for the next 4 hours.",
+                      "key": "includeVideo",
+                      "value": "false"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:29.000Z",
+              "updatedAt": "2026-10-22T02:01:29.000Z",
+              "uid": "35240-3fe8722d-7a86-49f3-95c0-ee4a88278c28"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:29.000Z",
+          "updatedAt": "2026-10-22T02:01:29.000Z",
+          "uid": "35240-2d179b5d-c57c-4526-9e32-64b376bf4bde"
+        }
+      ],
+      "id": "ccb12beb-210e-47aa-8148-e49a0fe2852b",
+      "createdAt": "2026-10-22T02:01:29.000Z",
+      "updatedAt": "2026-10-22T02:01:29.000Z",
+      "uid": "35240-ccb12beb-210e-47aa-8148-e49a0fe2852b"
+    },
+    {
+      "name": "create-call",
+      "item": [
+        {
+          "name": "Create call",
+          "id": "3a5447c2-0368-46bd-854f-fc0768c6d7d9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source_id\": \"<string>\",\n  \"call_time\": \"<dateTime>\",\n  \"type\": \"VENDASTA\",\n  \"audio_url\": \"<string>\",\n  \"force_overwrite_old_call\": \"<boolean>\",\n  \"stereo_to_mono\": \"<boolean>\",\n  \"title\": \"<string>\",\n  \"user_emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"source_user_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_phone\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_email\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_name\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"audio_format\": \"<string>\",\n  \"header_key\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"header_value\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"external_transcript\": {\n    \"external_speakers\": [\n      {\n        \"person_id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"email_id\": \"<string>\"\n      },\n      {\n        \"person_id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"email_id\": \"<string>\"\n      }\n    ],\n    \"ext_conversation_turns\": [\n      {\n        \"person_id\": \"<string>\",\n        \"text\": \"<string>\",\n        \"start\": \"<number>\",\n        \"end\": \"<number>\"\n      },\n      {\n        \"person_id\": \"<string>\",\n        \"text\": \"<string>\",\n        \"start\": \"<number>\",\n        \"end\": \"<number>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/create-call",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "create-call"
+              ]
+            },
+            "description": "Creates a new call in Copilot system. Call's video link can be passed in the audio_url field."
+          },
+          "response": [
+            {
+              "id": "76882034-2d15-4579-aad5-4213c1e561eb",
+              "name": "200 response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source_id\": \"<string>\",\n  \"call_time\": \"<dateTime>\",\n  \"type\": \"VENDASTA\",\n  \"audio_url\": \"<string>\",\n  \"force_overwrite_old_call\": \"<boolean>\",\n  \"stereo_to_mono\": \"<boolean>\",\n  \"title\": \"<string>\",\n  \"user_emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"source_user_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_phone\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_email\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_name\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"audio_format\": \"<string>\",\n  \"header_key\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"header_value\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"external_transcript\": {\n    \"external_speakers\": [\n      {\n        \"person_id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"email_id\": \"<string>\"\n      },\n      {\n        \"person_id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"email_id\": \"<string>\"\n      }\n    ],\n    \"ext_conversation_turns\": [\n      {\n        \"person_id\": \"<string>\",\n        \"text\": \"<string>\",\n        \"start\": \"<number>\",\n        \"end\": \"<number>\"\n      },\n      {\n        \"person_id\": \"<string>\",\n        \"text\": \"<string>\",\n        \"start\": \"<number>\",\n        \"end\": \"<number>\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/create-call",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "create-call"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"call_id\": \"<string>\",\n  \"error\": \"<string>\"\n}",
+              "createdAt": "2026-10-22T02:01:29.000Z",
+              "updatedAt": "2026-10-22T02:01:29.000Z",
+              "uid": "35240-76882034-2d15-4579-aad5-4213c1e561eb"
+            },
+            {
+              "id": "f7a2c75e-1156-4111-901c-c76ec3f2bcba",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source_id\": \"<string>\",\n  \"call_time\": \"<dateTime>\",\n  \"type\": \"VENDASTA\",\n  \"audio_url\": \"<string>\",\n  \"force_overwrite_old_call\": \"<boolean>\",\n  \"stereo_to_mono\": \"<boolean>\",\n  \"title\": \"<string>\",\n  \"user_emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"source_user_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_phone\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_email\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_name\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"audio_format\": \"<string>\",\n  \"header_key\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"header_value\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"external_transcript\": {\n    \"external_speakers\": [\n      {\n        \"person_id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"email_id\": \"<string>\"\n      },\n      {\n        \"person_id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"email_id\": \"<string>\"\n      }\n    ],\n    \"ext_conversation_turns\": [\n      {\n        \"person_id\": \"<string>\",\n        \"text\": \"<string>\",\n        \"start\": \"<number>\",\n        \"end\": \"<number>\"\n      },\n      {\n        \"person_id\": \"<string>\",\n        \"text\": \"<string>\",\n        \"start\": \"<number>\",\n        \"end\": \"<number>\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/create-call",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "create-call"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:29.000Z",
+              "updatedAt": "2026-10-22T02:01:29.000Z",
+              "uid": "35240-f7a2c75e-1156-4111-901c-c76ec3f2bcba"
+            },
+            {
+              "id": "9d6bc0eb-0546-4596-bbca-db436525d84f",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source_id\": \"<string>\",\n  \"call_time\": \"<dateTime>\",\n  \"type\": \"VENDASTA\",\n  \"audio_url\": \"<string>\",\n  \"force_overwrite_old_call\": \"<boolean>\",\n  \"stereo_to_mono\": \"<boolean>\",\n  \"title\": \"<string>\",\n  \"user_emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"source_user_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_phone\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_email\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"other_name\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"audio_format\": \"<string>\",\n  \"header_key\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"header_value\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"external_transcript\": {\n    \"external_speakers\": [\n      {\n        \"person_id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"email_id\": \"<string>\"\n      },\n      {\n        \"person_id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"email_id\": \"<string>\"\n      }\n    ],\n    \"ext_conversation_turns\": [\n      {\n        \"person_id\": \"<string>\",\n        \"text\": \"<string>\",\n        \"start\": \"<number>\",\n        \"end\": \"<number>\"\n      },\n      {\n        \"person_id\": \"<string>\",\n        \"text\": \"<string>\",\n        \"start\": \"<number>\",\n        \"end\": \"<number>\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/create-call",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "create-call"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:29.000Z",
+              "updatedAt": "2026-10-22T02:01:29.000Z",
+              "uid": "35240-9d6bc0eb-0546-4596-bbca-db436525d84f"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:29.000Z",
+          "updatedAt": "2026-10-22T02:01:29.000Z",
+          "uid": "35240-3a5447c2-0368-46bd-854f-fc0768c6d7d9"
+        }
+      ],
+      "id": "22383ac1-0fa3-4ca4-9a9b-c45ba3de2b67",
+      "createdAt": "2026-10-22T02:01:29.000Z",
+      "updatedAt": "2026-10-22T02:01:29.000Z",
+      "uid": "35240-22383ac1-0fa3-4ca4-9a9b-c45ba3de2b67"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://rest-api.copilot.clari.com"
+    }
+  ]
+}

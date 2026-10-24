@@ -1,0 +1,993 @@
+{
+  "info": {
+    "_postman_id": "dd5199c3-73e9-41ac-be09-1063dffd2928",
+    "name": "rest-api Account API",
+    "description": "Refer to our website to know more about Clari Copilot.\n\nContact Support:\n Name: Support\n Email: copilot-support@clari.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:01:21.000Z",
+    "updatedAt": "2026-10-22T02:01:22.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-dd5199c3-73e9-41ac-be09-1063dffd2928"
+  },
+  "item": [
+    {
+      "name": "create-account",
+      "item": [
+        {
+          "name": "Create account",
+          "id": "453bb6ab-1c8d-4de7-8efa-711a02686e92",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/create-account",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "create-account"
+              ]
+            },
+            "description": "Creates a data for new account in Copilot system"
+          },
+          "response": [
+            {
+              "id": "23abd7e4-ab91-4879-98b4-652c2d69f462",
+              "name": "200 response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/create-account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "create-account"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-23abd7e4-ab91-4879-98b4-652c2d69f462"
+            },
+            {
+              "id": "2c441867-b024-40d8-a3de-036a6fd60264",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/create-account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "create-account"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-2c441867-b024-40d8-a3de-036a6fd60264"
+            },
+            {
+              "id": "554b1031-2b71-4ca8-97a1-84d9caa5df91",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/create-account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "create-account"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-554b1031-2b71-4ca8-97a1-84d9caa5df91"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:22.000Z",
+          "updatedAt": "2026-10-22T02:01:22.000Z",
+          "uid": "35240-453bb6ab-1c8d-4de7-8efa-711a02686e92"
+        }
+      ],
+      "id": "b9c40157-3cd2-4e32-8520-9e130ef37f25",
+      "createdAt": "2026-10-22T02:01:22.000Z",
+      "updatedAt": "2026-10-22T02:01:22.000Z",
+      "uid": "35240-b9c40157-3cd2-4e32-8520-9e130ef37f25"
+    },
+    {
+      "name": "get-account",
+      "item": [
+        {
+          "name": "Read account",
+          "id": "1c427a11-76b1-4fd1-9e87-37c76f6c0114",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/get-account?id=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "get-account"
+              ],
+              "query": [
+                {
+                  "description": "(Required) source id of the account",
+                  "key": "id",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "Returns details of account with source id passed as query param"
+          },
+          "response": [
+            {
+              "id": "0d4af968-14b4-4309-9a63-6328cd6cb691",
+              "name": "200 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/get-account?id=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "get-account"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) source id of the account",
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-0d4af968-14b4-4309-9a63-6328cd6cb691"
+            },
+            {
+              "id": "cb47835d-d69f-4d76-bb65-0160ccb9366c",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/get-account?id=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "get-account"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) source id of the account",
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-cb47835d-d69f-4d76-bb65-0160ccb9366c"
+            },
+            {
+              "id": "328122ff-318e-43d9-8055-eb8e92f088a8",
+              "name": "Not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/get-account?id=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "get-account"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) source id of the account",
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{}",
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-328122ff-318e-43d9-8055-eb8e92f088a8"
+            },
+            {
+              "id": "3442faea-eb49-4700-ae6d-d1cc478b93d8",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/get-account?id=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "get-account"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) source id of the account",
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-3442faea-eb49-4700-ae6d-d1cc478b93d8"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:22.000Z",
+          "updatedAt": "2026-10-22T02:01:22.000Z",
+          "uid": "35240-1c427a11-76b1-4fd1-9e87-37c76f6c0114"
+        }
+      ],
+      "id": "054211d6-3935-4db3-86e4-d2d1ef21b7b2",
+      "createdAt": "2026-10-22T02:01:22.000Z",
+      "updatedAt": "2026-10-22T02:01:22.000Z",
+      "uid": "35240-054211d6-3935-4db3-86e4-d2d1ef21b7b2"
+    },
+    {
+      "name": "update-account",
+      "item": [
+        {
+          "name": "Update account",
+          "id": "f41388b9-c87b-48c7-a31c-49714bcede5b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/update-account",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "update-account"
+              ]
+            },
+            "description": "Creates a data for new account in Copilot system"
+          },
+          "response": [
+            {
+              "id": "498ef825-b84c-4b2d-942e-5b3aae725db8",
+              "name": "200 response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/update-account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "update-account"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-498ef825-b84c-4b2d-942e-5b3aae725db8"
+            },
+            {
+              "id": "2e636731-424c-4ffd-a5a0-e30d035073de",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/update-account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "update-account"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-2e636731-424c-4ffd-a5a0-e30d035073de"
+            },
+            {
+              "id": "8b3d97f1-97ac-496e-bd68-976fd2d92e21",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/update-account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "update-account"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-8b3d97f1-97ac-496e-bd68-976fd2d92e21"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:22.000Z",
+          "updatedAt": "2026-10-22T02:01:22.000Z",
+          "uid": "35240-f41388b9-c87b-48c7-a31c-49714bcede5b"
+        }
+      ],
+      "id": "452f870b-e3bc-4f78-9e7d-38841295352e",
+      "createdAt": "2026-10-22T02:01:22.000Z",
+      "updatedAt": "2026-10-22T02:01:22.000Z",
+      "uid": "35240-452f870b-e3bc-4f78-9e7d-38841295352e"
+    },
+    {
+      "name": "delete-account",
+      "item": [
+        {
+          "name": "Delete account",
+          "id": "885a8ee9-521b-4d50-bd7d-9d8f965a4cb9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delete-account",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "delete-account"
+              ]
+            },
+            "description": "Returns details of last snapshot of the deleted account"
+          },
+          "response": [
+            {
+              "id": "d765af84-eca2-42eb-8e37-efe0e8151390",
+              "name": "200 response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete-account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete-account"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"description\": \"<string>\",\n  \"website\": \"<string>\",\n  \"address\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"country\": \"<string>\",\n  \"zip\": \"<string>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-d765af84-eca2-42eb-8e37-efe0e8151390"
+            },
+            {
+              "id": "79faee26-38a6-4070-b287-23188ae0f12f",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete-account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete-account"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-79faee26-38a6-4070-b287-23188ae0f12f"
+            },
+            {
+              "id": "c9ac8608-eef3-4baf-bcbd-225d3fc21b59",
+              "name": "Not found",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete-account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete-account"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{}",
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-c9ac8608-eef3-4baf-bcbd-225d3fc21b59"
+            },
+            {
+              "id": "b226c78f-13dc-4d94-b75d-e24096a95a11",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete-account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete-account"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:22.000Z",
+              "updatedAt": "2026-10-22T02:01:22.000Z",
+              "uid": "35240-b226c78f-13dc-4d94-b75d-e24096a95a11"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:22.000Z",
+          "updatedAt": "2026-10-22T02:01:22.000Z",
+          "uid": "35240-885a8ee9-521b-4d50-bd7d-9d8f965a4cb9"
+        }
+      ],
+      "id": "a06b661f-0f12-45e2-bd55-d0264ae27e6b",
+      "createdAt": "2026-10-22T02:01:22.000Z",
+      "updatedAt": "2026-10-22T02:01:22.000Z",
+      "uid": "35240-a06b661f-0f12-45e2-bd55-d0264ae27e6b"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://rest-api.copilot.clari.com"
+    }
+  ]
+}

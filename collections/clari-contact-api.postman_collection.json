@@ -1,0 +1,993 @@
+{
+  "info": {
+    "_postman_id": "bba47966-0ae1-41d5-a5b6-a62e2aa0543d",
+    "name": "rest-api Contact API",
+    "description": "Refer to our website to know more about Clari Copilot.\n\nContact Support:\n Name: Support\n Email: copilot-support@clari.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:01:33.000Z",
+    "updatedAt": "2026-10-22T02:01:34.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-bba47966-0ae1-41d5-a5b6-a62e2aa0543d"
+  },
+  "item": [
+    {
+      "name": "create-contact",
+      "item": [
+        {
+          "name": "Create contact",
+          "id": "4638b3be-9601-4288-9a1d-9244b45d7198",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/create-contact",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "create-contact"
+              ]
+            },
+            "description": "Creates a data for new contact in Copilot system"
+          },
+          "response": [
+            {
+              "id": "abc8ef3c-fbed-41dd-89f7-49f7b662fa1d",
+              "name": "200 response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/create-contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "create-contact"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-abc8ef3c-fbed-41dd-89f7-49f7b662fa1d"
+            },
+            {
+              "id": "1c29443e-2013-484f-856a-dcfdb341ae94",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/create-contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "create-contact"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-1c29443e-2013-484f-856a-dcfdb341ae94"
+            },
+            {
+              "id": "608b77d5-bc3e-4781-b970-6f54e181efb9",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/create-contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "create-contact"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-608b77d5-bc3e-4781-b970-6f54e181efb9"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:34.000Z",
+          "updatedAt": "2026-10-22T02:01:34.000Z",
+          "uid": "35240-4638b3be-9601-4288-9a1d-9244b45d7198"
+        }
+      ],
+      "id": "1141cfe2-3106-48b9-ac2a-2f1a926dbe6a",
+      "createdAt": "2026-10-22T02:01:34.000Z",
+      "updatedAt": "2026-10-22T02:01:34.000Z",
+      "uid": "35240-1141cfe2-3106-48b9-ac2a-2f1a926dbe6a"
+    },
+    {
+      "name": "get-contact",
+      "item": [
+        {
+          "name": "Read contact",
+          "id": "573c622e-b51e-4eb1-8201-09c3f5aa99cb",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/get-contact?id=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "get-contact"
+              ],
+              "query": [
+                {
+                  "description": "(Required) source id of the contact",
+                  "key": "id",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "Returns details of contact with source id passed as query param"
+          },
+          "response": [
+            {
+              "id": "7d9601bb-c201-454c-bb74-18c257e6f31f",
+              "name": "200 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/get-contact?id=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "get-contact"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) source id of the contact",
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-7d9601bb-c201-454c-bb74-18c257e6f31f"
+            },
+            {
+              "id": "fc2301d6-6cd6-433b-9968-21060b5c63a6",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/get-contact?id=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "get-contact"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) source id of the contact",
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-fc2301d6-6cd6-433b-9968-21060b5c63a6"
+            },
+            {
+              "id": "d630609e-6650-482a-8506-917f73769351",
+              "name": "Not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/get-contact?id=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "get-contact"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) source id of the contact",
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{}",
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-d630609e-6650-482a-8506-917f73769351"
+            },
+            {
+              "id": "95dc6c7b-4157-4ae9-a659-ef77137301e8",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/get-contact?id=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "get-contact"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) source id of the contact",
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-95dc6c7b-4157-4ae9-a659-ef77137301e8"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:34.000Z",
+          "updatedAt": "2026-10-22T02:01:34.000Z",
+          "uid": "35240-573c622e-b51e-4eb1-8201-09c3f5aa99cb"
+        }
+      ],
+      "id": "dc10cd74-de38-4f30-bb4d-57bb8c7aa5cf",
+      "createdAt": "2026-10-22T02:01:34.000Z",
+      "updatedAt": "2026-10-22T02:01:34.000Z",
+      "uid": "35240-dc10cd74-de38-4f30-bb4d-57bb8c7aa5cf"
+    },
+    {
+      "name": "update-contact",
+      "item": [
+        {
+          "name": "Update contact",
+          "id": "f4a364e2-3522-4f86-999b-08a112905faf",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/update-contact",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "update-contact"
+              ]
+            },
+            "description": "Update a data for new contact in Copilot system"
+          },
+          "response": [
+            {
+              "id": "40135f6c-a4b8-4964-b197-12da91212de4",
+              "name": "200 response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/update-contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "update-contact"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-40135f6c-a4b8-4964-b197-12da91212de4"
+            },
+            {
+              "id": "df1209bd-9d3b-4c3c-9f29-a2856f8fd055",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/update-contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "update-contact"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-df1209bd-9d3b-4c3c-9f29-a2856f8fd055"
+            },
+            {
+              "id": "a191af21-e5c2-4fe4-b7ef-7426606a6db5",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/update-contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "update-contact"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-a191af21-e5c2-4fe4-b7ef-7426606a6db5"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:34.000Z",
+          "updatedAt": "2026-10-22T02:01:34.000Z",
+          "uid": "35240-f4a364e2-3522-4f86-999b-08a112905faf"
+        }
+      ],
+      "id": "7076d10f-3eb4-45ba-be0a-daed4afec1bf",
+      "createdAt": "2026-10-22T02:01:34.000Z",
+      "updatedAt": "2026-10-22T02:01:34.000Z",
+      "uid": "35240-7076d10f-3eb4-45ba-be0a-daed4afec1bf"
+    },
+    {
+      "name": "delete-contact",
+      "item": [
+        {
+          "name": "Delete contact",
+          "id": "4fad87a4-2ec6-47eb-aeea-3e6ce27bd9d0",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delete-contact",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "delete-contact"
+              ]
+            },
+            "description": "Returns details of last snapshot of deleted contact"
+          },
+          "response": [
+            {
+              "id": "276cf0df-3d1e-4918-a91e-99f715cb8b99",
+              "name": "200 response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete-contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete-contact"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"crm_id\": \"<string>\",\n  \"account_crm_id\": \"<string>\",\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"job_title\": \"<string>\",\n  \"phones\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stage\": \"<string>\",\n  \"reason\": \"<string>\",\n  \"emails\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"is_lead\": \"<boolean>\",\n  \"custom_fields\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-276cf0df-3d1e-4918-a91e-99f715cb8b99"
+            },
+            {
+              "id": "7f16b1d0-bf17-4864-86fb-56851ec55689",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete-contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete-contact"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-7f16b1d0-bf17-4864-86fb-56851ec55689"
+            },
+            {
+              "id": "966a3a9d-d415-4b34-bb85-511f6ccd9cac",
+              "name": "Not found",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete-contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete-contact"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{}",
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-966a3a9d-d415-4b34-bb85-511f6ccd9cac"
+            },
+            {
+              "id": "231b7618-983e-4aa7-acf5-9f1386421d02",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete-contact",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete-contact"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:34.000Z",
+              "updatedAt": "2026-10-22T02:01:34.000Z",
+              "uid": "35240-231b7618-983e-4aa7-acf5-9f1386421d02"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:34.000Z",
+          "updatedAt": "2026-10-22T02:01:34.000Z",
+          "uid": "35240-4fad87a4-2ec6-47eb-aeea-3e6ce27bd9d0"
+        }
+      ],
+      "id": "a3b34467-49ab-4aac-a427-30045548b4a2",
+      "createdAt": "2026-10-22T02:01:34.000Z",
+      "updatedAt": "2026-10-22T02:01:34.000Z",
+      "uid": "35240-a3b34467-49ab-4aac-a427-30045548b4a2"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://rest-api.copilot.clari.com"
+    }
+  ]
+}

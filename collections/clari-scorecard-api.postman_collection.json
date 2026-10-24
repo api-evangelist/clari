@@ -1,0 +1,484 @@
+{
+  "info": {
+    "_postman_id": "c1d6132b-ba08-4ebe-a21f-287e0dda1fc8",
+    "name": "rest-api Scorecard API",
+    "description": "Refer to our website to know more about Clari Copilot.\n\nContact Support:\n Name: Support\n Email: copilot-support@clari.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:01:44.000Z",
+    "updatedAt": "2026-10-22T02:01:44.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-c1d6132b-ba08-4ebe-a21f-287e0dda1fc8"
+  },
+  "item": [
+    {
+      "name": "scorecard",
+      "item": [
+        {
+          "name": "List of scorecard",
+          "id": "1825b6e2-60c0-439c-a9e3-4d8e5f740b26",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/scorecard?skip=0&limit=50&filterTimeGt=<dateTime>&filterTimeLt=<dateTime>&filterRepId=<string>&filterScorerId=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "scorecard"
+              ],
+              "query": [
+                {
+                  "description": "Skip specified number of scorecards. Defaults to 0, if not passed. Should be integer, else returns bad request error.\n",
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "description": "Limits the number of scorecards returned to given number. Defaults to 50, if not passed. Should be integer, else returns bad request error.\n",
+                  "key": "limit",
+                  "value": "50"
+                },
+                {
+                  "description": "If passed, filters out scorecards before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                  "key": "filterTimeGt",
+                  "value": "<dateTime>"
+                },
+                {
+                  "description": "If passed, filters out scorecards after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                  "key": "filterTimeLt",
+                  "value": "<dateTime>"
+                },
+                {
+                  "description": "This is a single-value parameter, if passed, will filter scorecards for the given user id who is getting scored for the call\n",
+                  "key": "filterRepId",
+                  "value": "<string>"
+                },
+                {
+                  "description": "This is a single-value parameter, if passed, will filter scorecards for the given user id, who are scoring the calls\n",
+                  "key": "filterScorerId",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "This endpoint allows listing scorecard by different parameters.\nFilter parameters have filter prefix and sort parameters have sort prefix.\nYou can fetch only 100 scorecard in page, use skip and limit to scroll through scorecards."
+          },
+          "response": [
+            {
+              "id": "c79ad813-08d4-45c3-bd77-9c431f71cd6d",
+              "name": "OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/scorecard?skip=0&limit=50&filterTimeGt=<dateTime>&filterTimeLt=<dateTime>&filterRepId=<string>&filterScorerId=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scorecard"
+                  ],
+                  "query": [
+                    {
+                      "description": "Skip specified number of scorecards. Defaults to 0, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "skip",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Limits the number of scorecards returned to given number. Defaults to 50, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "description": "If passed, filters out scorecards before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeGt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out scorecards after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeLt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "This is a single-value parameter, if passed, will filter scorecards for the given user id who is getting scored for the call\n",
+                      "key": "filterRepId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a single-value parameter, if passed, will filter scorecards for the given user id, who are scoring the calls\n",
+                      "key": "filterScorerId",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"scorecards\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"rep\": \"<string>\",\n      \"scorer\": \"<string>\",\n      \"template_id\": \"<string>\",\n      \"call_id\": \"<string>\",\n      \"total_score\": \"<number>\",\n      \"remark\": \"<string>\",\n      \"questions_score\": [\n        {\n          \"score\": \"<integer>\",\n          \"skill\": \"<string>\",\n          \"label\": \"<string>\",\n          \"order\": \"<string>\"\n        },\n        {\n          \"score\": \"<integer>\",\n          \"skill\": \"<string>\",\n          \"label\": \"<string>\",\n          \"order\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"<string>\",\n      \"rep\": \"<string>\",\n      \"scorer\": \"<string>\",\n      \"template_id\": \"<string>\",\n      \"call_id\": \"<string>\",\n      \"total_score\": \"<number>\",\n      \"remark\": \"<string>\",\n      \"questions_score\": [\n        {\n          \"score\": \"<integer>\",\n          \"skill\": \"<string>\",\n          \"label\": \"<string>\",\n          \"order\": \"<string>\"\n        },\n        {\n          \"score\": \"<integer>\",\n          \"skill\": \"<string>\",\n          \"label\": \"<string>\",\n          \"order\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"pagination\": {\n    \"matched\": \"<integer>\",\n    \"hasMore\": \"<boolean>\",\n    \"nextPageSkip\": \"<integer>\"\n  }\n}",
+              "createdAt": "2026-10-22T02:01:45.000Z",
+              "updatedAt": "2026-10-22T02:01:45.000Z",
+              "uid": "35240-c79ad813-08d4-45c3-bd77-9c431f71cd6d"
+            },
+            {
+              "id": "f53e0bea-d30e-493d-8f87-19b8c1dfe897",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/scorecard?skip=0&limit=50&filterTimeGt=<dateTime>&filterTimeLt=<dateTime>&filterRepId=<string>&filterScorerId=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scorecard"
+                  ],
+                  "query": [
+                    {
+                      "description": "Skip specified number of scorecards. Defaults to 0, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "skip",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Limits the number of scorecards returned to given number. Defaults to 50, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "description": "If passed, filters out scorecards before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeGt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out scorecards after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeLt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "This is a single-value parameter, if passed, will filter scorecards for the given user id who is getting scored for the call\n",
+                      "key": "filterRepId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a single-value parameter, if passed, will filter scorecards for the given user id, who are scoring the calls\n",
+                      "key": "filterScorerId",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:45.000Z",
+              "updatedAt": "2026-10-22T02:01:45.000Z",
+              "uid": "35240-f53e0bea-d30e-493d-8f87-19b8c1dfe897"
+            },
+            {
+              "id": "b5e7ecf1-9f73-4a4e-a210-0a09b62638dd",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/scorecard?skip=0&limit=50&filterTimeGt=<dateTime>&filterTimeLt=<dateTime>&filterRepId=<string>&filterScorerId=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scorecard"
+                  ],
+                  "query": [
+                    {
+                      "description": "Skip specified number of scorecards. Defaults to 0, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "skip",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Limits the number of scorecards returned to given number. Defaults to 50, if not passed. Should be integer, else returns bad request error.\n",
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "description": "If passed, filters out scorecards before passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeGt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "If passed, filters out scorecards after passed time.\nUse ISO date-time format, eg: 2020-01-01T00:00:00Z. If invalid value is passed, results in bad request error.\n",
+                      "key": "filterTimeLt",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "This is a single-value parameter, if passed, will filter scorecards for the given user id who is getting scored for the call\n",
+                      "key": "filterRepId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "This is a single-value parameter, if passed, will filter scorecards for the given user id, who are scoring the calls\n",
+                      "key": "filterScorerId",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:45.000Z",
+              "updatedAt": "2026-10-22T02:01:45.000Z",
+              "uid": "35240-b5e7ecf1-9f73-4a4e-a210-0a09b62638dd"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:45.000Z",
+          "updatedAt": "2026-10-22T02:01:45.000Z",
+          "uid": "35240-1825b6e2-60c0-439c-a9e3-4d8e5f740b26"
+        }
+      ],
+      "id": "255f84ea-a273-4c0a-ae18-c856094cd29a",
+      "createdAt": "2026-10-22T02:01:45.000Z",
+      "updatedAt": "2026-10-22T02:01:45.000Z",
+      "uid": "35240-255f84ea-a273-4c0a-ae18-c856094cd29a"
+    },
+    {
+      "name": "scorecard-template",
+      "item": [
+        {
+          "name": "List of scorecard templates",
+          "id": "de15471b-d377-402c-96ed-0a88edc6e4ba",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/scorecard-template",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "scorecard-template"
+              ]
+            },
+            "description": "This endpoint allows listing all the scorecard template and information about them"
+          },
+          "response": [
+            {
+              "id": "9ce01f0b-e3a8-4e11-b562-7d0b4ad75e23",
+              "name": "OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/scorecard-template",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scorecard-template"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"scoreCardTemplates\": [\n    {\n      \"id\": \"<string>\",\n      \"customer_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"type\": \"<string>\",\n      \"questions\": [\n        {\n          \"skill\": \"<string>\",\n          \"label\": \"<string>\",\n          \"order\": \"<string>\"\n        },\n        {\n          \"skill\": \"<string>\",\n          \"label\": \"<string>\",\n          \"order\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"id\": \"<string>\",\n      \"customer_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"type\": \"<string>\",\n      \"questions\": [\n        {\n          \"skill\": \"<string>\",\n          \"label\": \"<string>\",\n          \"order\": \"<string>\"\n        },\n        {\n          \"skill\": \"<string>\",\n          \"label\": \"<string>\",\n          \"order\": \"<string>\"\n        }\n      ]\n    }\n  ]\n}",
+              "createdAt": "2026-10-22T02:01:45.000Z",
+              "updatedAt": "2026-10-22T02:01:45.000Z",
+              "uid": "35240-9ce01f0b-e3a8-4e11-b562-7d0b4ad75e23"
+            },
+            {
+              "id": "5a04b4a6-5334-45f9-b1d2-6bad3b961e28",
+              "name": "400 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/scorecard-template",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scorecard-template"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:45.000Z",
+              "updatedAt": "2026-10-22T02:01:45.000Z",
+              "uid": "35240-5a04b4a6-5334-45f9-b1d2-6bad3b961e28"
+            },
+            {
+              "id": "825a465a-eb71-4c5f-bdc8-1268467ac4d2",
+              "name": "500 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/scorecard-template",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scorecard-template"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T02:01:45.000Z",
+              "updatedAt": "2026-10-22T02:01:45.000Z",
+              "uid": "35240-825a465a-eb71-4c5f-bdc8-1268467ac4d2"
+            }
+          ],
+          "createdAt": "2026-10-22T02:01:45.000Z",
+          "updatedAt": "2026-10-22T02:01:45.000Z",
+          "uid": "35240-de15471b-d377-402c-96ed-0a88edc6e4ba"
+        }
+      ],
+      "id": "98251500-2c7c-4bf9-b35b-3e292111394a",
+      "createdAt": "2026-10-22T02:01:45.000Z",
+      "updatedAt": "2026-10-22T02:01:45.000Z",
+      "uid": "35240-98251500-2c7c-4bf9-b35b-3e292111394a"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://rest-api.copilot.clari.com"
+    }
+  ]
+}
