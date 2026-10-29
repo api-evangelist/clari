@@ -1,4 +1,4 @@
-# Clari (clari)
+# Clari
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,54 +64,217 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Clari is a revenue operations platform that provides a REST API for accessing pipeline data, forecasts, opportunity signals, activity intelligence, and CRM-enriched deal insights. The API enables revenue teams to programmatically export forecast submissions, query activity data (meetings, emails, attachments), and ingest custom entity data into the Clari platform. Clari also offers a Copilot API for accessing conversation intelligence data including call recordings, AI summaries, and coaching insights. The platform serves enterprise B2B organizations including Okta, Adobe, Workday, and Zoom with tools to improve forecast accuracy, accelerate pipeline execution, and unify revenue operations across sales, marketing, and customer success teams.
+Clari is an enterprise revenue orchestration platform that publishes three machine surfaces. The Clari Revenue API v5 (api.clari.com/v4) is an asynchronous, job-based export and ingest surface — queue a forecast, activity or audit export, poll until the job reads DONE, then download the results — plus a partner Ingestion API for pushing third-party data into Clari accounts and opportunities. The Clari Copilot REST API (rest-api.copilot.clari.com) is a synchronous conversation-intelligence and CRM surface covering calls, transcripts, AI summaries, action items, competitor sentiment, coaching scorecards, and CRUD over accounts, contacts and deals keyed on the customer's own CRM id. Clari also runs a first-party remote MCP server at mcp.clari.com/mcp, OAuth protected via Okta and listed natively in the Claude connector directory, which exposes live Clari + Salesloft revenue context to AI agents. Both HTTP APIs authenticate with header API keys, support no idempotency keys, and return no rate-limit headers.
 
-- **APIs.json**: https://raw.githubusercontent.com/api-evangelist/clari/refs/heads/main/apis.yml
-- **Naftiko**: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=clari-api-evangelist&utm_content=repo
+**Areas:** Revenue Operations · Forecasting · Pipeline Management · Sales Intelligence · Activity Intelligence · Deal Insights · CRM · Conversation Intelligence · B2B · Enterprise · MCP · Agents
 
-## Tags
+## Clari on APIs.io
 
-Revenue Operations, Forecasting, Pipeline Management, Sales Intelligence, Activity Intelligence, Deal Insights, CRM, Conversation Intelligence, B2B, Enterprise
+Everything profiled for Clari is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/clari/](https://apis.io/providers/clari/)** — or go straight to one of the APIs or properties below.
 
-## APIs
+### APIs (16)
 
-| Name | Description | Docs |
-|------|-------------|------|
-| Clari Revenue API | Forecast exports, activity exports, audit events, and data ingestion via async job-based REST API | https://developer.clari.com/documentation/external_spec |
-| Clari Copilot API | Conversation intelligence including call recordings, AI summaries, coaching insights, and deal intelligence | https://api-doc.copilot.clari.com/ |
+- [Clari MCP Server](https://apis.io/apis/clari/clari-mcp-server/) — Clari's first-party remote Model Context Protocol server. It exposes live Clari + Salesloft revenue context — accounts, deals, people, calls and…
+- [Clari Activity API](https://apis.io/apis/clari/clari-activity-api-api/) — The Activity API API from Clari — 1 operation(s) for activity api.
+- [Clari Administrative API](https://apis.io/apis/clari/clari-administrative-api-api/) — The Administrative API API from Clari — 1 operation(s) for administrative api.
+- [Clari Audit API](https://apis.io/apis/clari/clari-audit-api-api/) — The Audit API API from Clari — 2 operation(s) for audit api.
+- [Clari Bulk Export Framework API](https://apis.io/apis/clari/clari-bulk-export-framework-api/) — The Bulk Export Framework API from Clari — 3 operation(s) for bulk export framework.
+- [Clari Bulk Ingest Job Status API](https://apis.io/apis/clari/clari-bulk-ingest-job-status-api-api/) — The Bulk Ingest Job Status API API from Clari — 1 operation(s) for bulk ingest job status api.
+- [Clari Forecast API](https://apis.io/apis/clari/clari-forecast-api-api/) — The Forecast API API from Clari — 1 operation(s) for forecast api.
+- [Clari Ingestion API](https://apis.io/apis/clari/clari-ingestion-api-api/) — The Ingestion API API from Clari — 3 operation(s) for ingestion api.
+- [Clari Opportunity API](https://apis.io/apis/clari/clari-opportunity-api-api/) — The Opportunity API API from Clari — 1 operation(s) for opportunity api.
+- [Clari Account API](https://apis.io/apis/clari/clari-account-api/) — Accounts in CRM
+- [Clari Call API](https://apis.io/apis/clari/clari-call-api/) — Calls in Copilot
+- [Clari Contact API](https://apis.io/apis/clari/clari-contact-api/) — Contacts in CRM
+- [Clari Deal API](https://apis.io/apis/clari/clari-deal-api/) — Deals in CRM
+- [Clari Scorecard API](https://apis.io/apis/clari/clari-scorecard-api/) — Scorecards in Copilot
+- [Clari Topics API](https://apis.io/apis/clari/clari-topics-api/) — Topics in Copilot
+- [Clari User API](https://apis.io/apis/clari/clari-user-api/) — Users in Copilot
 
-## Plans, Rate Limits, and FinOps
+### Published properties
 
-| Resource | File |
-|----------|------|
-| Plans and Pricing | [plans/clari-plans-pricing.yml](plans/clari-plans-pricing.yml) |
-| Rate Limits | [rate-limits/clari-rate-limits.yml](rate-limits/clari-rate-limits.yml) |
-| FinOps | [finops/clari-finops.yml](finops/clari-finops.yml) |
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-**Plans summary:** Clari Core (~$100–$120/user/month), Clari Copilot (~$60–$100/user/month), Groove (bundled). All pricing is custom-quoted with no public pricing page.
+#### GraphQL (1)
 
-**Rate limits summary:** Revenue API allows 3 concurrent export jobs and 1,000 exports/month per organization; data ingestion allows 100 requests/second per API token. Copilot API allows 10 requests/second and 100,000 requests/week per API key.
+GraphQL schemas.
 
-## Timestamps
+- [Moved to /providers/clari/](https://apis.io/graphqls/clari/clari-graphql/)
 
-- **Created:** 2026-06-13
-- **Modified:** 2026-06-13
+#### MCP servers (1)
 
-## Common
+Model Context Protocol servers that expose the API to agents.
 
-| Type | URL |
-|------|-----|
-| Website | https://www.clari.com/ |
-| Documentation | https://developer.clari.com/ |
-| GitHub Org | https://github.com/clari |
-| LinkedIn | https://www.linkedin.com/company/clari |
-| Blog | https://www.clari.com/blog/ |
-| Pricing | https://www.clari.com/pricing/ |
-| Status Page | https://clari.statuspage.io/ |
-| X (Twitter) | https://x.com/clarihq |
+- [Clari MCP Server](https://apis.io/servers/clari/clari-mcp-server/)
 
-## Maintainers
+#### Agentic access (1)
 
-| Name | Email |
-|------|-------|
-| Kin Lane | kin@apievangelist.com |
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Clari Agentic Access](https://apis.io/agentic-access/clari/clari-agentic-access/)
+
+#### JSON Schema (3)
+
+The data models the API reads and writes.
+
+- [ClariExportJob](https://apis.io/schemas/clari/clari-export-job/)
+- [ClariForecastExportRequest](https://apis.io/schemas/clari/clari-forecast-export-request/)
+- [ClariIngestionRequest](https://apis.io/schemas/clari/clari-ingestion-request/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Clari Context](https://apis.io/jsonld/clari/clari-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Clari Vocabulary](https://apis.io/vocabularies/clari/clari-vocabulary/)
+
+#### Examples (3)
+
+Example requests and responses.
+
+- [Clari Activity Export Example](https://apis.io/examples/clari/clari-activity-export-example/)
+- [Clari Forecast Export Example](https://apis.io/examples/clari/clari-forecast-export-example/)
+- [Clari Job Status Example](https://apis.io/examples/clari/clari-job-status-example/)
+
+#### Collections (10)
+
+Postman and Open Collection request collections.
+
+- [Clari API Reference Activity API API](https://apis.io/collections/clari/open-clari-activity-api-api/)
+- [Clari API Reference Activity API Administrative API API](https://apis.io/collections/clari/open-clari-administrative-api-api/)
+- [Clari API Reference Activity API Audit API API](https://apis.io/collections/clari/open-clari-audit-api-api/)
+- [Clari API Reference Activity API Bulk Export Framework API](https://apis.io/collections/clari/open-clari-bulk-export-framework-api/)
+- [Clari API Reference Activity API Bulk Ingest Job Status API API](https://apis.io/collections/clari/open-clari-bulk-ingest-job-status-api-api/)
+- [rest-api](https://apis.io/collections/clari/open-clari-copilot-api/)
+- [Clari API Reference Activity API Export API](https://apis.io/collections/clari/open-clari-export-api/)
+- [Clari API Reference Activity API Forecast API API](https://apis.io/collections/clari/open-clari-forecast-api-api/)
+- [Clari API Reference Activity API Ingestion API API](https://apis.io/collections/clari/open-clari-ingestion-api-api/)
+- [Clari API Reference Activity API Opportunity API API](https://apis.io/collections/clari/open-clari-opportunity-api-api/)
+
+#### Overlays (10)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Clari Activity Api Api Overlay](https://apis.io/overlays/clari/clari-activity-api-api-overlay/)
+- [Clari Administrative Api Api Overlay](https://apis.io/overlays/clari/clari-administrative-api-api-overlay/)
+- [Clari Audit Api Api Overlay](https://apis.io/overlays/clari/clari-audit-api-api-overlay/)
+- [Clari Bulk Export Framework Api Overlay](https://apis.io/overlays/clari/clari-bulk-export-framework-api-overlay/)
+- [Clari Bulk Ingest Job Status Api Api Overlay](https://apis.io/overlays/clari/clari-bulk-ingest-job-status-api-api-overlay/)
+- [Clari Copilot Api Overlay](https://apis.io/overlays/clari/clari-copilot-api-overlay/)
+- [Clari Export Api Overlay](https://apis.io/overlays/clari/clari-export-api-overlay/)
+- [Clari Forecast Api Api Overlay](https://apis.io/overlays/clari/clari-forecast-api-api-overlay/)
+- [Clari Ingestion Api Api Overlay](https://apis.io/overlays/clari/clari-ingestion-api-api-overlay/)
+- [Clari Opportunity Api Api Overlay](https://apis.io/overlays/clari/clari-opportunity-api-api-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Clari — jsonschema rules](https://apis.io/rules/clari/clari-jsonschema-spectral-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Clari Authentication](https://apis.io/security/clari/clari-authentication/)
+- [Clari Domain Security](https://apis.io/security/clari/clari-domain-security/)
+- [Clari Trust Center](https://apis.io/security/clari/clari-trust-center/)
+- [Clari Vulnerability Disclosure](https://apis.io/security/clari/clari-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Clari Scopes](https://apis.io/scopes/clari/clari-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Clari Plans Pricing](https://apis.io/plans/clari/clari-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Clari Rate Limits](https://apis.io/rate-limits/clari/clari-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Clari Finops](https://apis.io/finops/clari/clari-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.clari.com/)
+- [Documentation](https://developer.clari.com/)
+- [Getting started](https://community.clari.com/product-q-a-6/how-to-use-copilot-apis-2258)
+- [API reference](https://developer.clari.com/documentation/external_spec)
+- [Pricing](https://www.clari.com/pricing/)
+- [Support](https://clari.my.site.com/customer/s/get-support)
+- [Blog](https://www.clari.com/blog/)
+- [Privacy policy](https://www.clari.com/privacy/)
+- [Status](https://clari.statuspage.io/)
+
+## API Evangelist rating
+
+**Kin Score 59.1** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 69.2 |
+| Contract quality | 66.0 |
+| Contract governance | 28.0 |
+| Operational transparency | 78.9 |
+| Developer ergonomics | 57.7 |
+| Access clarity | 36.8 |
+
+**Agent readiness 56.9** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 41.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/clari/](https://apis.io/providers/clari/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Clari: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/clari/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
